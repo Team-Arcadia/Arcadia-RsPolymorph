@@ -1,25 +1,32 @@
+# RS Polymorph
 
-Installation information
-=======
+RS Polymorph is a NeoForge Minecraft mod that adds [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) compatibility for [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2).
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+## Features
+- Adds the Polymorph recipe selection button to the Refined Storage 2 **Crafting Grid**.
+- Adds the Polymorph recipe selection button to the Refined Storage 2 **Pattern Grid** (for autocrafting).
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+## Installation
+- Ensure you have [NeoForge](https://neoforged.net/) installed for Minecraft 1.21.1.
+- Download and install [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph).
+- Download and install [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2).
+- Place `RsPolymorph.jar` in your `mods` folder.
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+---
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+# RS Polymorph (Version Française)
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+RS Polymorph est un mod NeoForge pour Minecraft qui ajoute la compatibilité [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) pour [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2).
+
+## Caractéristiques
+- Ajoute le bouton de sélection de recette Polymorph à la **Crafting Grid** (Grille de fabrication) de Refined Storage 2.
+- Ajoute le bouton de sélection de recette Polymorph à la **Pattern Grid** (Grille de modèles) de Refined Storage 2 (pour le craft automatique).
+
+## Installation
+- Assurez-vous d'avoir [NeoForge](https://neoforged.net/) installé pour Minecraft 1.21.1.
+- Téléchargez et installez [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph).
+- Téléchargez et installez [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2).
+- Placez `RsPolymorph.jar` dans votre dossier `mods`.
+
+## Credits
+Author: vyrriox
