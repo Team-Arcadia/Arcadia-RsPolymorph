@@ -9,21 +9,34 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import java.util.Collections;
+import java.util.*;
 
 public class RsGridRecipeData extends AbstractRecipeData<BlockEntity> implements IBlockEntityRecipeData {
-    private final RecipeMatrix<?, ?> recipeMatrix;
 
-    public RsGridRecipeData(BlockEntity owner, RecipeMatrix<?, ?> recipeMatrix) {
+    public RsGridRecipeData(BlockEntity owner) {
         super(owner);
-        this.recipeMatrix = recipeMatrix;
+    }
+
+    private List<RecipeMatrix<?, ?>> getMatrices() {
+        List<RecipeMatrix<?, ?>> matrices = new ArrayList<>();
+        Map<RecipeMatrix<?, ?>, BlockEntity> map = RsPolymorph.getMatrixMap();
+        synchronized (map) {
+            for (Map.Entry<RecipeMatrix<?, ?>, BlockEntity> entry : map.entrySet()) {
+                if (entry.getValue() == getOwner()) {
+                    matrices.add(entry.getKey());
+                }
+            }
+        }
+        return matrices;
     }
 
     @Override
     public void setSelectedRecipe(RecipeHolder<?> recipe) {
         super.setSelectedRecipe(recipe);
         if (getOwner().getLevel() != null && !getOwner().getLevel().isClientSide()) {
-            recipeMatrix.updateResult(getOwner().getLevel());
+            for (RecipeMatrix<?, ?> matrix : getMatrices()) {
+                matrix.updateResult(getOwner().getLevel());
+            }
         }
     }
 
@@ -36,19 +49,21 @@ public class RsGridRecipeData extends AbstractRecipeData<BlockEntity> implements
 
     @SuppressWarnings("unchecked")
     private <T extends Recipe<I>, I extends RecipeInput> void updatePolymorph() {
-        IRsRecipeMatrix<T, I> rsMatrix = (IRsRecipeMatrix<T, I>) recipeMatrix;
-        RecipeMatrixContainer container = recipeMatrix.getMatrix();
-        
-        if (container.isEmpty()) {
-            return;
-        }
+        for (RecipeMatrix<?, ?> recipeMatrix : getMatrices()) {
+            IRsRecipeMatrix<T, I> rsMatrix = (IRsRecipeMatrix<T, I>) recipeMatrix;
+            RecipeMatrixContainer container = recipeMatrix.getMatrix();
+            if (container.isEmpty()) continue;
 
-        I input = rsMatrix.rspolymorph$getInputProvider().apply(container);
-        this.getRecipe(rsMatrix.rspolymorph$getRecipeType(), input, getOwner().getLevel(), Collections.emptyList());
+            I input = rsMatrix.rspolymorph$getInputProvider().apply(container);
+            this.getRecipe(rsMatrix.rspolymorph$getRecipeType(), input, getOwner().getLevel(), Collections.emptyList());
+        }
     }
 
     @Override
     public boolean isEmpty() {
-        return recipeMatrix.getMatrix().isEmpty();
+        for (RecipeMatrix<?, ?> matrix : getMatrices()) {
+            if (!matrix.getMatrix().isEmpty()) return false;
+        }
+        return true;
     }
 }

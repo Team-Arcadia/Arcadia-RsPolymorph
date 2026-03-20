@@ -22,9 +22,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.Collections;
+import java.util.*;
 
 @Mod(RsPolymorph.MOD_ID)
 public class RsPolymorph {
@@ -40,27 +38,8 @@ public class RsPolymorph {
     private void commonSetup(final FMLCommonSetupEvent event) {
         PolymorphApi api = PolymorphApi.getInstance();
         
-        api.registerBlockEntity(CraftingGridBlockEntity.class, blockEntity -> {
-            synchronized (MATRIX_TO_BE) {
-                for (Map.Entry<RecipeMatrix<?, ?>, BlockEntity> entry : MATRIX_TO_BE.entrySet()) {
-                    if (entry.getValue() == blockEntity) {
-                        return new RsGridRecipeData(blockEntity, entry.getKey());
-                    }
-                }
-            }
-            return null;
-        });
-        
-        api.registerBlockEntity(PatternGridBlockEntity.class, blockEntity -> {
-             synchronized (MATRIX_TO_BE) {
-                for (Map.Entry<RecipeMatrix<?, ?>, BlockEntity> entry : MATRIX_TO_BE.entrySet()) {
-                    if (entry.getValue() == blockEntity) {
-                        return new RsGridRecipeData(blockEntity, entry.getKey());
-                    }
-                }
-            }
-            return null;
-        });
+        api.registerBlockEntity(CraftingGridBlockEntity.class, RsGridRecipeData::new);
+        api.registerBlockEntity(PatternGridBlockEntity.class, RsGridRecipeData::new);
 
         api.registerMenu(menu -> {
             if (menu instanceof AccessorAbstractGridContainerMenu accessor) {
@@ -77,10 +56,15 @@ public class RsPolymorph {
         MATRIX_TO_BE.put(matrix, blockEntity);
     }
 
+    public static Map<RecipeMatrix<?, ?>, BlockEntity> getMatrixMap() {
+        return MATRIX_TO_BE;
+    }
+
     @SuppressWarnings("unchecked")
     public static <T extends Recipe<I>, I extends RecipeInput> RecipeHolder<T> getRecipe(RecipeMatrix<T, I> matrix, Level level) {
         BlockEntity be = MATRIX_TO_BE.get(matrix);
-        if (be != null && !level.isClientSide()) {
+        // Important: this must work on both client and server!
+        if (be != null) {
             return (RecipeHolder<T>) PolymorphApi.getInstance().getBlockEntityRecipeData(be).getSelectedRecipe();
         }
         return null;
