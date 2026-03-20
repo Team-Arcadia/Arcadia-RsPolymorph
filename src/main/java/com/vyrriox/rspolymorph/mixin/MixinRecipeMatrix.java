@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Function;
@@ -33,6 +34,14 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
     @Override
     public Function<RecipeMatrixContainer, I> rspolymorph$getInputProvider() {
         return inputProvider;
+    }
+
+    @Inject(method = "updateResult", at = @At("HEAD"), remap = false)
+    private void RSPOLYMORPH_updateResultHead(Level level, CallbackInfo ci) {
+        RecipeHolder<T> polymorphRecipe = RsPolymorph.getRecipe((RecipeMatrix<T, I>) (Object) this, level);
+        if (polymorphRecipe != null) {
+            ((AccessorRecipeMatrix<T, I>) this).rspolymorph$setCurrentRecipe(polymorphRecipe);
+        }
     }
 
     @Inject(method = "loadRecipe", at = @At("HEAD"), cancellable = true)

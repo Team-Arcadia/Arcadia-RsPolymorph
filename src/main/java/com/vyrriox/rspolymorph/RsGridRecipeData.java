@@ -5,6 +5,7 @@ import com.illusivesoulworks.polymorph.common.capability.AbstractRecipeData;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrixContainer;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -16,6 +17,14 @@ public class RsGridRecipeData extends AbstractRecipeData<BlockEntity> implements
     public RsGridRecipeData(BlockEntity owner, RecipeMatrix<?, ?> recipeMatrix) {
         super(owner);
         this.recipeMatrix = recipeMatrix;
+    }
+
+    @Override
+    public void setSelectedRecipe(RecipeHolder<?> recipe) {
+        super.setSelectedRecipe(recipe);
+        if (getOwner().getLevel() != null && !getOwner().getLevel().isClientSide()) {
+            recipeMatrix.updateResult(getOwner().getLevel());
+        }
     }
 
     @Override

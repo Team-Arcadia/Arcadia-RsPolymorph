@@ -1,0 +1,65 @@
+﻿Reusing configuration cache.
+> Task :createMinecraftArtifacts UP-TO-DATE
+
+> Task :compileJava
+.\gradlew.bat : 
+warning: unknown enum 
+constant Status.STABLE
+Au caractère Ligne:1 : 
+1
++ .\gradlew.bat 
+compileJava > 
+build_log_4.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (warning: unkn   
+ ow...t Status.STAB    
+LE:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  reason: class file 
+for org.apiguardian.api
+.API$Status not found
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant 
+Status.INTERNAL
+warning: unknown enum 
+constant 
+Status.INTERNAL
+warning: unknown enum 
+constant 
+Status.INTERNAL
+warning: unknown enum 
+constant 
+Status.INTERNAL
+warning: unknown enum 
+constant 
+Status.INTERNAL
+Note: C:\Users\Jimmy\Do
+cuments\github\Arcadia-
+RsPolymorph\src\main\ja
+va\com\vyrriox\rspolymo
+rph\mixin\MixinRecipeMa
+trix.java uses 
+unchecked or unsafe 
+operations.
+Note: Recompile with 
+-Xlint:unchecked for 
+details.
+8 warnings
+
+[Incubating] Problems report is available at: file:///C:/Users/Jimmy/Documents/github/Arcadia-RsPolymorph/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 2s
+2 actionable tasks: 1 executed, 1 up-to-date
+Configuration cache entry reused.

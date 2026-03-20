@@ -7,7 +7,8 @@
     "MixinRecipeMatrix",
     "MixinCraftingGridBlockEntity",
     "MixinPatternGridBlockEntity",
-    "AccessorAbstractGridContainerMenu"
+    "AccessorAbstractGridContainerMenu",
+    "AccessorRecipeMatrix"
   ],
   "client": [],
   "injectors": {
