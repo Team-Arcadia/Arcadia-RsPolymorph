@@ -10,12 +10,12 @@ Reusing configuration cache.
 Loaded 145 artifacts from C:\Users\Jimmy\Documents\github\Arcadia-RsPolymorph\build\tmp\createMinecraftArtifacts\nfrt_artifact_manifest.properties
 [1m*** Started working on [4mdownloadJson[0m[0m
  [1m[92mDONE [0m Completed [4mdownloadJson[0m in 0.02s
-[1m*** Started working on [4mdownloadServer[0m[0m
 [1m*** Started working on [4mdownloadClientMappings[0m[0m
+[1m*** Started working on [4mdownloadServer[0m[0m
 [1m*** Started working on [4mdownloadClient[0m[0m
- [1m[92mDONE [0m Completed [4mdownloadServer[0m in 0.02s
- [1m[92mDONE [0m Completed [4mdownloadClient[0m in 0.02s
- [1m[92mDONE [0m Completed [4mdownloadClientMappings[0m in 0.02s
+ [1m[92mDONE [0m Completed [4mdownloadServer[0m in 0.03s
+ [1m[92mDONE [0m Completed [4mdownloadClient[0m in 0.03s
+ [1m[92mDONE [0m Completed [4mdownloadClientMappings[0m in 0.03s
 [1m*** Started working on [4mmergeMappings[0m[0m
  [1m[92mREUSE[0m Used cache of [4mmergeMappings[0m in 0.00s
 [1m*** Started working on [4mstripClient[0m[0m
@@ -39,19 +39,20 @@ Loaded 145 artifacts from C:\Users\Jimmy\Documents\github\Arcadia-RsPolymorph\bu
 [1m*** Started working on [4mtransformSources[0m[0m
  [1m[92mREUSE[0m Used cache of [4mtransformSources[0m in 0.00s
 [1m*** Started working on [4mrecompile[0m[0m
- [1m[92mREUSE[0m Used cache of [4mrecompile[0m in 0.00s
+ [1m[92mREUSE[0m Used cache of [4mrecompile[0m in 0.01s
 [1m*** Started working on [4msourcesWithNeoForge[0m[0m
  [1m[92mREUSE[0m Used cache of [4msourcesWithNeoForge[0m in 0.00s
 [1m*** Started working on [4mcompiledWithNeoForge[0m[0m
  [1m[92mREUSE[0m Used cache of [4mcompiledWithNeoForge[0m in 0.00s
 [1m*** Started working on [4msourcesAndCompiledWithNeoForge[0m[0m
  [1m[92mREUSE[0m Used cache of [4msourcesAndCompiledWithNeoForge[0m in 0.00s
-Total runtime: 1.12s
+Total runtime: 1.23s
 
 
 > Task :compileJava
 warning: unknown enum constant Status.STABLE
   reason: class file for org.apiguardian.api.API$Status not found
+warning: unknown enum constant Status.STABLE
 warning: unknown enum constant Status.STABLE
 warning: unknown enum constant Status.STABLE
 warning: unknown enum constant Status.STABLE
@@ -62,7 +63,7 @@ warning: unknown enum constant Status.INTERNAL
 warning: unknown enum constant Status.INTERNAL
 Note: C:\Users\Jimmy\Documents\github\Arcadia-RsPolymorph\src\main\java\com\vyrriox\rspolymorph\mixin\MixinRecipeMatrix.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
-9 warnings
+10 warnings
 
 > Task :classes
 > Task :jar
@@ -70,6 +71,6 @@ Note: Recompile with -Xlint:unchecked for details.
 
 [Incubating] Problems report is available at: file:///C:/Users/Jimmy/Documents/github/Arcadia-RsPolymorph/build/reports/problems/problems-report.html
 
-BUILD SUCCESSFUL in 9s
+BUILD SUCCESSFUL in 10s
 6 actionable tasks: 6 executed
 Configuration cache entry reused.

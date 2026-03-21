@@ -6,7 +6,9 @@
   "mixins": [
     "MixinRecipeMatrix",
     "AccessorAbstractGridContainerMenu",
-    "AccessorRecipeMatrix"
+    "AccessorRecipeMatrix",
+    "MixinCraftingGrid",
+    "MixinPatternGrid"
   ],
   "client": [],
   "injectors": {

@@ -27,11 +27,15 @@ public class RsGridRecipeData extends com.illusivesoulworks.polymorph.common.cap
 
     private List<RecipeMatrix<?, ?>> getMatrices() {
         List<RecipeMatrix<?, ?>> matrices = new ArrayList<>();
-        Map<RecipeMatrix<?, ?>, BlockEntity> map = RsPolymorph.getMatrixMap();
+        Map<RecipeMatrixContainer, BlockEntity> map = RsPolymorph.getMatrixMap();
+        Map<RecipeMatrixContainer, RecipeMatrix<?, ?>> matrixMap = RsPolymorph.getContainerToMatrixMap();
         synchronized (map) {
-            for (Map.Entry<RecipeMatrix<?, ?>, BlockEntity> entry : map.entrySet()) {
+            for (Map.Entry<RecipeMatrixContainer, BlockEntity> entry : map.entrySet()) {
                 if (entry.getValue() == getOwner()) {
-                    matrices.add(entry.getKey());
+                    RecipeMatrix<?, ?> matrix = matrixMap.get(entry.getKey());
+                    if (matrix != null) {
+                        matrices.add(matrix);
+                    }
                 }
             }
         }

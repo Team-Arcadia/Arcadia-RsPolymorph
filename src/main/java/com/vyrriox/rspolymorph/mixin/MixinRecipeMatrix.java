@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Mixin for RS2 RecipeMatrix to integrate Polymorph.
@@ -39,10 +40,15 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
         return inputProvider;
     }
 
+    @Inject(method = "<init>", at = @At("RETURN"), remap = false)
+    private void RSPOLYMORPH_init(Runnable r, Supplier<Level> levelSupplier, int w, int h, Function<RecipeMatrixContainer, I> provider, RecipeType<T> type, CallbackInfo ci) {
+        RsPolymorph.registerMatrixToContainer(this.matrix, (RecipeMatrix<?, ?>) (Object) this);
+    }
+
     @Inject(method = "updateResult", at = @At("HEAD"), remap = false)
     private void RSPOLYMORPH_updateResultHead(Level level, CallbackInfo ci) {
         // vyrriox: Handle the Polymorph recipe swap at the very beginning of RS2 update
-        RecipeHolder<T> polymorphRecipe = RsPolymorph.getRecipe((RecipeMatrix<T, I>) (Object) this, level);
+        RecipeHolder<T> polymorphRecipe = (RecipeHolder<T>) RsPolymorph.getRecipe((RecipeMatrix<?, ?>) (Object) this, level);
         if (polymorphRecipe != null) {
             ((AccessorRecipeMatrix<T, I>) this).rspolymorph$setCurrentRecipe(polymorphRecipe);
         }

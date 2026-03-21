@@ -34,7 +34,8 @@ public class RsPolymorph {
     public static final String MOD_ID = "rspolymorph";
     private static final Logger LOGGER = LogManager.getLogger();
     
-    private static final Map<RecipeMatrix<?, ?>, BlockEntity> MATRIX_TO_BE = Collections.synchronizedMap(new WeakHashMap<>());
+    private static final Map<RecipeMatrixContainer, BlockEntity> CONTAINER_TO_BE = Collections.synchronizedMap(new WeakHashMap<>());
+    private static final Map<RecipeMatrixContainer, RecipeMatrix<?, ?>> CONTAINER_TO_MATRIX = Collections.synchronizedMap(new WeakHashMap<>());
 
     public RsPolymorph(IEventBus modEventBus) {
         modEventBus.addListener(this::commonSetup);
@@ -55,40 +56,43 @@ public class RsPolymorph {
         });
     }
 
-    public static Map<RecipeMatrix<?, ?>, BlockEntity> getMatrixMap() {
-        return MATRIX_TO_BE;
+    public static Map<RecipeMatrixContainer, BlockEntity> getMatrixMap() {
+        return CONTAINER_TO_BE;
     }
 
-    public static <T extends Recipe<I>, I extends RecipeInput> void registerMenu(RecipeMatrix<T, I> matrix, net.minecraft.world.inventory.AbstractContainerMenu menu) {
-        if (menu instanceof AccessorAbstractGridContainerMenu accessor) {
-            com.refinedmods.refinedstorage.common.api.grid.Grid grid = accessor.rspolymorph$getGrid();
-            if (grid instanceof com.refinedmods.refinedstorage.common.grid.CraftingGridBlockEntity be) {
-                MATRIX_TO_BE.put(matrix, be);
-            } else if (grid instanceof com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridBlockEntity be) {
-                MATRIX_TO_BE.put(matrix, be);
-            }
-        }
+    public static Map<RecipeMatrixContainer, RecipeMatrix<?, ?>> getContainerToMatrixMap() {
+        return CONTAINER_TO_MATRIX;
+    }
+
+    public static void registerContainerBlockEntity(RecipeMatrixContainer container, BlockEntity be) {
+        CONTAINER_TO_BE.put(container, be);
+    }
+
+    public static void registerMatrixToContainer(RecipeMatrixContainer container, RecipeMatrix<?, ?> matrix) {
+        CONTAINER_TO_MATRIX.put(container, matrix);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Recipe<I>, I extends RecipeInput> RecipeHolder<T> getRecipe(RecipeMatrix<T, I> matrix, Level level) {
+    public static RecipeHolder<?> getRecipe(RecipeMatrix<?, ?> matrix, Level level) {
         if (matrix.getMatrix().isEmpty()) {
             return null;
         }
 
-        BlockEntity be = MATRIX_TO_BE.get(matrix);
+        BlockEntity be = CONTAINER_TO_BE.get(matrix.getMatrix());
         if (be != null) {
             com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData data = com.illusivesoulworks.polymorph.api.PolymorphApi.getInstance().getBlockEntityRecipeData(be);
             if (data instanceof RsGridRecipeData rsData) {
-                IRsRecipeMatrix<T, I> rsMatrix = (IRsRecipeMatrix<T, I>) matrix;
-                RecipeType<T> matrixType = rsMatrix.rspolymorph$getRecipeType();
-                RecipeHolder<?> selected = rsData.getSelectedRecipe(matrixType);
-                
-                if (selected != null) {
-                    Recipe<I> recipe = (Recipe<I>) selected.value();
-                    I input = rsMatrix.rspolymorph$getInputProvider().apply(matrix.getMatrix());
-                    if (recipe.matches(input, level)) {
-                        return (RecipeHolder<T>) selected;
+                if (matrix instanceof IRsRecipeMatrix<?, ?>) {
+                    IRsRecipeMatrix<?, ?> rsMatrix = (IRsRecipeMatrix<?, ?>) matrix;
+                    RecipeType<?> matrixType = rsMatrix.rspolymorph$getRecipeType();
+                    RecipeHolder<?> selected = rsData.getSelectedRecipe(matrixType);
+                    
+                    if (selected != null) {
+                        Recipe<RecipeInput> recipe = (Recipe<RecipeInput>) selected.value();
+                        RecipeInput input = (RecipeInput) rsMatrix.rspolymorph$getInputProvider().apply(matrix.getMatrix());
+                        if (recipe.matches(input, level)) {
+                            return selected;
+                        }
                     }
                 }
             }
