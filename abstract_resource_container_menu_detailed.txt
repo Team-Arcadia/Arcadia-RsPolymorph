@@ -1,0 +1,19 @@
+﻿Compiled from "AbstractResourceContainerMenu.java"
+public abstract class com.refinedmods.refinedstorage.common.support.containermenu.AbstractResourceContainerMenu extends com.refinedmods.refinedstorage.common.support.AbstractBaseContainerMenu {
+  protected final net.minecraft.world.entity.player.Player player;
+  protected com.refinedmods.refinedstorage.common.support.containermenu.AbstractResourceContainerMenu(net.minecraft.world.inventory.MenuType<?>, int, net.minecraft.world.entity.player.Player);
+  protected com.refinedmods.refinedstorage.common.support.containermenu.AbstractResourceContainerMenu(net.minecraft.world.inventory.MenuType<?>, int);
+  public void handleResourceSlotUpdate(int, com.refinedmods.refinedstorage.api.resource.ResourceAmount);
+  public void handleResourceFilterSlotUpdate(int, com.refinedmods.refinedstorage.common.api.support.resource.PlatformResourceKey);
+  public void handleResourceSlotChange(int, boolean);
+  public void sendResourceSlotChange(int, boolean);
+  public void handleResourceSlotAmountChange(int, long);
+  public void broadcastChanges();
+  public java.util.List<com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot> getResourceSlots();
+  protected net.minecraft.world.inventory.Slot addSlot(net.minecraft.world.inventory.Slot);
+  protected void resetSlots();
+  public void addToResourceSlotIfNotExisting(net.minecraft.world.item.ItemStack);
+  protected final boolean areAllResourceSlotsEmpty();
+  public boolean canTakeItemForPickAll(net.minecraft.world.item.ItemStack, net.minecraft.world.inventory.Slot);
+  public void clicked(int, int, net.minecraft.world.inventory.ClickType, net.minecraft.world.entity.player.Player);
+}

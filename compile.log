@@ -1,76 +1,232 @@
-To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
-Daemon will be stopped at the end of the build 
-Reusing configuration cache.
-> Task :clean
+﻿Reusing configuration cache.
 > Task :jarJar NO-SOURCE
-> Task :generateModMetadata
+> Task :generateModMetadata UP-TO-DATE
+> Task :createMinecraftArtifacts UP-TO-DATE
 > Task :processResources
 
-> Task :createMinecraftArtifacts
-Loaded 145 artifacts from C:\Users\Jimmy\Documents\github\Arcadia-RsPolymorph\build\tmp\createMinecraftArtifacts\nfrt_artifact_manifest.properties
-[1m*** Started working on [4mdownloadJson[0m[0m
- [1m[92mDONE [0m Completed [4mdownloadJson[0m in 0.02s
-[1m*** Started working on [4mdownloadClientMappings[0m[0m
-[1m*** Started working on [4mdownloadServer[0m[0m
-[1m*** Started working on [4mdownloadClient[0m[0m
- [1m[92mDONE [0m Completed [4mdownloadServer[0m in 0.03s
- [1m[92mDONE [0m Completed [4mdownloadClient[0m in 0.03s
- [1m[92mDONE [0m Completed [4mdownloadClientMappings[0m in 0.03s
-[1m*** Started working on [4mmergeMappings[0m[0m
- [1m[92mREUSE[0m Used cache of [4mmergeMappings[0m in 0.00s
-[1m*** Started working on [4mstripClient[0m[0m
- [1m[92mREUSE[0m Used cache of [4mstripClient[0m in 0.00s
-[1m*** Started working on [4mextractServer[0m[0m
- [1m[92mREUSE[0m Used cache of [4mextractServer[0m in 0.00s
-[1m*** Started working on [4mstripServer[0m[0m
- [1m[92mREUSE[0m Used cache of [4mstripServer[0m in 0.00s
-[1m*** Started working on [4mmerge[0m[0m
- [1m[92mREUSE[0m Used cache of [4mmerge[0m in 0.00s
-[1m*** Started working on [4mrename[0m[0m
- [1m[92mREUSE[0m Used cache of [4mrename[0m in 0.00s
-[1m*** Started working on [4mdecompile[0m[0m
- [1m[92mREUSE[0m Used cache of [4mdecompile[0m in 0.00s
-[1m*** Started working on [4minject[0m[0m
- [1m[92mREUSE[0m Used cache of [4minject[0m in 0.00s
-[1m*** Started working on [4mpatch[0m[0m
- [1m[92mREUSE[0m Used cache of [4mpatch[0m in 0.00s
-[1m*** Started working on [4mapplyNeoforgePatches[0m[0m
- [1m[92mREUSE[0m Used cache of [4mapplyNeoforgePatches[0m in 0.00s
-[1m*** Started working on [4mtransformSources[0m[0m
- [1m[92mREUSE[0m Used cache of [4mtransformSources[0m in 0.00s
-[1m*** Started working on [4mrecompile[0m[0m
- [1m[92mREUSE[0m Used cache of [4mrecompile[0m in 0.01s
-[1m*** Started working on [4msourcesWithNeoForge[0m[0m
- [1m[92mREUSE[0m Used cache of [4msourcesWithNeoForge[0m in 0.00s
-[1m*** Started working on [4mcompiledWithNeoForge[0m[0m
- [1m[92mREUSE[0m Used cache of [4mcompiledWithNeoForge[0m in 0.00s
-[1m*** Started working on [4msourcesAndCompiledWithNeoForge[0m[0m
- [1m[92mREUSE[0m Used cache of [4msourcesAndCompiledWithNeoForge[0m in 0.00s
-Total runtime: 1.23s
-
-
-> Task :compileJava
-warning: unknown enum constant Status.STABLE
-  reason: class file for org.apiguardian.api.API$Status not found
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.STABLE
-warning: unknown enum constant Status.INTERNAL
-warning: unknown enum constant Status.INTERNAL
-warning: unknown enum constant Status.INTERNAL
-warning: unknown enum constant Status.INTERNAL
-warning: unknown enum constant Status.INTERNAL
-Note: C:\Users\Jimmy\Documents\github\Arcadia-RsPolymorph\src\main\java\com\vyrriox\rspolymorph\mixin\MixinRecipeMatrix.java uses unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
-10 warnings
-
-> Task :classes
-> Task :jar
-> Task :assemble
+> Task :compileJava FAILED
+./gradlew : warning: 
+unknown enum constant 
+Status.INTERNAL
+Au caractère Ligne:1 : 
+1
++ ./gradlew assemble > 
+compile.log 2>&1; $c = 
+Get-Content 
+compile.log;  ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (warning: unkn   
+ ow...Status.INTERN    
+AL:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  reason: class file 
+for org.apiguardian.api
+.API$Status not found
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant 
+Status.INTERNAL
+warning: unknown enum 
+constant 
+Status.INTERNAL
+warning: unknown enum 
+constant 
+Status.INTERNAL
+warning: unknown enum 
+constant 
+Status.INTERNAL
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+warning: unknown enum 
+constant Status.STABLE
+C:\Users\Jimmy\Document
+s\github\Arcadia-RsPoly
+morph\src\main\java\com
+\vyrriox\rspolymorph\Rs
+GridRecipeData.java:64:
+ error: method does 
+not override or 
+implement a method 
+from a supertype
+    @Override
+    ^
+C:\Users\Jimmy\Document
+s\github\Arcadia-RsPoly
+morph\src\main\java\com
+\vyrriox\rspolymorph\Rs
+Polymorph.java:59: 
+error: cannot find 
+symbol
+            com.illusiv
+esoulworks.polymorph.ap
+i.PolymorphApi.getInsta
+nce().registerContainer
+2BlockEntity(menu -> {
+                       
+                       
+                       
+     ^
+  symbol:   method regi
+sterContainer2BlockEnti
+ty((menu)->{ [...]ll; 
+})
+  location: class 
+PolymorphApi
+C:\Users\Jimmy\Document
+s\github\Arcadia-RsPoly
+morph\src\main\java\com
+\vyrriox\rspolymorph\Rs
+Polymorph.java:61: 
+error: cannot find 
+symbol
+                    
+Grid grid = ((AccessorA
+bstractGridContainerMen
+u) 
+gridMenu).rs_getGrid();
+                       
+                       
+                       
+         ^
+  symbol:   method 
+rs_getGrid()
+  location: interface A
+ccessorAbstractGridCont
+ainerMenu
+Note: Some input files 
+use unchecked or 
+unsafe operations.
+Note: Recompile with 
+-Xlint:unchecked for 
+details.
+3 errors
+15 warnings
 
 [Incubating] Problems report is available at: file:///C:/Users/Jimmy/Documents/github/Arcadia-RsPolymorph/build/reports/problems/problems-report.html
 
-BUILD SUCCESSFUL in 10s
-6 actionable tasks: 6 executed
+FAILURE: Build failed 
+with an exception.
+
+* What went wrong:
+Execution failed for 
+task ':compileJava'.
+> Compilation failed; 
+see the compiler 
+output below.
+  warning: unknown 
+enum constant 
+Status.INTERNAL
+    reason: class file 
+for org.apiguardian.api
+.API$Status not found
+  warning: unknown 
+enum constant 
+Status.STABLE
+  warning: unknown 
+enum constant 
+Status.INTERNAL
+  warning: unknown 
+enum constant 
+Status.STABLE
+  warning: unknown 
+enum constant 
+Status.STABLE
+  Note: Recompile with 
+-Xlint:unchecked for 
+details.
+  C:\Users\Jimmy\Docume
+nts\github\Arcadia-RsPo
+lymorph\src\main\java\c
+om\vyrriox\rspolymorph\
+RsGridRecipeData.java:6
+4: error: method does 
+not override or 
+implement a method 
+from a supertype
+      @Override
+      ^
+  Note: Some input 
+files use unchecked or 
+unsafe operations.
+  C:\Users\Jimmy\Docume
+nts\github\Arcadia-RsPo
+lymorph\src\main\java\c
+om\vyrriox\rspolymorph\
+RsPolymorph.java:59: 
+error: cannot find 
+symbol
+              com.illus
+ivesoulworks.polymorph.
+api.PolymorphApi.getIns
+tance().registerContain
+er2BlockEntity(menu -> 
+{
+                       
+                       
+                       
+       ^
+    symbol:   method re
+gisterContainer2BlockEn
+tity((menu)->{ 
+[...]ll; })
+    location: class 
+PolymorphApi
+  C:\Users\Jimmy\Docume
+nts\github\Arcadia-RsPo
+lymorph\src\main\java\c
+om\vyrriox\rspolymorph\
+RsPolymorph.java:61: 
+error: cannot find 
+symbol
+                      
+Grid grid = ((AccessorA
+bstractGridContainerMen
+u) 
+gridMenu).rs_getGrid();
+                       
+                       
+                       
+           ^
+    symbol:   method 
+rs_getGrid()
+    location: 
+interface AccessorAbstr
+actGridContainerMenu
+  3 errors
+  15 warnings
+
+* Try:
+> Check your code and 
+dependencies to fix 
+the compilation 
+error(s)
+> Run with --scan to 
+generate a Build Scan 
+(powered by 
+Develocity).
+
+BUILD FAILED in 2s
+4 actionable tasks: 2 executed, 2 up-to-date
 Configuration cache entry reused.

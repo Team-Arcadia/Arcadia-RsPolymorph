@@ -1,0 +1,12 @@
+﻿Compiled from "PolymorphWidgetsImpl.java"
+public class com.illusivesoulworks.polymorph.client.PolymorphWidgetsImpl extends com.illusivesoulworks.polymorph.api.client.PolymorphWidgets {
+  public static final com.illusivesoulworks.polymorph.api.client.PolymorphWidgets INSTANCE;
+  public com.illusivesoulworks.polymorph.client.PolymorphWidgetsImpl();
+  public static void setup();
+  public com.illusivesoulworks.polymorph.api.client.base.IRecipesWidget getCurrentWidget();
+  public com.illusivesoulworks.polymorph.api.client.base.IRecipesWidget getWidgetOrDefault(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>);
+  public com.illusivesoulworks.polymorph.api.client.base.IRecipesWidget getWidget(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>);
+  public void registerWidget(com.illusivesoulworks.polymorph.api.client.PolymorphWidgets$IRecipesWidgetFactory);
+  public net.minecraft.world.inventory.Slot findResultSlot(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>);
+  static {};
+}

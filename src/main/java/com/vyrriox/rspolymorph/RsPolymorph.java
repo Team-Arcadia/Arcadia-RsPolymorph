@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
+import com.vyrriox.rspolymorph.client.RsGridRecipeWidget;
 
 /**
  * vyrriox: Main class for RS Polymorph integration.
@@ -39,7 +40,9 @@ public class RsPolymorph {
 
     public RsPolymorph(IEventBus modEventBus) {
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::clientSetup);
+        if (net.neoforged.fml.loading.FMLEnvironment.dist.isClient()) {
+            registerWidget();
+        }
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -53,6 +56,15 @@ public class RsPolymorph {
                 com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridBlockEntity.class,
                 (net.minecraft.world.level.block.entity.BlockEntity be) -> new RsGridRecipeData(be)
             );
+            com.illusivesoulworks.polymorph.api.PolymorphApi.getInstance().registerContainer2BlockEntity(menu -> {
+                if (menu instanceof AbstractGridContainerMenu gridMenu) {
+                    Grid grid = ((AccessorAbstractGridContainerMenu) gridMenu).rs_getGrid();
+                    if (grid instanceof BlockEntity be) {
+                        return be;
+                    }
+                }
+                return null;
+            });
         });
     }
 
@@ -100,18 +112,26 @@ public class RsPolymorph {
         return null;
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
+    private void registerWidget() {
         com.illusivesoulworks.polymorph.api.client.PolymorphWidgets.getInstance().registerWidget(screen -> {
             if (screen instanceof CraftingGridScreen || screen instanceof PatternGridScreen) {
-                // Attempt to find the appropriate slot for the Polymorph button (Crafting Output)
-                for (Slot slot : screen.getMenu().slots) {
+                // Try Polymorph's own helper first
+                net.minecraft.world.inventory.Slot found = com.illusivesoulworks.polymorph.api.client.PolymorphWidgets.getInstance().findResultSlot(screen);
+                if (found != null && found.isActive()) {
+                    return new RsGridRecipeWidget(screen, found);
+                }
+
+                // Fallback to manual search
+                for (net.minecraft.world.inventory.Slot slot : screen.getMenu().slots) {
                     if (!slot.isActive()) continue;
                     
-                    String className = slot.getClass().getSimpleName();
+                    String className = slot.getClass().getName();
                     if (slot instanceof net.minecraft.world.inventory.ResultSlot || 
                         className.contains("ResultSlot") ||
-                        (screen instanceof PatternGridScreen && className.contains("DisabledSlot"))) {
-                        return new com.illusivesoulworks.polymorph.api.client.widgets.PlayerRecipesWidget(screen, slot);
+                        className.contains("DisabledSlot") ||
+                        className.contains("ProcessingMatrixResourceSlot") ||
+                        className.contains("DisabledResourceSlot")) {
+                        return new RsGridRecipeWidget(screen, slot);
                     }
                 }
             }

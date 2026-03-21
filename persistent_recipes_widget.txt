@@ -1,0 +1,5 @@
+﻿Compiled from "PersistentRecipesWidget.java"
+public abstract class com.illusivesoulworks.polymorph.api.client.base.PersistentRecipesWidget extends com.illusivesoulworks.polymorph.api.client.base.AbstractRecipesWidget {
+  public com.illusivesoulworks.polymorph.api.client.base.PersistentRecipesWidget(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>);
+  public void selectRecipe(net.minecraft.resources.ResourceLocation);
+}

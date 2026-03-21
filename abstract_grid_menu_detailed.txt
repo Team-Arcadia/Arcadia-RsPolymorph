@@ -1,0 +1,45 @@
+﻿Compiled from "AbstractGridContainerMenu.java"
+public abstract class com.refinedmods.refinedstorage.common.grid.AbstractGridContainerMenu extends com.refinedmods.refinedstorage.common.support.containermenu.AbstractResourceContainerMenu implements com.refinedmods.refinedstorage.api.network.node.grid.GridWatcher,com.refinedmods.refinedstorage.common.api.grid.strategy.GridInsertionStrategy,com.refinedmods.refinedstorage.common.api.grid.strategy.GridExtractionStrategy,com.refinedmods.refinedstorage.common.api.grid.strategy.GridScrollingStrategy,com.refinedmods.refinedstorage.common.support.stretching.ScreenSizeListener,com.refinedmods.refinedstorage.common.api.autocrafting.CancelablePreviewProvider,com.refinedmods.refinedstorage.common.grid.GridSortingTypes$TrackedResourceProvider {
+  protected final net.minecraft.world.entity.player.Inventory playerInventory;
+  protected com.refinedmods.refinedstorage.common.grid.AbstractGridContainerMenu(net.minecraft.world.inventory.MenuType<? extends com.refinedmods.refinedstorage.common.grid.AbstractGridContainerMenu>, int, net.minecraft.world.entity.player.Inventory, com.refinedmods.refinedstorage.common.grid.GridData);
+  protected com.refinedmods.refinedstorage.common.grid.AbstractGridContainerMenu(net.minecraft.world.inventory.MenuType<? extends com.refinedmods.refinedstorage.common.grid.AbstractGridContainerMenu>, int, net.minecraft.world.entity.player.Inventory, com.refinedmods.refinedstorage.common.api.grid.Grid);
+  public void onResourceUpdate(com.refinedmods.refinedstorage.api.resource.ResourceKey, long, com.refinedmods.refinedstorage.api.storage.tracked.TrackedResource);
+  public com.refinedmods.refinedstorage.api.storage.tracked.TrackedResource getTrackedResource(com.refinedmods.refinedstorage.common.api.grid.view.GridResource);
+  public com.refinedmods.refinedstorage.api.storage.tracked.TrackedResource getTrackedResource(com.refinedmods.refinedstorage.api.resource.ResourceKey);
+  public com.refinedmods.refinedstorage.api.resource.repository.SortingDirection getSortingDirection();
+  public void setSortingDirection(com.refinedmods.refinedstorage.api.resource.repository.SortingDirection);
+  public com.refinedmods.refinedstorage.common.grid.GridSortingTypes getSortingType();
+  public void setSortingType(com.refinedmods.refinedstorage.common.grid.GridSortingTypes);
+  public com.refinedmods.refinedstorage.common.grid.GridViewType getViewType();
+  public void setViewType(com.refinedmods.refinedstorage.common.grid.GridViewType);
+  public void setSearchBox(com.refinedmods.refinedstorage.common.grid.GridSearchBox);
+  public void removed(net.minecraft.world.entity.player.Player);
+  public void resized(int, int, int);
+  public com.refinedmods.refinedstorage.api.resource.repository.ResourceRepository<com.refinedmods.refinedstorage.common.api.grid.view.GridResource> getRepository();
+  public void onActiveChanged(boolean);
+  public void onChanged(com.refinedmods.refinedstorage.api.resource.ResourceKey, long, com.refinedmods.refinedstorage.api.storage.tracked.TrackedResource);
+  public void invalidate();
+  public boolean isActive();
+  public com.refinedmods.refinedstorage.common.api.grid.GridSynchronizer getSynchronizer();
+  public com.refinedmods.refinedstorage.common.api.support.resource.ResourceType getResourceType();
+  public void toggleSynchronizer();
+  public void toggleResourceType();
+  public boolean onInsert(com.refinedmods.refinedstorage.api.network.node.grid.GridInsertMode, boolean);
+  public boolean onExtract(com.refinedmods.refinedstorage.common.api.support.resource.PlatformResourceKey, com.refinedmods.refinedstorage.api.network.node.grid.GridExtractMode, boolean);
+  public boolean onScroll(com.refinedmods.refinedstorage.common.api.support.resource.PlatformResourceKey, com.refinedmods.refinedstorage.common.api.grid.GridScrollMode, int);
+  public boolean onTransfer(int);
+  public net.minecraft.world.item.ItemStack quickMoveStack(net.minecraft.world.entity.player.Player, int);
+  protected boolean canTransferSlot(net.minecraft.world.inventory.Slot);
+  public void onClear();
+  public final com.refinedmods.refinedstorage.common.grid.AutocraftableResourceHint getAutocraftableResourceHint(net.minecraft.world.inventory.Slot);
+  protected com.refinedmods.refinedstorage.api.resource.ResourceKey getResourceForAutocraftableHint(net.minecraft.world.inventory.Slot);
+  public java.util.concurrent.CompletableFuture<java.util.Optional<com.refinedmods.refinedstorage.api.autocrafting.preview.Preview>> getPreview(com.refinedmods.refinedstorage.api.resource.ResourceKey, long, com.refinedmods.refinedstorage.api.autocrafting.calculation.CancellationToken);
+  public java.util.concurrent.CompletableFuture<java.util.Optional<com.refinedmods.refinedstorage.api.autocrafting.preview.TreePreview>> getTreePreview(com.refinedmods.refinedstorage.api.resource.ResourceKey, long, com.refinedmods.refinedstorage.api.autocrafting.calculation.CancellationToken);
+  public java.util.concurrent.CompletableFuture<java.lang.Long> getMaxAmount(com.refinedmods.refinedstorage.api.resource.ResourceKey, com.refinedmods.refinedstorage.api.autocrafting.calculation.CancellationToken);
+  public java.util.Optional<com.refinedmods.refinedstorage.api.autocrafting.task.TaskId> startTask(com.refinedmods.refinedstorage.api.resource.ResourceKey, long, com.refinedmods.refinedstorage.api.storage.Actor, boolean, com.refinedmods.refinedstorage.api.autocrafting.calculation.CancellationToken);
+  public boolean stillValid(net.minecraft.world.entity.player.Player);
+  public void cancel();
+  public boolean isLargeSlot(net.minecraft.world.inventory.Slot);
+  public boolean isResourceTypeWarningVisible();
+  static {};
+}

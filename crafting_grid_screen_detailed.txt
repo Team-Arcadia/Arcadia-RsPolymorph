@@ -1,0 +1,12 @@
+﻿Compiled from "CraftingGridScreen.java"
+public class com.refinedmods.refinedstorage.common.grid.screen.CraftingGridScreen extends com.refinedmods.refinedstorage.common.grid.screen.AbstractGridScreen<com.refinedmods.refinedstorage.common.grid.AbstractCraftingGridContainerMenu> {
+  public com.refinedmods.refinedstorage.common.grid.screen.CraftingGridScreen(com.refinedmods.refinedstorage.common.grid.AbstractCraftingGridContainerMenu, net.minecraft.world.entity.player.Inventory, net.minecraft.network.chat.Component);
+  protected void init();
+  protected void renderBg(net.minecraft.client.gui.GuiGraphics, float, int, int);
+  protected void containerTick();
+  public boolean keyPressed(int, int, int);
+  public void onClose();
+  protected net.minecraft.resources.ResourceLocation getTexture();
+  protected void renderTooltip(net.minecraft.client.gui.GuiGraphics, int, int);
+  static {};
+}

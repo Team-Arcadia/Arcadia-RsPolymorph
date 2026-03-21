@@ -1,0 +1,498 @@
+﻿Classfile jar:file:///C:/Users/Jimmy/Documents/github/Arcadia-RsPolymorph/libs/rs2.jar!/com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.class
+  Last modified 11 fÚvr. 2026; size 8374 bytes
+  SHA-256 checksum b96011d5634b0eafe865335db05cf98fa3a3c041bbe5f99b9ac1c4b5ed3759ba
+  Compiled from "CraftingGridResultSlot.java"
+class com.refinedmods.refinedstorage.common.grid.CraftingGridResultSlot extends net.minecraft.world.inventory.ResultSlot
+  minor version: 0
+  major version: 65
+  flags: (0x0020) ACC_SUPER
+  this_class: #18                         // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot
+  super_class: #12                        // net/minecraft/world/inventory/ResultSlot
+  interfaces: 0, fields: 1, methods: 9, attributes: 3
+Constant pool:
+    #1 = InterfaceMethodref #2.#3         // com/refinedmods/refinedstorage/common/grid/CraftingGrid.getCraftingMatrix:()Lcom/refinedmods/refinedstorage/common/support/RecipeMatrixContainer;
+    #2 = Class              #4            // com/refinedmods/refinedstorage/common/grid/CraftingGrid
+    #3 = NameAndType        #5:#6         // getCraftingMatrix:()Lcom/refinedmods/refinedstorage/common/support/RecipeMatrixContainer;
+    #4 = Utf8               com/refinedmods/refinedstorage/common/grid/CraftingGrid
+    #5 = Utf8               getCraftingMatrix
+    #6 = Utf8               ()Lcom/refinedmods/refinedstorage/common/support/RecipeMatrixContainer;
+    #7 = InterfaceMethodref #2.#8         // com/refinedmods/refinedstorage/common/grid/CraftingGrid.getCraftingResult:()Lnet/minecraft/world/inventory/ResultContainer;
+    #8 = NameAndType        #9:#10        // getCraftingResult:()Lnet/minecraft/world/inventory/ResultContainer;
+    #9 = Utf8               getCraftingResult
+   #10 = Utf8               ()Lnet/minecraft/world/inventory/ResultContainer;
+   #11 = Methodref          #12.#13       // net/minecraft/world/inventory/ResultSlot."<init>":(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/inventory/CraftingContainer;Lnet/minecraft/world/Container;III)V
+   #12 = Class              #14           // net/minecraft/world/inventory/ResultSlot
+   #13 = NameAndType        #15:#16       // "<init>":(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/inventory/CraftingContainer;Lnet/minecraft/world/Container;III)V
+   #14 = Utf8               net/minecraft/world/inventory/ResultSlot
+   #15 = Utf8               <init>
+   #16 = Utf8               (Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/inventory/CraftingContainer;Lnet/minecraft/world/Container;III)V
+   #17 = Fieldref           #18.#19       // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.craftingGrid:Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;
+   #18 = Class              #20           // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot
+   #19 = NameAndType        #21:#22       // craftingGrid:Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;
+   #20 = Utf8               com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot
+   #21 = Utf8               craftingGrid
+   #22 = Utf8               Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;
+   #23 = Methodref          #18.#24       // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.getItem:()Lnet/minecraft/world/item/ItemStack;
+   #24 = NameAndType        #25:#26       // getItem:()Lnet/minecraft/world/item/ItemStack;
+   #25 = Utf8               getItem
+   #26 = Utf8               ()Lnet/minecraft/world/item/ItemStack;
+   #27 = Methodref          #28.#29       // net/minecraft/world/item/ItemStack.copy:()Lnet/minecraft/world/item/ItemStack;
+   #28 = Class              #30           // net/minecraft/world/item/ItemStack
+   #29 = NameAndType        #31:#26       // copy:()Lnet/minecraft/world/item/ItemStack;
+   #30 = Utf8               net/minecraft/world/item/ItemStack
+   #31 = Utf8               copy
+   #32 = Methodref          #28.#33       // net/minecraft/world/item/ItemStack.getMaxStackSize:()I
+   #33 = NameAndType        #34:#35       // getMaxStackSize:()I
+   #34 = Utf8               getMaxStackSize
+   #35 = Utf8               ()I
+   #36 = InterfaceMethodref #2.#37        // com/refinedmods/refinedstorage/common/grid/CraftingGrid.startExtractTransaction:(Lnet/minecraft/world/entity/player/Player;Z)Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;
+   #37 = NameAndType        #38:#39       // startExtractTransaction:(Lnet/minecraft/world/entity/player/Player;Z)Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;
+   #38 = Utf8               startExtractTransaction
+   #39 = Utf8               (Lnet/minecraft/world/entity/player/Player;Z)Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;
+   #40 = Methodref          #28.#41       // net/minecraft/world/item/ItemStack.isSameItemSameComponents:(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z
+   #41 = NameAndType        #42:#43       // isSameItemSameComponents:(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z
+   #42 = Utf8               isSameItemSameComponents
+   #43 = Utf8               (Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z
+   #44 = Methodref          #18.#45       // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.doTake:(Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;Lnet/minecraft/world/item/ItemStack;)V
+   #45 = NameAndType        #46:#47       // doTake:(Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;Lnet/minecraft/world/item/ItemStack;)V
+   #46 = Utf8               doTake
+   #47 = Utf8               (Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;Lnet/minecraft/world/item/ItemStack;)V
+   #48 = Methodref          #28.#49       // net/minecraft/world/item/ItemStack.getCount:()I
+   #49 = NameAndType        #50:#35       // getCount:()I
+   #50 = Utf8               getCount
+   #51 = InterfaceMethodref #52.#53       // com/refinedmods/refinedstorage/common/grid/ExtractTransaction.close:()V
+   #52 = Class              #54           // com/refinedmods/refinedstorage/common/grid/ExtractTransaction
+   #53 = NameAndType        #55:#56       // close:()V
+   #54 = Utf8               com/refinedmods/refinedstorage/common/grid/ExtractTransaction
+   #55 = Utf8               close
+   #56 = Utf8               ()V
+   #57 = Class              #58           // java/lang/Throwable
+   #58 = Utf8               java/lang/Throwable
+   #59 = Methodref          #57.#60       // java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+   #60 = NameAndType        #61:#62       // addSuppressed:(Ljava/lang/Throwable;)V
+   #61 = Utf8               addSuppressed
+   #62 = Utf8               (Ljava/lang/Throwable;)V
+   #63 = Methodref          #28.#64       // net/minecraft/world/item/ItemStack.copyWithCount:(I)Lnet/minecraft/world/item/ItemStack;
+   #64 = NameAndType        #65:#66       // copyWithCount:(I)Lnet/minecraft/world/item/ItemStack;
+   #65 = Utf8               copyWithCount
+   #66 = Utf8               (I)Lnet/minecraft/world/item/ItemStack;
+   #67 = Methodref          #68.#69       // net/minecraft/world/entity/player/Player.level:()Lnet/minecraft/world/level/Level;
+   #68 = Class              #70           // net/minecraft/world/entity/player/Player
+   #69 = NameAndType        #71:#72       // level:()Lnet/minecraft/world/level/Level;
+   #70 = Utf8               net/minecraft/world/entity/player/Player
+   #71 = Utf8               level
+   #72 = Utf8               ()Lnet/minecraft/world/level/Level;
+   #73 = Methodref          #74.#75       // net/minecraft/world/level/Level.isClientSide:()Z
+   #74 = Class              #76           // net/minecraft/world/level/Level
+   #75 = NameAndType        #77:#78       // isClientSide:()Z
+   #76 = Utf8               net/minecraft/world/level/Level
+   #77 = Utf8               isClientSide
+   #78 = Utf8               ()Z
+   #79 = Methodref          #18.#80       // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.fireCraftingEvents:(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)V
+   #80 = NameAndType        #81:#82       // fireCraftingEvents:(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)V
+   #81 = Utf8               fireCraftingEvents
+   #82 = Utf8               (Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)V
+   #83 = Methodref          #84.#85       // com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer.asPositionedCraftInput:()Lnet/minecraft/world/item/crafting/CraftingInput$Positioned;
+   #84 = Class              #86           // com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer
+   #85 = NameAndType        #87:#88       // asPositionedCraftInput:()Lnet/minecraft/world/item/crafting/CraftingInput$Positioned;
+   #86 = Utf8               com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer
+   #87 = Utf8               asPositionedCraftInput
+   #88 = Utf8               ()Lnet/minecraft/world/item/crafting/CraftingInput$Positioned;
+   #89 = Methodref          #90.#91       // net/minecraft/world/item/crafting/CraftingInput$Positioned.input:()Lnet/minecraft/world/item/crafting/CraftingInput;
+   #90 = Class              #92           // net/minecraft/world/item/crafting/CraftingInput$Positioned
+   #91 = NameAndType        #93:#94       // input:()Lnet/minecraft/world/item/crafting/CraftingInput;
+   #92 = Utf8               net/minecraft/world/item/crafting/CraftingInput$Positioned
+   #93 = Utf8               input
+   #94 = Utf8               ()Lnet/minecraft/world/item/crafting/CraftingInput;
+   #95 = Methodref          #90.#96       // net/minecraft/world/item/crafting/CraftingInput$Positioned.left:()I
+   #96 = NameAndType        #97:#35       // left:()I
+   #97 = Utf8               left
+   #98 = Methodref          #90.#99       // net/minecraft/world/item/crafting/CraftingInput$Positioned.top:()I
+   #99 = NameAndType        #100:#35      // top:()I
+  #100 = Utf8               top
+  #101 = InterfaceMethodref #2.#102       // com/refinedmods/refinedstorage/common/grid/CraftingGrid.getRemainingItems:(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/crafting/CraftingInput;)Lnet/minecraft/core/NonNullList;
+  #102 = NameAndType        #103:#104     // getRemainingItems:(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/crafting/CraftingInput;)Lnet/minecraft/core/NonNullList;
+  #103 = Utf8               getRemainingItems
+  #104 = Utf8               (Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/crafting/CraftingInput;)Lnet/minecraft/core/NonNullList;
+  #105 = Methodref          #106.#107     // net/minecraft/world/item/crafting/CraftingInput.height:()I
+  #106 = Class              #108          // net/minecraft/world/item/crafting/CraftingInput
+  #107 = NameAndType        #109:#35      // height:()I
+  #108 = Utf8               net/minecraft/world/item/crafting/CraftingInput
+  #109 = Utf8               height
+  #110 = Methodref          #106.#111     // net/minecraft/world/item/crafting/CraftingInput.width:()I
+  #111 = NameAndType        #112:#35      // width:()I
+  #112 = Utf8               width
+  #113 = Methodref          #84.#114      // com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer.getWidth:()I
+  #114 = NameAndType        #115:#35      // getWidth:()I
+  #115 = Utf8               getWidth
+  #116 = Methodref          #84.#117      // com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer.getItem:(I)Lnet/minecraft/world/item/ItemStack;
+  #117 = NameAndType        #25:#66       // getItem:(I)Lnet/minecraft/world/item/ItemStack;
+  #118 = Methodref          #119.#120     // net/minecraft/core/NonNullList.get:(I)Ljava/lang/Object;
+  #119 = Class              #121          // net/minecraft/core/NonNullList
+  #120 = NameAndType        #122:#123     // get:(I)Ljava/lang/Object;
+  #121 = Utf8               net/minecraft/core/NonNullList
+  #122 = Utf8               get
+  #123 = Utf8               (I)Ljava/lang/Object;
+  #124 = Methodref          #28.#125      // net/minecraft/world/item/ItemStack.isEmpty:()Z
+  #125 = NameAndType        #126:#78      // isEmpty:()Z
+  #126 = Utf8               isEmpty
+  #127 = Methodref          #18.#128      // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.useIngredientWithRemainingItem:(Lnet/minecraft/world/entity/player/Player;ILnet/minecraft/world/item/ItemStack;)V
+  #128 = NameAndType        #129:#130     // useIngredientWithRemainingItem:(Lnet/minecraft/world/entity/player/Player;ILnet/minecraft/world/item/ItemStack;)V
+  #129 = Utf8               useIngredientWithRemainingItem
+  #130 = Utf8               (Lnet/minecraft/world/entity/player/Player;ILnet/minecraft/world/item/ItemStack;)V
+  #131 = Methodref          #18.#132      // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.useIngredient:(Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;ILnet/minecraft/world/item/ItemStack;)V
+  #132 = NameAndType        #133:#134     // useIngredient:(Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;ILnet/minecraft/world/item/ItemStack;)V
+  #133 = Utf8               useIngredient
+  #134 = Utf8               (Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;ILnet/minecraft/world/item/ItemStack;)V
+  #135 = Methodref          #84.#136      // com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer.changed:()V
+  #136 = NameAndType        #137:#56      // changed:()V
+  #137 = Utf8               changed
+  #138 = InvokeDynamic      #0:#139       // #0:run:(Lcom/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot;ILnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)Ljava/lang/Runnable;
+  #139 = NameAndType        #140:#141     // run:(Lcom/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot;ILnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)Ljava/lang/Runnable;
+  #140 = Utf8               run
+  #141 = Utf8               (Lcom/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot;ILnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)Ljava/lang/Runnable;
+  #142 = Methodref          #84.#143      // com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer.updateMatrixAndNotifyListenerLater:(Ljava/lang/Runnable;)V
+  #143 = NameAndType        #144:#145     // updateMatrixAndNotifyListenerLater:(Ljava/lang/Runnable;)V
+  #144 = Utf8               updateMatrixAndNotifyListenerLater
+  #145 = Utf8               (Ljava/lang/Runnable;)V
+  #146 = Methodref          #147.#148     // com/refinedmods/refinedstorage/common/support/resource/ItemResource.ofItemStack:(Lnet/minecraft/world/item/ItemStack;)Lcom/refinedmods/refinedstorage/common/support/resource/ItemResource;
+  #147 = Class              #149          // com/refinedmods/refinedstorage/common/support/resource/ItemResource
+  #148 = NameAndType        #150:#151     // ofItemStack:(Lnet/minecraft/world/item/ItemStack;)Lcom/refinedmods/refinedstorage/common/support/resource/ItemResource;
+  #149 = Utf8               com/refinedmods/refinedstorage/common/support/resource/ItemResource
+  #150 = Utf8               ofItemStack
+  #151 = Utf8               (Lnet/minecraft/world/item/ItemStack;)Lcom/refinedmods/refinedstorage/common/support/resource/ItemResource;
+  #152 = InterfaceMethodref #52.#153      // com/refinedmods/refinedstorage/common/grid/ExtractTransaction.extract:(Lcom/refinedmods/refinedstorage/common/support/resource/ItemResource;Lnet/minecraft/world/entity/player/Player;)Z
+  #153 = NameAndType        #154:#155     // extract:(Lcom/refinedmods/refinedstorage/common/support/resource/ItemResource;Lnet/minecraft/world/entity/player/Player;)Z
+  #154 = Utf8               extract
+  #155 = Utf8               (Lcom/refinedmods/refinedstorage/common/support/resource/ItemResource;Lnet/minecraft/world/entity/player/Player;)Z
+  #156 = Methodref          #18.#157      // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.decrementMatrixSlot:(I)Lnet/minecraft/world/item/ItemStack;
+  #157 = NameAndType        #158:#66      // decrementMatrixSlot:(I)Lnet/minecraft/world/item/ItemStack;
+  #158 = Utf8               decrementMatrixSlot
+  #159 = Methodref          #84.#160      // com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer.removeItem:(II)Lnet/minecraft/world/item/ItemStack;
+  #160 = NameAndType        #161:#162     // removeItem:(II)Lnet/minecraft/world/item/ItemStack;
+  #161 = Utf8               removeItem
+  #162 = Utf8               (II)Lnet/minecraft/world/item/ItemStack;
+  #163 = Methodref          #28.#164      // net/minecraft/world/item/ItemStack.onCraftedBy:(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;I)V
+  #164 = NameAndType        #165:#166     // onCraftedBy:(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;I)V
+  #165 = Utf8               onCraftedBy
+  #166 = Utf8               (Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;I)V
+  #167 = Fieldref           #168.#169     // com/refinedmods/refinedstorage/common/Platform.INSTANCE:Lcom/refinedmods/refinedstorage/common/Platform;
+  #168 = Class              #170          // com/refinedmods/refinedstorage/common/Platform
+  #169 = NameAndType        #171:#172     // INSTANCE:Lcom/refinedmods/refinedstorage/common/Platform;
+  #170 = Utf8               com/refinedmods/refinedstorage/common/Platform
+  #171 = Utf8               INSTANCE
+  #172 = Utf8               Lcom/refinedmods/refinedstorage/common/Platform;
+  #173 = InterfaceMethodref #168.#174     // com/refinedmods/refinedstorage/common/Platform.onItemCrafted:(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/inventory/CraftingContainer;)V
+  #174 = NameAndType        #175:#176     // onItemCrafted:(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/inventory/CraftingContainer;)V
+  #175 = Utf8               onItemCrafted
+  #176 = Utf8               (Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/inventory/CraftingContainer;)V
+  #177 = Fieldref           #18.#178      // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.container:Lnet/minecraft/world/Container;
+  #178 = NameAndType        #179:#180     // container:Lnet/minecraft/world/Container;
+  #179 = Utf8               container
+  #180 = Utf8               Lnet/minecraft/world/Container;
+  #181 = Class              #182          // net/minecraft/world/inventory/RecipeCraftingHolder
+  #182 = Utf8               net/minecraft/world/inventory/RecipeCraftingHolder
+  #183 = InterfaceMethodref #184.#185     // java/util/List.of:(Ljava/lang/Object;)Ljava/util/List;
+  #184 = Class              #186          // java/util/List
+  #185 = NameAndType        #187:#188     // of:(Ljava/lang/Object;)Ljava/util/List;
+  #186 = Utf8               java/util/List
+  #187 = Utf8               of
+  #188 = Utf8               (Ljava/lang/Object;)Ljava/util/List;
+  #189 = InterfaceMethodref #181.#190     // net/minecraft/world/inventory/RecipeCraftingHolder.awardUsedRecipes:(Lnet/minecraft/world/entity/player/Player;Ljava/util/List;)V
+  #190 = NameAndType        #191:#192     // awardUsedRecipes:(Lnet/minecraft/world/entity/player/Player;Ljava/util/List;)V
+  #191 = Utf8               awardUsedRecipes
+  #192 = Utf8               (Lnet/minecraft/world/entity/player/Player;Ljava/util/List;)V
+  #193 = Methodref          #84.#194      // com/refinedmods/refinedstorage/common/support/RecipeMatrixContainer.setItem:(ILnet/minecraft/world/item/ItemStack;)V
+  #194 = NameAndType        #195:#196     // setItem:(ILnet/minecraft/world/item/ItemStack;)V
+  #195 = Utf8               setItem
+  #196 = Utf8               (ILnet/minecraft/world/item/ItemStack;)V
+  #197 = Methodref          #28.#198      // net/minecraft/world/item/ItemStack.grow:(I)V
+  #198 = NameAndType        #199:#200     // grow:(I)V
+  #199 = Utf8               grow
+  #200 = Utf8               (I)V
+  #201 = Methodref          #68.#202      // net/minecraft/world/entity/player/Player.getInventory:()Lnet/minecraft/world/entity/player/Inventory;
+  #202 = NameAndType        #203:#204     // getInventory:()Lnet/minecraft/world/entity/player/Inventory;
+  #203 = Utf8               getInventory
+  #204 = Utf8               ()Lnet/minecraft/world/entity/player/Inventory;
+  #205 = Methodref          #206.#207     // net/minecraft/world/entity/player/Inventory.add:(Lnet/minecraft/world/item/ItemStack;)Z
+  #206 = Class              #208          // net/minecraft/world/entity/player/Inventory
+  #207 = NameAndType        #209:#210     // add:(Lnet/minecraft/world/item/ItemStack;)Z
+  #208 = Utf8               net/minecraft/world/entity/player/Inventory
+  #209 = Utf8               add
+  #210 = Utf8               (Lnet/minecraft/world/item/ItemStack;)Z
+  #211 = Methodref          #68.#212      // net/minecraft/world/entity/player/Player.drop:(Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/item/ItemEntity;
+  #212 = NameAndType        #213:#214     // drop:(Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/item/ItemEntity;
+  #213 = Utf8               drop
+  #214 = Utf8               (Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/item/ItemEntity;
+  #215 = Utf8               (Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;II)V
+  #216 = Utf8               Code
+  #217 = Utf8               LineNumberTable
+  #218 = Utf8               LocalVariableTable
+  #219 = Utf8               this
+  #220 = Utf8               Lcom/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot;
+  #221 = Utf8               player
+  #222 = Utf8               Lnet/minecraft/world/entity/player/Player;
+  #223 = Utf8               x
+  #224 = Utf8               I
+  #225 = Utf8               y
+  #226 = Utf8               onQuickCraft
+  #227 = Utf8               (Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/item/ItemStack;
+  #228 = Utf8               transaction
+  #229 = Utf8               Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;
+  #230 = Utf8               singleResultStack
+  #231 = Utf8               Lnet/minecraft/world/item/ItemStack;
+  #232 = Utf8               maxCrafted
+  #233 = Utf8               crafted
+  #234 = Utf8               StackMapTable
+  #235 = Utf8               onTake
+  #236 = Utf8               stack
+  #237 = Utf8               index
+  #238 = Utf8               matrixStack
+  #239 = Utf8               recipeIndex
+  #240 = Utf8               remainingItem
+  #241 = Utf8               positioned
+  #242 = Utf8               Lnet/minecraft/world/item/crafting/CraftingInput$Positioned;
+  #243 = Utf8               Lnet/minecraft/world/item/crafting/CraftingInput;
+  #244 = Utf8               remainingItems
+  #245 = Utf8               Lnet/minecraft/core/NonNullList;
+  #246 = Utf8               LocalVariableTypeTable
+  #247 = Utf8               Lnet/minecraft/core/NonNullList<Lnet/minecraft/world/item/ItemStack;>;
+  #248 = Utf8               matrix
+  #249 = Utf8               Lcom/refinedmods/refinedstorage/common/support/RecipeMatrixContainer;
+  #250 = Utf8               recipeHolder
+  #251 = Utf8               Lnet/minecraft/world/inventory/RecipeCraftingHolder;
+  #252 = Utf8               lambda$useIngredientWithRemainingItem$0
+  #253 = Utf8               (ILnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V
+  #254 = Utf8               SourceFile
+  #255 = Utf8               CraftingGridResultSlot.java
+  #256 = Utf8               BootstrapMethods
+  #257 = MethodType         #56           //  ()V
+  #258 = MethodHandle       5:#259        // REF_invokeVirtual com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.lambda$useIngredientWithRemainingItem$0:(ILnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V
+  #259 = Methodref          #18.#260      // com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.lambda$useIngredientWithRemainingItem$0:(ILnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V
+  #260 = NameAndType        #252:#253     // lambda$useIngredientWithRemainingItem$0:(ILnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V
+  #261 = MethodHandle       6:#262        // REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #262 = Methodref          #263.#264     // java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #263 = Class              #265          // java/lang/invoke/LambdaMetafactory
+  #264 = NameAndType        #266:#267     // metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #265 = Utf8               java/lang/invoke/LambdaMetafactory
+  #266 = Utf8               metafactory
+  #267 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #268 = Utf8               InnerClasses
+  #269 = Utf8               Positioned
+  #270 = Class              #271          // java/lang/invoke/MethodHandles$Lookup
+  #271 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #272 = Class              #273          // java/lang/invoke/MethodHandles
+  #273 = Utf8               java/lang/invoke/MethodHandles
+  #274 = Utf8               Lookup
+{
+  com.refinedmods.refinedstorage.common.grid.CraftingGridResultSlot(net.minecraft.world.entity.player.Player, com.refinedmods.refinedstorage.common.grid.CraftingGrid, int, int);
+    descriptor: (Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;II)V
+    flags: (0x0000)
+    Code:
+      stack=7, locals=5, args_size=5
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokeinterface #1,  1            // InterfaceMethod com/refinedmods/refinedstorage/common/grid/CraftingGrid.getCraftingMatrix:()Lcom/refinedmods/refinedstorage/common/support/RecipeMatrixContainer;
+         8: aload_2
+         9: invokeinterface #7,  1            // InterfaceMethod com/refinedmods/refinedstorage/common/grid/CraftingGrid.getCraftingResult:()Lnet/minecraft/world/inventory/ResultContainer;
+        14: iconst_0
+        15: iload_3
+        16: iload         4
+        18: invokespecial #11                 // Method net/minecraft/world/inventory/ResultSlot."<init>":(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/inventory/CraftingContainer;Lnet/minecraft/world/Container;III)V
+        21: aload_0
+        22: aload_2
+        23: putfield      #17                 // Field craftingGrid:Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;
+        26: return
+      LineNumberTable:
+        line 23: 0
+        line 24: 21
+        line 25: 26
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      27     0  this   Lcom/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot;
+            0      27     1 player   Lnet/minecraft/world/entity/player/Player;
+            0      27     2 craftingGrid   Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;
+            0      27     3     x   I
+            0      27     4     y   I
+
+  public net.minecraft.world.item.ItemStack onQuickCraft(net.minecraft.world.entity.player.Player);
+    descriptor: (Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/item/ItemStack;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=8, args_size=2
+         0: aload_0
+         1: invokevirtual #23                 // Method getItem:()Lnet/minecraft/world/item/ItemStack;
+         4: invokevirtual #27                 // Method net/minecraft/world/item/ItemStack.copy:()Lnet/minecraft/world/item/ItemStack;
+         7: astore_2
+         8: aload_2
+         9: invokevirtual #32                 // Method net/minecraft/world/item/ItemStack.getMaxStackSize:()I
+        12: istore_3
+        13: iconst_0
+        14: istore        4
+        16: aload_0
+        17: getfield      #17                 // Field craftingGrid:Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;
+        20: aload_1
+        21: iconst_0
+        22: invokeinterface #36,  3           // InterfaceMethod com/refinedmods/refinedstorage/common/grid/CraftingGrid.startExtractTransaction:(Lnet/minecraft/world/entity/player/Player;Z)Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;
+        27: astore        5
+        29: aload_2
+        30: aload_0
+        31: invokevirtual #23                 // Method getItem:()Lnet/minecraft/world/item/ItemStack;
+        34: invokestatic  #40                 // Method net/minecraft/world/item/ItemStack.isSameItemSameComponents:(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z
+        37: ifeq          66
+        40: iload         4
+        42: iload_3
+        43: if_icmpge     66
+        46: aload_0
+        47: aload_1
+        48: aload         5
+        50: aload_2
+        51: invokevirtual #44                 // Method doTake:(Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;Lnet/minecraft/world/item/ItemStack;)V
+        54: iload         4
+        56: aload_2
+        57: invokevirtual #48                 // Method net/minecraft/world/item/ItemStack.getCount:()I
+        60: iadd
+        61: istore        4
+        63: goto          29
+        66: aload         5
+        68: ifnull        110
+        71: aload         5
+        73: invokeinterface #51,  1           // InterfaceMethod com/refinedmods/refinedstorage/common/grid/ExtractTransaction.close:()V
+        78: goto          110
+        81: astore        6
+        83: aload         5
+        85: ifnull        107
+        88: aload         5
+        90: invokeinterface #51,  1           // InterfaceMethod com/refinedmods/refinedstorage/common/grid/ExtractTransaction.close:()V
+        95: goto          107
+        98: astore        7
+       100: aload         6
+       102: aload         7
+       104: invokevirtual #59                 // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+       107: aload         6
+       109: athrow
+       110: aload_2
+       111: iload         4
+       113: invokevirtual #63                 // Method net/minecraft/world/item/ItemStack.copyWithCount:(I)Lnet/minecraft/world/item/ItemStack;
+       116: areturn
+      Exception table:
+         from    to  target type
+            29    66    81   Class java/lang/Throwable
+            88    95    98   Class java/lang/Throwable
+      LineNumberTable:
+        line 28: 0
+        line 29: 8
+        line 30: 13
+        line 31: 16
+        line 32: 29
+        line 33: 46
+        line 34: 54
+        line 36: 66
+        line 31: 81
+        line 37: 110
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           29      81     5 transaction   Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;
+            0     117     0  this   Lcom/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot;
+            0     117     1 player   Lnet/minecraft/world/entity/player/Player;
+            8     109     2 singleResultStack   Lnet/minecraft/world/item/ItemStack;
+           13     104     3 maxCrafted   I
+           16     101     4 crafted   I
+      StackMapTable: number_of_entries = 6
+        frame_type = 255 /* full_frame */
+          offset_delta = 29
+          locals = [ class com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot, class net/minecraft/world/entity/player/Player, class net/minecraft/world/item/ItemStack, int, int, class com/refinedmods/refinedstorage/common/grid/ExtractTransaction ]
+          stack = []
+        frame_type = 36 /* same */
+        frame_type = 78 /* same_locals_1_stack_item */
+          stack = [ class java/lang/Throwable ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 16
+          locals = [ class com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot, class net/minecraft/world/entity/player/Player, class net/minecraft/world/item/ItemStack, int, int, class com/refinedmods/refinedstorage/common/grid/ExtractTransaction, class java/lang/Throwable ]
+          stack = [ class java/lang/Throwable ]
+        frame_type = 8 /* same */
+        frame_type = 249 /* chop */
+          offset_delta = 2
+
+  public void onTake(net.minecraft.world.entity.player.Player, net.minecraft.world.item.ItemStack);
+    descriptor: (Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=6, args_size=3
+         0: aload_1
+         1: invokevirtual #67                 // Method net/minecraft/world/entity/player/Player.level:()Lnet/minecraft/world/level/Level;
+         4: invokevirtual #73                 // Method net/minecraft/world/level/Level.isClientSide:()Z
+         7: ifeq          11
+        10: return
+        11: aload_0
+        12: getfield      #17                 // Field craftingGrid:Lcom/refinedmods/refinedstorage/common/grid/CraftingGrid;
+        15: aload_1
+        16: iconst_1
+        17: invokeinterface #36,  3           // InterfaceMethod com/refinedmods/refinedstorage/common/grid/CraftingGrid.startExtractTransaction:(Lnet/minecraft/world/entity/player/Player;Z)Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;
+        22: astore_3
+        23: aload_0
+        24: aload_1
+        25: aload_3
+        26: aload_2
+        27: invokevirtual #44                 // Method doTake:(Lnet/minecraft/world/entity/player/Player;Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;Lnet/minecraft/world/item/ItemStack;)V
+        30: aload_3
+        31: ifnull        70
+        34: aload_3
+        35: invokeinterface #51,  1           // InterfaceMethod com/refinedmods/refinedstorage/common/grid/ExtractTransaction.close:()V
+        40: goto          70
+        43: astore        4
+        45: aload_3
+        46: ifnull        67
+        49: aload_3
+        50: invokeinterface #51,  1           // InterfaceMethod com/refinedmods/refinedstorage/common/grid/ExtractTransaction.close:()V
+        55: goto          67
+        58: astore        5
+        60: aload         4
+        62: aload         5
+        64: invokevirtual #59                 // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+        67: aload         4
+        69: athrow
+        70: return
+      Exception table:
+         from    to  target type
+            23    30    43   Class java/lang/Throwable
+            49    55    58   Class java/lang/Throwable
+      LineNumberTable:
+        line 43: 0
+        line 44: 10
+        line 46: 11
+        line 47: 23
+        line 48: 30
+        line 46: 43
+        line 49: 70
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           23      47     3 transaction   Lcom/refinedmods/refinedstorage/common/grid/ExtractTransaction;
+            0      71     0  this   Lcom/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot;
+            0      71     1 player   Lnet/minecraft/world/entity/player/Player;
+            0      71     2 stack   Lnet/minecraft/world/item/ItemStack;
+      StackMapTable: number_of_entries = 5
+        frame_type = 11 /* same */
+        frame_type = 255 /* full_frame */
+          offset_delta = 31
+          locals = [ class com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot, class net/minecraft/world/entity/player/Player, class net/minecraft/world/item/ItemStack, class com/refinedmods/refinedstorage/common/grid/ExtractTransaction ]
+          stack = [ class java/lang/Throwable ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 14
+          locals = [ class com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot, class net/minecraft/world/entity/player/Player, class net/minecraft/world/item/ItemStack, class com/refinedmods/refinedstorage/common/grid/ExtractTransaction, class java/lang/Throwable ]
+          stack = [ class java/lang/Throwable ]
+        frame_type = 8 /* same */
+        frame_type = 249 /* chop */
+          offset_delta = 2
+}
+SourceFile: "CraftingGridResultSlot.java"
+BootstrapMethods:
+  0: #261 REF_invokeStatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #257 ()V
+      #258 REF_invokeVirtual com/refinedmods/refinedstorage/common/grid/CraftingGridResultSlot.lambda$useIngredientWithRemainingItem$0:(ILnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V
+      #257 ()V
+InnerClasses:
+  public static final #269= #90 of #106;  // Positioned=class net/minecraft/world/item/crafting/CraftingInput$Positioned of class net/minecraft/world/item/crafting/CraftingInput
+  public static final #274= #270 of #272; // Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles

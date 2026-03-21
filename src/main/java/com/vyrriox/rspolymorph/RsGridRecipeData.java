@@ -62,6 +62,24 @@ public class RsGridRecipeData extends com.illusivesoulworks.polymorph.common.cap
     }
 
     @Override
+    public List<RecipeHolder<?>> getRecipes(RecipeType<?> type, Level level) {
+        List<RecipeHolder<?>> recipes = new ArrayList<>();
+        // In RS2, the recipes are usually identified by the Matrix
+        for (RecipeMatrix<?, ?> matrix : getMatrices()) {
+            if (((IRsRecipeMatrix<?, ?>) matrix).rspolymorph$getRecipeType() == type) {
+                // Get all matching recipes for the current input
+                // This is where Polymorph pulls the list for the UI
+                RecipeInput input = ((IRsRecipeMatrix<?, ?>) matrix).rspolymorph$getInputProvider().apply(matrix.getMatrix());
+                if (input != null) {
+                    List<? extends RecipeHolder<?>> matching = level.getRecipeManager().getRecipesFor((RecipeType<Recipe<RecipeInput>>) type, input, level);
+                    recipes.addAll(matching);
+                }
+            }
+        }
+        return recipes;
+    }
+
+    @Override
     public void selectRecipe(@NotNull RecipeHolder<?> recipe) {
         if (recipe != null) {
             selections.put(recipe.value().getType(), recipe);

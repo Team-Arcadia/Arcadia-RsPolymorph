@@ -1,0 +1,26 @@
+﻿Compiled from "PatternGridScreen.java"
+public class com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridScreen extends com.refinedmods.refinedstorage.common.grid.screen.AbstractGridScreen<com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridContainerMenu> implements com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridContainerMenu$PatternGridListener, com.refinedmods.refinedstorage.common.api.autocrafting.PatternOutputRenderingScreen {
+  static final int INSET_PADDING;
+  static final int INSET_WIDTH;
+  static final int INSET_HEIGHT;
+  public com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridScreen(com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridContainerMenu, net.minecraft.world.entity.player.Inventory, net.minecraft.network.chat.Component);
+  protected void init();
+  protected void containerTick();
+  public void render(net.minecraft.client.gui.GuiGraphics, int, int, float);
+  protected void renderBg(net.minecraft.client.gui.GuiGraphics, float, int, int);
+  protected void renderTooltip(net.minecraft.client.gui.GuiGraphics, int, int);
+  protected void renderResourceSlots(net.minecraft.client.gui.GuiGraphics);
+  protected boolean canInteractWithResourceSlot(com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot, double, double);
+  protected void addResourceSlotTooltips(com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot, java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>);
+  protected net.minecraft.client.gui.screens.Screen createResourceAmountScreen(com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot);
+  protected void renderLabels(net.minecraft.client.gui.GuiGraphics, int, int);
+  public boolean mouseClicked(double, double, int);
+  public void mouseMoved(double, double);
+  public boolean mouseReleased(double, double, int);
+  public boolean mouseScrolled(double, double, double, double);
+  protected net.minecraft.resources.ResourceLocation getTexture();
+  public void patternTypeChanged(com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternType);
+  public void fuzzyModeChanged(boolean);
+  public boolean canDisplayOutput(net.minecraft.world.item.ItemStack);
+  static {};
+}

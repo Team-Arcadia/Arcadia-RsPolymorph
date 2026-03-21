@@ -1,0 +1,127 @@
+﻿Compiled from "PolymorphWidgetsImpl.java"
+public class com.illusivesoulworks.polymorph.client.PolymorphWidgetsImpl extends com.illusivesoulworks.polymorph.api.client.PolymorphWidgets {
+  public static final com.illusivesoulworks.polymorph.api.client.PolymorphWidgets INSTANCE;
+
+  public com.illusivesoulworks.polymorph.client.PolymorphWidgetsImpl();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method com/illusivesoulworks/polymorph/api/client/PolymorphWidgets."<init>":()V
+       4: aload_0
+       5: new           #7                  // class java/util/concurrent/CopyOnWriteArrayList
+       8: dup
+       9: invokespecial #9                  // Method java/util/concurrent/CopyOnWriteArrayList."<init>":()V
+      12: putfield      #10                 // Field widgetFactories:Ljava/util/List;
+      15: return
+
+  public static void setup();
+    Code:
+       0: getstatic     #16                 // Field INSTANCE:Lcom/illusivesoulworks/polymorph/api/client/PolymorphWidgets;
+       3: invokedynamic #20,  0             // InvokeDynamic #0:createWidget:()Lcom/illusivesoulworks/polymorph/api/client/PolymorphWidgets$IRecipesWidgetFactory;
+       8: invokevirtual #24                 // Method com/illusivesoulworks/polymorph/api/client/PolymorphWidgets.registerWidget:(Lcom/illusivesoulworks/polymorph/api/client/PolymorphWidgets$IRecipesWidgetFactory;)V
+      11: return
+
+  public com.illusivesoulworks.polymorph.api.client.base.IRecipesWidget getCurrentWidget();
+    Code:
+       0: invokestatic  #28                 // Method com/illusivesoulworks/polymorph/client/RecipesWidget.get:()Ljava/util/Optional;
+       3: aconst_null
+       4: invokevirtual #34                 // Method java/util/Optional.orElse:(Ljava/lang/Object;)Ljava/lang/Object;
+       7: checkcast     #40                 // class com/illusivesoulworks/polymorph/api/client/base/IRecipesWidget
+      10: areturn
+
+  public com.illusivesoulworks.polymorph.api.client.base.IRecipesWidget getWidgetOrDefault(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #42                 // Method getWidget:(Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;)Lcom/illusivesoulworks/polymorph/api/client/base/IRecipesWidget;
+       5: astore_2
+       6: aload_2
+       7: ifnonnull     30
+      10: aload_0
+      11: aload_1
+      12: invokevirtual #46                 // Method findResultSlot:(Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;)Lnet/minecraft/world/inventory/Slot;
+      15: astore_3
+      16: aload_3
+      17: ifnull        30
+      20: new           #50                 // class com/illusivesoulworks/polymorph/api/client/widgets/PlayerRecipesWidget
+      23: dup
+      24: aload_1
+      25: aload_3
+      26: invokespecial #52                 // Method com/illusivesoulworks/polymorph/api/client/widgets/PlayerRecipesWidget."<init>":(Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;Lnet/minecraft/world/inventory/Slot;)V
+      29: astore_2
+      30: aload_2
+      31: areturn
+
+  public com.illusivesoulworks.polymorph.api.client.base.IRecipesWidget getWidget(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>);
+    Code:
+       0: aload_0
+       1: getfield      #10                 // Field widgetFactories:Ljava/util/List;
+       4: invokeinterface #55,  1           // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+       9: astore_2
+      10: aload_2
+      11: invokeinterface #61,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      16: ifeq          49
+      19: aload_2
+      20: invokeinterface #67,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      25: checkcast     #71                 // class com/illusivesoulworks/polymorph/api/client/PolymorphWidgets$IRecipesWidgetFactory
+      28: astore_3
+      29: aload_3
+      30: aload_1
+      31: invokeinterface #73,  2           // InterfaceMethod com/illusivesoulworks/polymorph/api/client/PolymorphWidgets$IRecipesWidgetFactory.createWidget:(Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;)Lcom/illusivesoulworks/polymorph/api/client/base/IRecipesWidget;
+      36: astore        4
+      38: aload         4
+      40: ifnull        46
+      43: aload         4
+      45: areturn
+      46: goto          10
+      49: aconst_null
+      50: areturn
+
+  public void registerWidget(com.illusivesoulworks.polymorph.api.client.PolymorphWidgets$IRecipesWidgetFactory);
+    Code:
+       0: aload_1
+       1: ifnonnull     15
+       4: getstatic     #75                 // Field com/illusivesoulworks/polymorph/PolymorphConstants.LOG:Lorg/slf4j/Logger;
+       7: ldc           #81                 // String Attempted to register a null IRecipesWidgetFactory
+       9: invokeinterface #83,  2           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;)V
+      14: return
+      15: aload_0
+      16: getfield      #10                 // Field widgetFactories:Ljava/util/List;
+      19: aload_1
+      20: invokeinterface #89,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+      25: pop
+      26: return
+
+  public net.minecraft.world.inventory.Slot findResultSlot(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>);
+    Code:
+       0: aload_1
+       1: invokevirtual #93                 // Method net/minecraft/client/gui/screens/inventory/AbstractContainerScreen.getMenu:()Lnet/minecraft/world/inventory/AbstractContainerMenu;
+       4: astore_2
+       5: aload_2
+       6: getfield      #99                 // Field net/minecraft/world/inventory/AbstractContainerMenu.slots:Lnet/minecraft/core/NonNullList;
+       9: invokevirtual #105                // Method net/minecraft/core/NonNullList.iterator:()Ljava/util/Iterator;
+      12: astore_3
+      13: aload_3
+      14: invokeinterface #61,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      19: ifeq          50
+      22: aload_3
+      23: invokeinterface #67,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      28: checkcast     #108                // class net/minecraft/world/inventory/Slot
+      31: astore        4
+      33: aload         4
+      35: getfield      #110                // Field net/minecraft/world/inventory/Slot.container:Lnet/minecraft/world/Container;
+      38: instanceof    #114                // class net/minecraft/world/inventory/ResultContainer
+      41: ifeq          47
+      44: aload         4
+      46: areturn
+      47: goto          13
+      50: aconst_null
+      51: areturn
+
+  static {};
+    Code:
+       0: new           #11                 // class com/illusivesoulworks/polymorph/client/PolymorphWidgetsImpl
+       3: dup
+       4: invokespecial #142                // Method "<init>":()V
+       7: putstatic     #16                 // Field INSTANCE:Lcom/illusivesoulworks/polymorph/api/client/PolymorphWidgets;
+      10: return
+}
