@@ -8,6 +8,9 @@
 - Polymorph compatibility for Refined Storage 2 Pattern Grid.
 - Fixed: Synchronized recipe selection and preview for all grids.
 - Fixed: Multi-matrix support for Crafting and Smithing in Pattern Grids.
+- Fixed: Correctly attaching selection UI to active crafting result slots.
+- Improved: Force Polymorph update when RS2 recalculates results, ensuring buttons appear.
+- Fixed [Critical]: Resolved severe item duplication and ghost item bug caused by non-empty recipe evaluation on empty matrices.
 
 ---
 
@@ -21,3 +24,6 @@
 - Compatibilité Polymorph pour la grille de modèles (Pattern Grid) de Refined Storage 2.
 - Corrigé : Synchronisation de la sélection et de l'aperçu pour toutes les grilles.
 - Corrigé : Support multi-matrices pour la Fabrication et la Forge dans les grilles de modèles.
+- Corrigé : Attachement correct de l'interface de sélection aux slots de résultat actifs.
+- Amélioré : Mise à jour forcée de Polymorph lors du recalcul des résultats de RS2, garantissant l'apparition des boutons.
+- Corrigé [Grave] : Résolution d'un bug sévère de duplication d'objets et d'objets fantômes causé par l'évaluation d'une ancienne recette sur une matrice vide.

@@ -1,17 +1,25 @@
 package com.vyrriox.rspolymorph;
 
+import com.illusivesoulworks.polymorph.api.PolymorphApi;
 import com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData;
-import com.illusivesoulworks.polymorph.common.capability.AbstractRecipeData;
+import com.illusivesoulworks.polymorph.common.capability.AbstractBlockEntityRecipeData;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrixContainer;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class RsGridRecipeData extends AbstractRecipeData<BlockEntity> implements IBlockEntityRecipeData {
+/**
+ * Custom recipe data for RS2 Grids.
+ * Author: vyrriox
+ */
+public class RsGridRecipeData extends com.illusivesoulworks.polymorph.common.capability.AbstractBlockEntityRecipeData<BlockEntity> implements com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData {
+    private final Map<RecipeType<?>, RecipeHolder<?>> selections = new HashMap<>();
 
     public RsGridRecipeData(BlockEntity owner) {
         super(owner);
@@ -31,32 +39,45 @@ public class RsGridRecipeData extends AbstractRecipeData<BlockEntity> implements
     }
 
     @Override
-    public void setSelectedRecipe(RecipeHolder<?> recipe) {
-        super.setSelectedRecipe(recipe);
-        if (getOwner().getLevel() != null && !getOwner().getLevel().isClientSide()) {
-            for (RecipeMatrix<?, ?> matrix : getMatrices()) {
-                matrix.updateResult(getOwner().getLevel());
+    protected NonNullList<ItemStack> getInput() {
+        NonNullList<ItemStack> stacks = NonNullList.create();
+        for (RecipeMatrix<?, ?> matrix : getMatrices()) {
+            RecipeMatrixContainer container = matrix.getMatrix();
+            for (int i = 0; i < container.getContainerSize(); i++) {
+                ItemStack stack = container.getItem(i);
+                if (!stack.isEmpty()) {
+                    stacks.add(stack.copy());
+                }
+            }
+        }
+        return stacks;
+    }
+
+    public RecipeHolder<?> getSelectedRecipe(RecipeType<?> type) {
+        return selections.get(type);
+    }
+
+    @Override
+    public void selectRecipe(@NotNull RecipeHolder<?> recipe) {
+        if (recipe != null) {
+            selections.put(recipe.value().getType(), recipe);
+            super.setSelectedRecipe(recipe); 
+            
+            // Notify RS2 matrices to update
+            Level level = getOwner().getLevel();
+            if (level != null && !level.isClientSide()) {
+                for (RecipeMatrix<?, ?> matrix : getMatrices()) {
+                    if (((IRsRecipeMatrix<?, ?>) matrix).rspolymorph$getRecipeType() == recipe.value().getType()) {
+                        matrix.updateResult(level);
+                    }
+                }
             }
         }
     }
 
     @Override
     public void tick() {
-        if (getOwner().getLevel() != null && !getOwner().getLevel().isClientSide()) {
-            updatePolymorph();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T extends Recipe<I>, I extends RecipeInput> void updatePolymorph() {
-        for (RecipeMatrix<?, ?> recipeMatrix : getMatrices()) {
-            IRsRecipeMatrix<T, I> rsMatrix = (IRsRecipeMatrix<T, I>) recipeMatrix;
-            RecipeMatrixContainer container = recipeMatrix.getMatrix();
-            if (container.isEmpty()) continue;
-
-            I input = rsMatrix.rspolymorph$getInputProvider().apply(container);
-            this.getRecipe(rsMatrix.rspolymorph$getRecipeType(), input, getOwner().getLevel(), Collections.emptyList());
-        }
+        super.tick();
     }
 
     @Override

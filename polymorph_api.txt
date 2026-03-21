@@ -1,0 +1,16 @@
+﻿Compiled from "PolymorphApi.java"
+public abstract class com.illusivesoulworks.polymorph.api.PolymorphApi {
+  public static final java.lang.String MOD_ID;
+  public com.illusivesoulworks.polymorph.api.PolymorphApi();
+  public static com.illusivesoulworks.polymorph.api.PolymorphApi getInstance();
+  public abstract com.illusivesoulworks.polymorph.api.common.base.IPolymorphNetwork getNetwork();
+  public abstract com.illusivesoulworks.polymorph.api.common.base.IPolymorphRecipeManager getRecipeManager();
+  public abstract com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData createBlockEntityRecipeData(net.minecraft.world.level.block.entity.BlockEntity);
+  public abstract com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData getBlockEntityRecipeData(net.minecraft.world.level.block.entity.BlockEntity);
+  public abstract com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData getBlockEntityRecipeData(net.minecraft.world.inventory.AbstractContainerMenu);
+  public abstract com.illusivesoulworks.polymorph.api.common.capability.IPlayerRecipeData getPlayerRecipeData(net.minecraft.world.entity.player.Player);
+  public abstract java.util.Map<java.lang.Class<? extends net.minecraft.world.level.block.entity.BlockEntity>, com.illusivesoulworks.polymorph.api.PolymorphApi$IRecipeDataFactory> getBlockEntities();
+  public abstract void registerBlockEntity(com.illusivesoulworks.polymorph.api.PolymorphApi$IRecipeDataFactory);
+  public abstract void registerBlockEntity(java.lang.Class<? extends net.minecraft.world.level.block.entity.BlockEntity>, com.illusivesoulworks.polymorph.api.PolymorphApi$IRecipeDataFactory);
+  public abstract void registerMenu(com.illusivesoulworks.polymorph.api.PolymorphApi$IBlockEntityFactory);
+}

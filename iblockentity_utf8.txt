@@ -1,0 +1,5 @@
+﻿Compiled from "IBlockEntityRecipeData.java"
+public interface com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData extends com.illusivesoulworks.polymorph.api.common.capability.IRecipeData<net.minecraft.world.level.block.entity.BlockEntity> {
+  public abstract void tick();
+  public abstract boolean isEmpty();
+}

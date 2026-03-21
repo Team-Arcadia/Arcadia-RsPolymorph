@@ -38,6 +38,9 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+    flatDir {
+        dirs 'C:/Users/Jimmy/curseforge/minecraft/Instances/Arcadia-RsPolymorph/mods'
+    }
 }
 
 base {
@@ -128,10 +131,8 @@ configurations {
 }
 
 dependencies {
-    compileOnly "maven.modrinth:tagwiZkJ:1.1.0+1.21.1"
-    localRuntime "maven.modrinth:tagwiZkJ:1.1.0+1.21.1"
-    compileOnly "maven.modrinth:KDvYkUg3:2.0.1"
-    localRuntime "maven.modrinth:KDvYkUg3:2.0.1"
+    implementation files('libs/polymorph.jar')
+    implementation files('libs/rs2.jar')
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
