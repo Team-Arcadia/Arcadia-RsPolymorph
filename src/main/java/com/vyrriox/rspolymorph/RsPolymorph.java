@@ -99,11 +99,15 @@ public class RsPolymorph {
     private void clientSetup(final FMLClientSetupEvent event) {
         com.illusivesoulworks.polymorph.api.client.PolymorphWidgets.getInstance().registerWidget(screen -> {
             if (screen instanceof CraftingGridScreen || screen instanceof PatternGridScreen) {
+                // Attempt to find the appropriate slot for the Polymorph button (Crafting Output)
                 for (Slot slot : screen.getMenu().slots) {
-                    if (slot.isActive() && 
-                        (slot.getClass().getName().contains("ResultSlot") || slot.getClass().getName().contains("DisabledSlot")) &&
-                        slot.container instanceof net.minecraft.world.inventory.ResultContainer) {
-                         return new com.illusivesoulworks.polymorph.api.client.widgets.PlayerRecipesWidget(screen, slot);
+                    if (!slot.isActive()) continue;
+                    
+                    String className = slot.getClass().getSimpleName();
+                    if (slot instanceof net.minecraft.world.inventory.ResultSlot || 
+                        className.contains("ResultSlot") ||
+                        (screen instanceof PatternGridScreen && className.contains("DisabledSlot"))) {
+                        return new com.illusivesoulworks.polymorph.api.client.widgets.PlayerRecipesWidget(screen, slot);
                     }
                 }
             }

@@ -1,0 +1,6 @@
+﻿Compiled from "DisabledSlot.java"
+public class com.refinedmods.refinedstorage.common.support.containermenu.DisabledSlot extends net.minecraft.world.inventory.Slot {
+  public com.refinedmods.refinedstorage.common.support.containermenu.DisabledSlot(net.minecraft.world.Container, int, int, int);
+  public boolean mayPickup(net.minecraft.world.entity.player.Player);
+  public boolean mayPlace(net.minecraft.world.item.ItemStack);
+}
