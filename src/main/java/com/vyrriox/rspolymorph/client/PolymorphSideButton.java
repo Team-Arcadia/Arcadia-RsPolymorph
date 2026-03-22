@@ -25,8 +25,6 @@ public class PolymorphSideButton extends AbstractSideButtonWidget {
                 rsWidget.triggerSelection();
             }
         });
-        this.screen = screen;
-        this.resultSlot = resultSlot;
     }
 
     @Override
