@@ -1,0 +1,13 @@
+﻿Compiled from "AbstractSideButtonWidget.java"
+public abstract class com.refinedmods.refinedstorage.common.support.widget.AbstractSideButtonWidget extends net.minecraft.client.gui.components.Button {
+  public static final int SIZE;
+  protected com.refinedmods.refinedstorage.common.support.widget.AbstractSideButtonWidget(net.minecraft.client.gui.components.Button$OnPress);
+  protected abstract net.minecraft.resources.ResourceLocation getSprite();
+  public void setWarning(net.minecraft.network.chat.Component);
+  public void renderWidget(net.minecraft.client.gui.GuiGraphics, int, int, float);
+  protected java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> buildTooltip();
+  protected abstract net.minecraft.network.chat.MutableComponent getTitle();
+  protected abstract java.util.List<net.minecraft.network.chat.MutableComponent> getSubText();
+  protected net.minecraft.network.chat.Component getHelpText();
+  static {};
+}

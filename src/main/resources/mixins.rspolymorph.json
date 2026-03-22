@@ -9,7 +9,7 @@
     "AccessorRecipeMatrix",
     "MixinCraftingGrid",
     "MixinPatternGrid",
-    "MixinAbstractGridScreen"
+    "MixinAbstractBaseScreen"
   ],
   "client": [],
   "injectors": {

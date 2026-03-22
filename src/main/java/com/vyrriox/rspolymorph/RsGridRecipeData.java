@@ -61,7 +61,6 @@ public class RsGridRecipeData extends com.illusivesoulworks.polymorph.common.cap
         return selections.get(type);
     }
 
-    @Override
     public List<RecipeHolder<?>> getRecipes(RecipeType<?> type, Level level) {
         List<RecipeHolder<?>> recipes = new ArrayList<>();
         // In RS2, the recipes are usually identified by the Matrix

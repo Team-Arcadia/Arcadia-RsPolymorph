@@ -1,9 +1,7 @@
 package com.vyrriox.rspolymorph.mixin;
 
-import com.vyrriox.rspolymorph.RsPolymorph;
-import com.vyrriox.rspolymorph.client.RsGridRecipeWidget;
-import com.refinedmods.refinedstorage.common.grid.screen.AbstractGridScreen;
-import com.refinedmods.refinedstorage.common.grid.AbstractGridContainerMenu;
+import com.vyrriox.rspolymorph.client.PolymorphSideButton;
+import com.refinedmods.refinedstorage.common.support.AbstractBaseScreen;
 import com.illusivesoulworks.polymorph.api.client.PolymorphWidgets;
 import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,20 +10,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Mixin to manually inject the Polymorph button into RS2 Grid screens.
+ * Mixin to inject Polymorph side button into RS2 screens.
  * Author: vyrriox
  */
-@Mixin(value = AbstractGridScreen.class, remap = false)
-public abstract class MixinAbstractGridScreen {
+@Mixin(value = AbstractBaseScreen.class, remap = false)
+public abstract class MixinAbstractBaseScreen {
 
     @Inject(method = "init", at = @At("RETURN"), remap = false)
     private void RSPOLYMORPH_init(CallbackInfo ci) {
-        AbstractGridScreen<?> screen = (AbstractGridScreen<?>) (Object) this;
+        AbstractBaseScreen<?> screen = (AbstractBaseScreen<?>) (Object) this;
         
-        // Use Polymorph API to find the result slot
+        // Find result slot for Polymorph logic
         Slot resultSlot = PolymorphWidgets.getInstance().findResultSlot(screen);
-        
-        // If not found by API, try manual fallback for RS2 specific slots
         if (resultSlot == null) {
             for (Slot slot : screen.getMenu().slots) {
                 if (!slot.isActive()) continue;
@@ -39,11 +35,9 @@ public abstract class MixinAbstractGridScreen {
             }
         }
 
-        // If we found a potential slot, force the widget creation
+        // Add side button if a result slot exists
         if (resultSlot != null) {
-            // Polymorph handles the actual button rendering and logic via the widget
-            // We just need to make sure the widget is registered/active for this screen
-            new RsGridRecipeWidget(screen, resultSlot);
+            screen.addSideButton(new PolymorphSideButton(screen, resultSlot));
         }
     }
 }

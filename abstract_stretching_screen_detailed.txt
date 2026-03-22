@@ -1,0 +1,25 @@
+﻿Compiled from "AbstractStretchingScreen.java"
+public abstract class com.refinedmods.refinedstorage.common.support.stretching.AbstractStretchingScreen<T extends com.refinedmods.refinedstorage.common.support.AbstractBaseContainerMenu & com.refinedmods.refinedstorage.common.support.stretching.ScreenSizeListener> extends com.refinedmods.refinedstorage.common.support.AbstractBaseScreen<T> {
+  protected static final int ROW_SIZE;
+  protected static final int TOP_HEIGHT;
+  protected com.refinedmods.refinedstorage.common.support.stretching.AbstractStretchingScreen(T, net.minecraft.world.entity.player.Inventory, com.refinedmods.refinedstorage.common.support.widget.TextMarquee);
+  protected com.refinedmods.refinedstorage.common.support.stretching.AbstractStretchingScreen(T, net.minecraft.world.entity.player.Inventory, net.minecraft.network.chat.Component);
+  protected void init();
+  protected void init(int);
+  protected final void resize();
+  protected final int getScrollbarOffset();
+  protected void scrollbarChanged(int);
+  protected void renderBg(net.minecraft.client.gui.GuiGraphics, float, int, int);
+  protected abstract void renderRows(net.minecraft.client.gui.GuiGraphics, int, int, int, int, int, int);
+  protected abstract void renderStretchingBackground(net.minecraft.client.gui.GuiGraphics, int, int, int);
+  public void render(net.minecraft.client.gui.GuiGraphics, int, int, float);
+  public boolean mouseClicked(double, double, int);
+  public void mouseMoved(double, double);
+  public boolean mouseReleased(double, double, int);
+  public boolean mouseScrolled(double, double, double, double);
+  protected final boolean isInStretchedArea(int);
+  protected final void updateScrollbar(int);
+  protected abstract int getBottomHeight();
+  protected abstract int getBottomV();
+  protected int getScrollPanePadding();
+}

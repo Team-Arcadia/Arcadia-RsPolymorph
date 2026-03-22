@@ -1,0 +1,31 @@
+﻿Compiled from "AbstractBaseScreen.java"
+public abstract class com.refinedmods.refinedstorage.common.support.AbstractBaseScreen<T extends net.minecraft.world.inventory.AbstractContainerMenu> extends net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<T> {
+  protected static final int TITLE_MAX_WIDTH;
+  protected final com.refinedmods.refinedstorage.common.support.widget.TextMarquee titleMarquee;
+  protected com.refinedmods.refinedstorage.common.support.AbstractBaseScreen(T, net.minecraft.world.entity.player.Inventory, net.minecraft.network.chat.Component);
+  protected com.refinedmods.refinedstorage.common.support.AbstractBaseScreen(T, net.minecraft.world.entity.player.Inventory, com.refinedmods.refinedstorage.common.support.widget.TextMarquee);
+  protected int getSideButtonY();
+  protected int getSideButtonX();
+  protected void init();
+  protected void clearWidgets();
+  protected abstract net.minecraft.resources.ResourceLocation getTexture();
+  protected void renderBg(net.minecraft.client.gui.GuiGraphics, float, int, int);
+  protected void renderLabels(net.minecraft.client.gui.GuiGraphics, int, int);
+  protected final void renderPlayerInventoryTitle(net.minecraft.client.gui.GuiGraphics);
+  public void render(net.minecraft.client.gui.GuiGraphics, int, int, float);
+  protected void renderResourceSlots(net.minecraft.client.gui.GuiGraphics);
+  public void addSideButton(com.refinedmods.refinedstorage.common.support.widget.AbstractSideButtonWidget);
+  public java.util.List<net.minecraft.client.renderer.Rect2i> getExclusionZones();
+  protected void renderTooltip(net.minecraft.client.gui.GuiGraphics, int, int);
+  public void setDeferredTooltip(java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>);
+  public final java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> getResourceSlotTooltip(net.minecraft.world.item.ItemStack, com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot);
+  protected java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent> getResourceSlotTooltip(com.refinedmods.refinedstorage.api.resource.ResourceKey, com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot);
+  protected void addResourceSlotTooltips(com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot, java.util.List<net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent>);
+  public boolean mouseClicked(double, double, int);
+  protected net.minecraft.client.gui.screens.Screen createResourceAmountScreen(com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot);
+  protected boolean canInteractWithResourceSlot(com.refinedmods.refinedstorage.common.support.containermenu.ResourceSlot, double, double);
+  public com.refinedmods.refinedstorage.common.api.support.resource.PlatformResourceKey getHoveredResource();
+  public int getLeftPos();
+  public int getTopPos();
+  static {};
+}
