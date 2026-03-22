@@ -47,11 +47,9 @@ public class RsGridRecipeData extends com.illusivesoulworks.polymorph.common.cap
         NonNullList<ItemStack> stacks = NonNullList.create();
         for (RecipeMatrix<?, ?> matrix : getMatrices()) {
             RecipeMatrixContainer container = matrix.getMatrix();
+            // Include empty slots so shaped recipes match correctly (position matters)
             for (int i = 0; i < container.getContainerSize(); i++) {
-                ItemStack stack = container.getItem(i);
-                if (!stack.isEmpty()) {
-                    stacks.add(stack.copy());
-                }
+                stacks.add(container.getItem(i).copy());
             }
         }
         return stacks;

@@ -1,5 +1,0 @@
-﻿Compiled from "CraftingGridContainerMenu.java"
-public class com.refinedmods.refinedstorage.common.grid.CraftingGridContainerMenu extends com.refinedmods.refinedstorage.common.grid.AbstractCraftingGridContainerMenu {
-  public com.refinedmods.refinedstorage.common.grid.CraftingGridContainerMenu(int, net.minecraft.world.entity.player.Inventory, com.refinedmods.refinedstorage.common.grid.GridData);
-  com.refinedmods.refinedstorage.common.grid.CraftingGridContainerMenu(int, net.minecraft.world.entity.player.Inventory, com.refinedmods.refinedstorage.common.grid.CraftingGridBlockEntity);
-}

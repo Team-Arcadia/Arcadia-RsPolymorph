@@ -91,6 +91,10 @@ public class RsPolymorph {
         CONTAINER_TO_BE.put(container, be);
     }
 
+    public static BlockEntity getBlockEntityForContainer(RecipeMatrixContainer container) {
+        return CONTAINER_TO_BE.get(container);
+    }
+
     public static void registerMatrixToContainer(RecipeMatrixContainer container, RecipeMatrix<?, ?> matrix) {
         CONTAINER_TO_MATRIX.put(container, matrix);
     }

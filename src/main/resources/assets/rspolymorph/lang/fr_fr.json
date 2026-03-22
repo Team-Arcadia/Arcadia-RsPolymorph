@@ -1,5 +1,7 @@
 {
   "modmenu.description.rspolymorph": "Un mod de compatibilité pour Polymorph et Refined Storage 2.",
   "rspolymorph.button.select": "Sélectionner la recette",
-  "rspolymorph.button.clear": "Effacer la sélection"
+  "rspolymorph.button.clear": "Effacer la sélection",
+  "rspolymorph.gui.recipe_selection": "Sélection de recette",
+  "rspolymorph.gui.click_to_select": "Cliquez pour sélectionner une recette"
 }

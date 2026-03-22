@@ -1,9 +1,0 @@
-﻿Compiled from "AbstractBlockEntityRecipeData.java"
-public abstract class com.illusivesoulworks.polymorph.common.capability.AbstractBlockEntityRecipeData<E extends net.minecraft.world.level.block.entity.BlockEntity> extends com.illusivesoulworks.polymorph.common.capability.AbstractRecipeData<net.minecraft.world.level.block.entity.BlockEntity> implements com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData {
-  public com.illusivesoulworks.polymorph.common.capability.AbstractBlockEntityRecipeData(net.minecraft.world.level.block.entity.BlockEntity);
-  protected abstract net.minecraft.core.NonNullList<net.minecraft.world.item.ItemStack> getInput();
-  public void tick();
-  public boolean isEmpty();
-  public E getOwner();
-  public java.lang.Object getOwner();
-}

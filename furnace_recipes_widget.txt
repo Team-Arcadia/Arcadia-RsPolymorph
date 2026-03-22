@@ -1,5 +1,0 @@
-﻿Compiled from "FurnaceRecipesWidget.java"
-public class com.illusivesoulworks.polymorph.api.client.widgets.FurnaceRecipesWidget extends com.illusivesoulworks.polymorph.api.client.base.PersistentRecipesWidget {
-  public com.illusivesoulworks.polymorph.api.client.widgets.FurnaceRecipesWidget(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>);
-  public net.minecraft.world.inventory.Slot getOutputSlot();
-}

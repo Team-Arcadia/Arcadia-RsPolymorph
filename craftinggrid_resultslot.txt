@@ -1,6 +1,0 @@
-﻿Compiled from "CraftingGridResultSlot.java"
-class com.refinedmods.refinedstorage.common.grid.CraftingGridResultSlot extends net.minecraft.world.inventory.ResultSlot {
-  com.refinedmods.refinedstorage.common.grid.CraftingGridResultSlot(net.minecraft.world.entity.player.Player, com.refinedmods.refinedstorage.common.grid.CraftingGrid, int, int);
-  public net.minecraft.world.item.ItemStack onQuickCraft(net.minecraft.world.entity.player.Player);
-  public void onTake(net.minecraft.world.entity.player.Player, net.minecraft.world.item.ItemStack);
-}

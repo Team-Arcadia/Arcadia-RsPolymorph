@@ -1,9 +1,9 @@
 # Changelog
 
-## [Current]
+## [1.1.0] - 2026-03-22
 ### Fixed
-- **EN:** Resolved the issue where clicking the Polymorph side button in the Refined Storage crafting grid did nothing when multiple conflicting recipes were available. The button now correctly delegates the event to the intended Polymorph widget.
-- **FR:** Résolution du problème où le clic sur le bouton latéral Polymorph dans la grille de craft Refined Storage ne faisait rien lorsque plusieurs recettes conflictuelles étaient disponibles. Le bouton délègue maintenant correctement l'événement au widget Polymorph prévu.
+- **EN:** Robust Polymorph button integration. Fixed the "pink square" texture issue by using direct blit rendering and resolved the unresponsive click by implementing a reliable widget tracking system.
+- **FR:** Intégration robuste du bouton Polymorph. Correction du problème de texture "carré rose" via un rendu direct (blit) et résolution du clic inactif par la mise en œuvre d'un système de suivi fiable du widget.
 
 ## [1.0.0] - 2026-03-20
 
@@ -22,6 +22,12 @@
 ---
 
 # Journal des modifications
+
+## [1.1.0] - 2026-03-22
+### Corrigé
+- Intégration finale et robuste du bouton Polymorph.
+- Correction de la texture manquante (carré rose).
+- Correction du clic inactif sur le bouton latéral.
 
 ## [1.0.0] - 2026-03-20
 

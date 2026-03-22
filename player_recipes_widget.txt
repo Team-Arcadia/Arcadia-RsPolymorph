@@ -1,7 +1,0 @@
-﻿Compiled from "PlayerRecipesWidget.java"
-public class com.illusivesoulworks.polymorph.api.client.widgets.PlayerRecipesWidget extends com.illusivesoulworks.polymorph.api.client.base.AbstractRecipesWidget {
-  final net.minecraft.world.inventory.Slot outputSlot;
-  public com.illusivesoulworks.polymorph.api.client.widgets.PlayerRecipesWidget(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<?>, net.minecraft.world.inventory.Slot);
-  public void selectRecipe(net.minecraft.resources.ResourceLocation);
-  public net.minecraft.world.inventory.Slot getOutputSlot();
-}
