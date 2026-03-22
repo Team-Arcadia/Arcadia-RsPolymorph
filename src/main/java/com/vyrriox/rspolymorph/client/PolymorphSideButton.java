@@ -17,10 +17,6 @@ import java.util.List;
  * Author: vyrriox
  */
 public class PolymorphSideButton extends AbstractSideButtonWidget {
-    private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath("polymorph", "textures/gui/recipe_button.png");
-    private final AbstractContainerScreen<?> screen;
-    private final Slot resultSlot;
-
     public PolymorphSideButton(AbstractContainerScreen<?> screen, Slot resultSlot) {
         super(button -> {
             // Trigger the selection UI directly on our managed widget
@@ -36,7 +32,7 @@ public class PolymorphSideButton extends AbstractSideButtonWidget {
     @Override
     protected ResourceLocation getSprite() {
         // Use a standard RS2 side button sprite that is guaranteed to exist
-        return ResourceLocation.fromNamespaceAndPath("refinedstorage", "side_button/config"); 
+        return ResourceLocation.fromNamespaceAndPath("refinedstorage", "side_button/redstone_mode_ignore"); 
     }
 
     @Override
@@ -51,9 +47,9 @@ public class PolymorphSideButton extends AbstractSideButtonWidget {
 
     @Override
     public void renderWidget(net.minecraft.client.gui.GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        // Only active if there are multiple recipes detected by Polymorph
-        RsGridRecipeWidget rsWidget = RsGridRecipeWidget.ACTIVE_WIDGETS.get(this.screen);
-        this.active = (rsWidget != null && rsWidget.isSelectionActive());
+        // Always set active to true to allow clicking. 
+        // We let Polymorph handle cases where there are 0 or 1 recipes.
+        this.active = true;
         this.visible = true; // Optimization: for testing, we keep it visible
         super.renderWidget(graphics, mouseX, mouseY, partialTicks);
     }
