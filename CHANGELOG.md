@@ -1,5 +1,10 @@
 # Changelog
 
+## [Current]
+### Fixed
+- **EN:** Resolved the issue where clicking the Polymorph side button in the Refined Storage crafting grid did nothing when multiple conflicting recipes were available. The button now correctly delegates the event to the intended Polymorph widget.
+- **FR:** Résolution du problème où le clic sur le bouton latéral Polymorph dans la grille de craft Refined Storage ne faisait rien lorsque plusieurs recettes conflictuelles étaient disponibles. Le bouton délègue maintenant correctement l'événement au widget Polymorph prévu.
+
 ## [1.0.0] - 2026-03-20
 
 ### Added

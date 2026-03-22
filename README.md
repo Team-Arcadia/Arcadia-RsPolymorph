@@ -5,6 +5,7 @@ RS Polymorph is a NeoForge Minecraft mod that adds [Polymorph](https://www.curse
 ## Features
 - Adds the Polymorph recipe selection button to the Refined Storage 2 **Crafting Grid**.
 - Adds the Polymorph recipe selection button to the Refined Storage 2 **Pattern Grid** (for autocrafting).
+- Restores proper selection widget functionality, so you can successfully select your desired conflicting recipe when the button is clicked.
 
 ## Installation
 - Ensure you have [NeoForge](https://neoforged.net/) installed for Minecraft 1.21.1.
@@ -21,6 +22,7 @@ RS Polymorph est un mod NeoForge pour Minecraft qui ajoute la compatibilité [Po
 ## Caractéristiques
 - Ajoute le bouton de sélection de recette Polymorph à la **Crafting Grid** (Grille de fabrication) de Refined Storage 2.
 - Ajoute le bouton de sélection de recette Polymorph à la **Pattern Grid** (Grille de modèles) de Refined Storage 2 (pour le craft automatique).
+- Restaure le bon fonctionnement du widget de sélection, afin que vous puissiez réussir à choisir votre recette conflictuelle lors du clic sur le bouton.
 
 ## Installation
 - Assurez-vous d'avoir [NeoForge](https://neoforged.net/) installé pour Minecraft 1.21.1.
