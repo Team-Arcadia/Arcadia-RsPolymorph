@@ -40,6 +40,5 @@ repo/
 !**/src/**/repo/
 
 *.log
-libs/
 
 .claude/
