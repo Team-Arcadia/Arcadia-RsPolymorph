@@ -1,5 +1,8 @@
 # RS Polymorph
 
+[Consulter la description CurseForge officielle](file:///c:/Users/Jimmy/Documents/github/Arcadia-RsPolymorph/CURSEFORGE.md)
+
+
 RS Polymorph is a NeoForge Minecraft mod that adds [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) compatibility for [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2).
 
 ## Features

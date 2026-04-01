@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(./gradlew build:*)",
+      "Bash(\"C:/Users/Jimmy/AppData/Local/Programs/Python/Python313/python.exe\" -c \":*)"
+    ]
+  }
+}

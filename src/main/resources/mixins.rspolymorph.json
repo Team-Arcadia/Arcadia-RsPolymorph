@@ -8,10 +8,12 @@
     "AccessorAbstractGridContainerMenu",
     "AccessorRecipeMatrix",
     "MixinCraftingGrid",
-    "MixinPatternGrid"
+    "MixinPatternGrid",
+    "MixinPatternResolver"
   ],
   "client": [
-    "MixinAbstractBaseScreen"
+    "MixinAbstractBaseScreen",
+    "MixinSelectionWidget"
   ],
   "injectors": {
     "defaultRequire": 1

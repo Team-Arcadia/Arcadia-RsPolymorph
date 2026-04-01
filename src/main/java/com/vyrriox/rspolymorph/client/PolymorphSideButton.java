@@ -9,7 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Native RS2 side button to trigger Polymorph selection.
+ * Native RS2 side button to trigger Polymorph recipe selection.
+ * Uses RS2's sprite system for proper theming.
  * Author: vyrriox
  */
 public class PolymorphSideButton extends AbstractSideButtonWidget {
@@ -25,8 +26,7 @@ public class PolymorphSideButton extends AbstractSideButtonWidget {
 
     @Override
     protected ResourceLocation getSprite() {
-        // Use a guaranteed vanilla sprite to avoid the pink square issue
-        return ResourceLocation.withDefaultNamespace("recipe_book/button_all");
+        return ResourceLocation.fromNamespaceAndPath("rspolymorph", "widget/side_button/polymorph");
     }
 
     @Override
@@ -42,17 +42,8 @@ public class PolymorphSideButton extends AbstractSideButtonWidget {
     @Override
     public void renderWidget(net.minecraft.client.gui.GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         RsGridRecipeWidget rsWidget = RsGridRecipeWidget.getActiveInstance();
-        // The button is only 'active' (clickable) if there are multiple recipes detected
         this.active = (rsWidget != null && rsWidget.hasMultipleRecipes());
         this.visible = true;
-        
-        // Draw the standard RS2 side button background
         super.renderWidget(graphics, mouseX, mouseY, partialTicks);
-        
-        // Draw the Polymorph icon on top
-        if (this.visible) {
-            ResourceLocation icon = ResourceLocation.fromNamespaceAndPath("polymorph", "textures/gui/recipe_button.png");
-            graphics.blit(icon, this.getX() + 1, this.getY() + 1, 0, 0, 16, 16, 16, 16);
-        }
     }
 }
