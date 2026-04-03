@@ -4,6 +4,7 @@ import com.illusivesoulworks.polymorph.api.PolymorphApi;
 import com.vyrriox.rspolymorph.RsGridRecipeData;
 import com.vyrriox.rspolymorph.RsPolymorph;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrixContainer;
+import com.vyrriox.rspolymorph.mixin.AccessorAbstractGridContainerMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -18,6 +19,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -51,6 +53,10 @@ public record SelectRecipePacket(ResourceLocation recipeId) implements CustomPac
     /**
      * Server-side handler. Looks up the recipe by ID and applies it to the BlockEntity
      * backing the player's currently open crafting grid.
+     *
+     * Strategy 1: scan menu slots for RecipeMatrixContainer (works for CraftingGrid).
+     * Strategy 2: use the menu accessor to get the Grid field (works for PatternGrid
+     *             where slots are phantom/filter and don't expose RecipeMatrixContainer).
      */
     public static void handleOnServer(SelectRecipePacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
@@ -64,21 +70,51 @@ public record SelectRecipePacket(ResourceLocation recipeId) implements CustomPac
             }
             RecipeHolder<?> recipe = recipeOpt.get();
 
-            // Scan the player's open container menu for a RecipeMatrixContainer slot.
-            AbstractContainerMenu menu = player.containerMenu;
-            for (Slot slot : menu.slots) {
-                if (!(slot.container instanceof RecipeMatrixContainer rmc)) continue;
-                BlockEntity be = RsPolymorph.getBlockEntityForContainer(rmc);
-                if (be == null) continue;
-
-                var data = PolymorphApi.getInstance().getBlockEntityRecipeData(be);
-                if (data instanceof RsGridRecipeData rsData) {
-                    rsData.selectRecipe(recipe);
-                    return; // Only update the first matching BE
-                }
+            BlockEntity targetBe = findBlockEntity(player.containerMenu);
+            if (targetBe == null) {
+                LOGGER.warn("[RS Polymorph] Could not find target BlockEntity for recipe selection (player: {})", player.getName().getString());
+                return;
             }
 
-            LOGGER.warn("[RS Polymorph] Could not find target BlockEntity for recipe selection (player: {})", player.getName().getString());
+            var data = PolymorphApi.getInstance().getBlockEntityRecipeData(targetBe);
+            if (data instanceof RsGridRecipeData rsData) {
+                // Set the static selectedRecipeId so MixinPatternGrid.createCraftingPattern()
+                // can tag the pattern with the chosen recipe on the server side.
+                RsPolymorph.setSelectedRecipeId(packet.recipeId());
+                rsData.selectRecipe(recipe);
+                RsPolymorph.setSelectedRecipeId(null);
+            }
         });
+    }
+
+    /**
+     * Finds the BlockEntity backing the player's open grid menu.
+     *
+     * Strategy 1: scan menu slots for RecipeMatrixContainer → CONTAINER_TO_BE lookup.
+     * Strategy 2: accessor on AbstractGridContainerMenu to get the Grid field directly.
+     */
+    private static BlockEntity findBlockEntity(AbstractContainerMenu menu) {
+        // Strategy 1: slot scan (works for CraftingGrid)
+        for (Slot slot : menu.slots) {
+            if (!(slot.container instanceof RecipeMatrixContainer rmc)) continue;
+            BlockEntity be = RsPolymorph.getBlockEntityForContainer(rmc);
+            if (be != null) return be;
+        }
+
+        // Strategy 2: accessor on the menu's Grid field (works for PatternGrid)
+        if (menu instanceof AccessorAbstractGridContainerMenu accessor) {
+            Object grid = accessor.rspolymorph$getGrid();
+            if (grid instanceof BlockEntity be) return be;
+        }
+
+        // Strategy 3: reverse-lookup all registered containers for a matching BE
+        for (Map.Entry<RecipeMatrixContainer, BlockEntity> entry : RsPolymorph.getMatrixMap().entrySet()) {
+            BlockEntity be = entry.getValue();
+            if (be != null && PolymorphApi.getInstance().getBlockEntityRecipeData(be) != null) {
+                return be;
+            }
+        }
+
+        return null;
     }
 }

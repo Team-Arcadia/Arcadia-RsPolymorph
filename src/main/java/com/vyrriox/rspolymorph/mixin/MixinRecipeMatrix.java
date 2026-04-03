@@ -125,7 +125,8 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
                 rsData.forceUpdateRecipes(level);
             }
         } catch (Exception e) {
-            // Best-effort sync — don't let Polymorph API issues crash the game.
+            org.apache.logging.log4j.LogManager.getLogger("RSPolymorph")
+                    .warn("Failed to sync recipes to Polymorph", e);
         }
     }
 }

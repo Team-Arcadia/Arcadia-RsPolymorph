@@ -23,9 +23,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Main class for RS Polymorph — integrates Polymorph recipe selection with RS2 grids.
@@ -59,11 +58,11 @@ public class RsPolymorph {
     // ── Registry maps ─────────────────────────────────────────────────────────
     /** RecipeMatrixContainer → the BlockEntity that owns it. Populated on BE construction. */
     private static final Map<RecipeMatrixContainer, BlockEntity> CONTAINER_TO_BE =
-            Collections.synchronizedMap(new WeakHashMap<>());
+            new ConcurrentHashMap<>();
 
     /** RecipeMatrixContainer → the RecipeMatrix wrapping it. Populated on RecipeMatrix construction. */
     private static final Map<RecipeMatrixContainer, RecipeMatrix<?, ?>> CONTAINER_TO_MATRIX =
-            Collections.synchronizedMap(new WeakHashMap<>());
+            new ConcurrentHashMap<>();
 
     // ── Selection state ───────────────────────────────────────────────────────
     /**

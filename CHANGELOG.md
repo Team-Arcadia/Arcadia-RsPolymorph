@@ -4,6 +4,32 @@ All notable changes to RS Polymorph are documented here.
 
 ---
 
+## [1.0.5] - 2026-04-02
+
+### Fixed
+
+- **Pattern Grid on dedicated server** — Recipe selection now works on Pattern Grid in multiplayer. The server-side packet handler could not find the BlockEntity because PatternGrid uses phantom/filter slots; added fallback strategies (menu Grid accessor + reverse container lookup). Also, the selected recipe ID is now propagated to the server so crafting patterns get correctly tagged for autocrafting.
+
+### Performance
+
+- **Per-frame caching** — Container discovery and input hash computation are now cached per render frame, eliminating 2-3 redundant slot scans per frame.
+- **ConcurrentHashMap** — Replaced `synchronized(WeakHashMap)` with `ConcurrentHashMap` for the container registry maps, removing global lock contention.
+- **Matrix lookup caching** — `RsGridRecipeData.getMatrices()` results are now cached after first successful lookup.
+- **Error logging** — Silent exception catch in recipe sync now logs warnings instead of swallowing errors.
+
+### Correctifs
+
+- **Pattern Grid sur serveur dédié** — La sélection de recette fonctionne maintenant sur la Grille de Patrons en multijoueur. Le handler de paquet côté serveur ne trouvait pas le BlockEntity car le PatternGrid utilise des slots fantômes/filtres ; ajout de stratégies de fallback (accessor Grid du menu + recherche inversée des containers). De plus, l'ID de recette sélectionnée est maintenant propagé au serveur pour que les patrons soient correctement tagués pour l'autocraft.
+
+### Performance
+
+- **Cache par frame** — La découverte des containers et le calcul du hash d'entrée sont maintenant cachés par frame de rendu, éliminant 2-3 scans de slots redondants par frame.
+- **ConcurrentHashMap** — Remplacement de `synchronized(WeakHashMap)` par `ConcurrentHashMap` pour les maps de registre des containers, supprimant la contention de lock global.
+- **Cache du lookup de matrices** — Les résultats de `RsGridRecipeData.getMatrices()` sont maintenant cachés après le premier lookup réussi.
+- **Logging d'erreurs** — Le catch silencieux dans la sync des recettes log maintenant des warnings au lieu d'avaler les erreurs.
+
+---
+
 ## [1.0.4] - 2026-03-31
 
 ### Fixed

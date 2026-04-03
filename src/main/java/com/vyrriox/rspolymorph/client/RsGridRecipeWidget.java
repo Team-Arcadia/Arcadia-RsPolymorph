@@ -26,7 +26,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +69,11 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
      */
     private boolean cachedHasMultiple = false;
     private int lastHashForMultipleCheck = Integer.MIN_VALUE;
+
+    /** Per-frame cache: avoids recomputing containers and hash multiple times per render. */
+    private List<RecipeMatrixContainer> cachedContainers = null;
+    private int cachedInputHash = Integer.MIN_VALUE;
+    private long lastCacheFrame = -1;
 
     public RsGridRecipeWidget(AbstractContainerScreen<?> screen, Slot outputSlot) {
         super(screen);
@@ -124,7 +129,19 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
     // -------------------------------------------------------------------------
 
     /**
+     * Invalidates the per-frame cache. Call once at the start of each render cycle.
+     */
+    private void refreshFrameCache() {
+        long frame = Minecraft.getInstance().getFrameTimeNs();
+        if (frame == lastCacheFrame) return;
+        lastCacheFrame = frame;
+        cachedContainers = null;
+        cachedInputHash = Integer.MIN_VALUE;
+    }
+
+    /**
      * Returns the RecipeMatrixContainer instances relevant to this screen.
+     * Cached per frame to avoid repeated slot scans.
      *
      * Path 1: scan menu slots directly (CraftingGrid — slots reference the container).
      * Path 2: reverse-lookup CONTAINER_TO_BE for the active BlockEntity.
@@ -132,6 +149,8 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
      *   on the CLIENT-SIDE BE construction (works even if slots are phantom).
      */
     private List<RecipeMatrixContainer> getContainers() {
+        if (cachedContainers != null) return cachedContainers;
+
         // Path 1: direct from menu slots
         List<RecipeMatrixContainer> fromSlots = new ArrayList<>();
         Set<Integer> seen = new HashSet<>();
@@ -142,23 +161,28 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
                 }
             }
         }
-        if (!fromSlots.isEmpty()) return fromSlots;
+        if (!fromSlots.isEmpty()) {
+            cachedContainers = fromSlots;
+            return cachedContainers;
+        }
 
         // Path 2: reverse-lookup from the BE
         if (activeBlockEntity != null) {
             Map<RecipeMatrixContainer, BlockEntity> beMap = RsPolymorph.getMatrixMap();
             List<RecipeMatrixContainer> fromBe = new ArrayList<>();
-            synchronized (beMap) {
-                for (Map.Entry<RecipeMatrixContainer, BlockEntity> entry : beMap.entrySet()) {
-                    if (entry.getValue() == activeBlockEntity) {
-                        fromBe.add(entry.getKey());
-                    }
+            for (Map.Entry<RecipeMatrixContainer, BlockEntity> entry : beMap.entrySet()) {
+                if (entry.getValue() == activeBlockEntity) {
+                    fromBe.add(entry.getKey());
                 }
             }
-            if (!fromBe.isEmpty()) return fromBe;
+            if (!fromBe.isEmpty()) {
+                cachedContainers = fromBe;
+                return cachedContainers;
+            }
         }
 
-        return Collections.emptyList();
+        cachedContainers = Collections.emptyList();
+        return cachedContainers;
     }
 
     /**
@@ -204,6 +228,8 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        refreshFrameCache();
+
         if (popupIsOpen) {
             if (computeInputHash() != popupOpenedAtHash) {
                 closePopup();
@@ -249,12 +275,13 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
     // -------------------------------------------------------------------------
 
     private int computeInputHash() {
+        if (cachedInputHash != Integer.MIN_VALUE) return cachedInputHash;
+
         List<RecipeMatrixContainer> containers = getContainers();
-        containers = new ArrayList<>(containers); // mutable copy for sorting
-        containers.sort(Comparator.comparingInt(System::identityHashCode));
 
         int hash = 1;
         for (RecipeMatrixContainer container : containers) {
+            hash = 31 * hash + System.identityHashCode(container);
             for (int i = 0; i < container.getContainerSize(); i++) {
                 ItemStack stack = container.getItem(i);
                 if (stack.isEmpty()) {
@@ -265,6 +292,7 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
                 }
             }
         }
+        cachedInputHash = hash;
         return hash;
     }
 

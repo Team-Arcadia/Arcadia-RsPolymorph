@@ -28,6 +28,12 @@ public class RsGridRecipeData extends AbstractBlockEntityRecipeData<BlockEntity>
      */
     private int lastRecipeListHash = 0;
 
+    /**
+     * Cached matrices for this block entity.
+     * Invalidated when the result is empty (lazy re-discovery on next call).
+     */
+    private List<RecipeMatrix<?, ?>> cachedMatrices = null;
+
     public RsGridRecipeData(BlockEntity owner) {
         super(owner);
     }
@@ -38,22 +44,23 @@ public class RsGridRecipeData extends AbstractBlockEntityRecipeData<BlockEntity>
 
     /**
      * Returns the RecipeMatrix instances that belong to this block entity.
+     * Cached after first successful lookup to avoid repeated synchronized iterations.
      *
      * Lock safety: we snapshot the CONTAINER_TO_BE map under its own lock, then
      * look up each container in CONTAINER_TO_MATRIX individually (each get() on a
      * synchronizedMap is atomic, so no outer lock needed).
      */
     private List<RecipeMatrix<?, ?>> getMatrices() {
+        if (cachedMatrices != null && !cachedMatrices.isEmpty()) return cachedMatrices;
+
         Map<RecipeMatrixContainer, BlockEntity> beMap = RsPolymorph.getMatrixMap();
         Map<RecipeMatrixContainer, RecipeMatrix<?, ?>> matrixMap = RsPolymorph.getContainerToMatrixMap();
 
-        // Snapshot the containers owned by this BE under the beMap lock only.
+        // Snapshot the containers owned by this BE.
         List<RecipeMatrixContainer> owned = new ArrayList<>();
-        synchronized (beMap) {
-            for (Map.Entry<RecipeMatrixContainer, BlockEntity> entry : beMap.entrySet()) {
-                if (entry.getValue() == getOwner()) {
-                    owned.add(entry.getKey());
-                }
+        for (Map.Entry<RecipeMatrixContainer, BlockEntity> entry : beMap.entrySet()) {
+            if (entry.getValue() == getOwner()) {
+                owned.add(entry.getKey());
             }
         }
 
@@ -63,6 +70,7 @@ public class RsGridRecipeData extends AbstractBlockEntityRecipeData<BlockEntity>
             RecipeMatrix<?, ?> m = matrixMap.get(c);
             if (m != null) result.add(m);
         }
+        if (!result.isEmpty()) cachedMatrices = result;
         return result;
     }
 
