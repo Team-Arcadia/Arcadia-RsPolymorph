@@ -4,6 +4,26 @@ All notable changes to RS Polymorph are documented here.
 
 ---
 
+## [1.0.6] - 2026-04-09
+
+### Fixed
+
+- **Pattern Grid preview stuck on previous recipe (RS 2.0.2)** — After selecting a different recipe via the Polymorph popup, the Pattern Grid preview kept showing the previous recipe's output until the pattern was printed once. `MixinRecipeMatrix` only updated the `ResultContainer` via `setResult` but left `currentRecipe` unchanged, so the next `updateResult` short-circuit (`currentRecipe.matches(input)` returns true) re-assembled the old recipe and overwrote the preview. Now also syncs `currentRecipe` via the accessor whenever a Polymorph override is applied.
+- **Singleplayer selection not persisted** — On singleplayer, `selectRecipe()` only set the static `selectedRecipeId` and called `matrix.updateResult()` without writing to `RsGridRecipeData.selections`. Once the static was cleared, subsequent `updateResult` calls fell through to the default first-match and the user's choice was lost. The SP path now invokes `rsData.selectRecipe(recipe)` on the server thread, mirroring the dedicated-server packet handler.
+- **Pattern Grid widget not created on dedicated server** — The Polymorph widget was never created for the Pattern Grid because the result slot detection relied on class name matching (`contains("DisabledSlot")`), which fails for anonymous inner classes like `PatternGridContainerMenu$5`. Now uses `instanceof` checks instead.
+- **Client-side BlockEntity discovery on dedicated server** — On a dedicated server the menu's Grid field is null (client constructor uses GridData, not the real BE). Added a proximity-based fallback that finds the nearest grid BlockEntity registered in `CONTAINER_TO_BE` from chunk sync.
+- **Pattern recipe tagging on dedicated server** — `createCraftingPattern()` reads the selected recipe ID from a static volatile field that was already cleared by the time RS2's create-pattern packet arrives. Now falls back to reading from `RsGridRecipeData.selections` (persisted by `SelectRecipePacket`), ensuring patterns are correctly tagged for autocrafting.
+
+### Correctifs
+
+- **Aperçu du Pattern Grid figé sur la recette précédente (RS 2.0.2)** — Après avoir choisi une autre recette via le popup Polymorph, l'aperçu du Pattern Grid gardait le résultat de la recette précédente jusqu'à la prochaine impression de patron. `MixinRecipeMatrix` ne mettait à jour que le `ResultContainer` via `setResult` sans toucher à `currentRecipe` ; le prochain `updateResult` court-circuitait (`currentRecipe.matches(input)` retourne vrai) et ré-assemblait l'ancienne recette, écrasant l'aperçu. Synchronise désormais aussi `currentRecipe` via l'accessor à chaque override Polymorph.
+- **Sélection non persistée en solo** — En solo, `selectRecipe()` se contentait d'écrire le static `selectedRecipeId` et d'appeler `matrix.updateResult()` sans toucher à `RsGridRecipeData.selections`. Une fois le static effacé, les `updateResult` suivants retombaient sur le premier match par défaut et le choix de l'utilisateur était perdu. Le chemin SP invoque maintenant `rsData.selectRecipe(recipe)` sur le thread serveur, alignant le comportement sur celui du handler de paquet du serveur dédié.
+- **Widget Pattern Grid non créé sur serveur dédié** — Le widget Polymorph n'était jamais créé pour la Grille de Patrons car la détection du slot résultat utilisait la correspondance par nom de classe (`contains("DisabledSlot")`), qui échoue pour les classes anonymes internes comme `PatternGridContainerMenu$5`. Utilise maintenant des vérifications `instanceof`.
+- **Découverte du BlockEntity côté client sur serveur dédié** — Sur un serveur dédié, le champ Grid du menu est null (le constructeur client utilise GridData, pas le vrai BE). Ajout d'un fallback par proximité qui trouve le BlockEntity de grille le plus proche enregistré dans `CONTAINER_TO_BE` depuis la synchronisation de chunk.
+- **Tagging de recette des patrons sur serveur dédié** — `createCraftingPattern()` lisait l'ID de recette sélectionnée depuis un champ static volatile déjà effacé au moment où le paquet create-pattern de RS2 arrive. Lit maintenant depuis `RsGridRecipeData.selections` (persisté par `SelectRecipePacket`), garantissant que les patrons sont correctement tagués pour l'autocraft.
+
+---
+
 ## [1.0.5] - 2026-04-02
 
 ### Fixed

@@ -68,11 +68,13 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
     @Inject(method = "updateResult", at = @At("RETURN"), remap = false)
     private void RSPOLYMORPH_afterUpdateResult(Level level, CallbackInfo ci) {
 
+        AccessorRecipeMatrix<T, I> accessor = (AccessorRecipeMatrix<T, I>) this;
+
         // ── 1) Static selection (singleplayer fast path) ──────────────────────
         ResourceLocation selectedId = RsPolymorph.getSelectedRecipeId();
         if (selectedId != null) {
             // Skip the search if RS2 already resolved the right recipe.
-            RecipeHolder<T> current = ((AccessorRecipeMatrix<T, I>) this).rspolymorph$getCurrentRecipe();
+            RecipeHolder<T> current = accessor.rspolymorph$getCurrentRecipe();
             if (current != null && current.id().equals(selectedId)) {
                 syncRecipesIfServer(level);
                 return;
@@ -84,7 +86,10 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
                 for (RecipeHolder<T> holder : matches) {
                     if (holder.id().equals(selectedId)) {
                         ItemStack output = holder.value().assemble(input, level.registryAccess());
-                        ((AccessorRecipeMatrix<T, I>) this).rspolymorph$invokeSetResult(holder, output);
+                        // Sync currentRecipe FIRST so the next updateResult doesn't revert
+                        // to the old recipe via the `currentRecipe.matches(input)` fast path.
+                        accessor.rspolymorph$setCurrentRecipe(holder);
+                        accessor.rspolymorph$invokeSetResult(holder, output);
                         syncRecipesIfServer(level);
                         return;
                     }
@@ -97,12 +102,13 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
         RecipeHolder<T> polymorphRecipe = (RecipeHolder<T>) RsPolymorph.getRecipe((RecipeMatrix<?, ?>) (Object) this, level);
         if (polymorphRecipe != null) {
             // Early-exit if the result is already correct.
-            RecipeHolder<T> current = ((AccessorRecipeMatrix<T, I>) this).rspolymorph$getCurrentRecipe();
+            RecipeHolder<T> current = accessor.rspolymorph$getCurrentRecipe();
             if (current == null || !current.id().equals(polymorphRecipe.id())) {
                 I input = this.inputProvider.apply(this.matrix);
                 if (input != null) {
                     ItemStack output = polymorphRecipe.value().assemble(input, level.registryAccess());
-                    ((AccessorRecipeMatrix<T, I>) this).rspolymorph$invokeSetResult(polymorphRecipe, output);
+                    accessor.rspolymorph$setCurrentRecipe(polymorphRecipe);
+                    accessor.rspolymorph$invokeSetResult(polymorphRecipe, output);
                 }
             }
         }

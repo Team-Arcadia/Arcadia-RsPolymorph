@@ -1,9 +1,11 @@
 package com.vyrriox.rspolymorph.client;
 
+import com.illusivesoulworks.polymorph.api.PolymorphApi;
 import com.illusivesoulworks.polymorph.api.client.base.PersistentRecipesWidget;
 import com.illusivesoulworks.polymorph.api.client.widgets.children.SelectionWidget;
 import com.illusivesoulworks.polymorph.api.common.base.IRecipePair;
 import com.vyrriox.rspolymorph.IRsRecipeMatrix;
+import com.vyrriox.rspolymorph.RsGridRecipeData;
 import com.vyrriox.rspolymorph.RsPolymorph;
 import com.vyrriox.rspolymorph.mixin.AccessorAbstractGridContainerMenu;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
@@ -21,6 +23,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -89,9 +92,13 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
      * Strategy 1: scan menu slots for RecipeMatrixContainer and look up CONTAINER_TO_BE.
      *   Works for CraftingGrid where slots directly reference the BE's containers.
      *
-     * Strategy 2 (fallback): use the accessor on AbstractGridContainerMenu to get the
-     *   Grid field, which IS the BlockEntity on both client and server.
-     *   Works for PatternGrid where slots may be phantom/filter slots.
+     * Strategy 2: use the accessor on AbstractGridContainerMenu to get the Grid field.
+     *   Works on integrated server (singleplayer) where the Grid IS the BlockEntity.
+     *   On dedicated server clients the grid field is null (client constructor uses GridData).
+     *
+     * Strategy 3: find the nearest grid BlockEntity registered in CONTAINER_TO_BE.
+     *   Works on dedicated server clients where the client-side BE was constructed via
+     *   chunk sync and registered by our mixin, but the menu doesn't reference it.
      */
     private static BlockEntity findBlockEntity(AbstractContainerScreen<?> screen) {
         // Strategy 1: slot scan
@@ -102,10 +109,28 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
             }
         }
 
-        // Strategy 2: accessor on the menu's Grid field
+        // Strategy 2: accessor on the menu's Grid field (works in singleplayer)
         if (screen.getMenu() instanceof AccessorAbstractGridContainerMenu accessor) {
             Object grid = accessor.rspolymorph$getGrid();
             if (grid instanceof BlockEntity be) return be;
+        }
+
+        // Strategy 3: nearest grid BE from CONTAINER_TO_BE (dedicated server client)
+        net.minecraft.world.entity.player.Player player = Minecraft.getInstance().player;
+        if (player != null) {
+            BlockEntity closest = null;
+            double closestDist = Double.MAX_VALUE;
+            for (BlockEntity be : new java.util.HashSet<>(RsPolymorph.getMatrixMap().values())) {
+                if (be.getLevel() == player.level()) {
+                    double dist = be.getBlockPos().distSqr(player.blockPosition());
+                    if (dist < closestDist) {
+                        closestDist = dist;
+                        closest = be;
+                    }
+                }
+            }
+            // Only return if within reasonable interaction range
+            if (closest != null && closestDist <= 64) return closest;
         }
 
         return null;
@@ -363,17 +388,20 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
 
         MinecraftServer server = Minecraft.getInstance().getSingleplayerServer();
         if (server != null) {
+            // Singleplayer: persist the selection in RsGridRecipeData (mirrors the MP packet path)
+            // so the Polymorph fallback keeps working once the static selectedRecipeId is cleared.
             server.execute(() -> {
-                for (Map.Entry<RecipeMatrixContainer, RecipeMatrix<?, ?>> entry :
-                        RsPolymorph.getContainerToMatrixMap().entrySet()) {
-                    RecipeMatrixContainer container = entry.getKey();
-                    if (container.isEmpty()) continue;
-                    BlockEntity be = RsPolymorph.getBlockEntityForContainer(container);
-                    if (be == null) continue;
-                    if (target != null && be != target) continue;
-                    if (be.getLevel() != null && !be.getLevel().isClientSide()) {
-                        entry.getValue().updateResult(be.getLevel());
-                    }
+                if (target == null) return;
+                Level level = target.getLevel();
+                if (level == null || level.isClientSide()) return;
+
+                var recipeOpt = level.getRecipeManager().byKey(resourceLocation);
+                if (recipeOpt.isEmpty()) return;
+                RecipeHolder<?> recipe = recipeOpt.get();
+
+                var data = PolymorphApi.getInstance().getBlockEntityRecipeData(target);
+                if (data instanceof RsGridRecipeData rsData) {
+                    rsData.selectRecipe(recipe);
                 }
             });
         } else {
