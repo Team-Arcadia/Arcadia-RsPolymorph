@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Test Procedure — RS Polymorph v1.0.7</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 920px; margin: 2rem auto; padding: 0 1.5rem; color: #1b1f24; line-height: 1.55; }
+  h1 { border-bottom: 2px solid #0366d6; padding-bottom: .3rem; }
+  h2 { margin-top: 2rem; color: #0366d6; }
+  h3 { margin-top: 1.25rem; }
+  .meta { background: #f6f8fa; padding: .8rem 1rem; border-radius: 6px; font-size: .9rem; }
+  .case { border-left: 3px solid #0366d6; padding: .5rem 1rem; margin: .8rem 0; background: #fafbfc; border-radius: 0 4px 4px 0; }
+  .case label { display: block; margin: .25rem 0; }
+  .expected { color: #22863a; font-weight: 600; }
+  .warn { color: #b08800; }
+  .regression { background: #fff5f5; border-left-color: #d73a49; }
+  code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: .9em; }
+  hr.lang { border: none; border-top: 2px dashed #999; margin: 3rem 0; }
+</style>
+</head>
+<body>
+
+<h1>Test Procedure — RS Polymorph v1.0.7</h1>
+<div class="meta">
+  <strong>Date:</strong> 2026-04-20<br />
+  <strong>Target environment:</strong> Minecraft 1.21.1 · NeoForge 21.1.219 · Refined Storage 2 ≥ 2.0.2 · Polymorph ≥ 1.1.0<br />
+  <strong>Test scope:</strong> singleplayer (integrated server) + dedicated server (multiplayer).
+</div>
+
+<h2>1. Pattern Grid — recipe preview updates on selection (SP)</h2>
+<div class="case">
+  <p>Covers the core fix: <code>MixinRecipeMatrix</code> now syncs <code>currentRecipe</code>, and <code>selectRecipe</code> dispatches the packet on both SP and MP.</p>
+  <label><input type="checkbox" /> Place ingredients for a recipe with multiple outputs (e.g. 4 planks → stick vs. 4 planks → dye variants).</label>
+  <label><input type="checkbox" /> Click the Polymorph side button and select an alternative output.</label>
+  <label><input type="checkbox" /> <span class="expected">Expected:</span> the pattern output preview in the grid updates <em>immediately</em> to the chosen recipe's output — no need to print an intermediate pattern.</label>
+  <label><input type="checkbox" /> Print the pattern. <span class="expected">Expected:</span> the printed pattern matches the preview (both display and autocraft resolve to the selected recipe).</label>
+</div>
+
+<h2>2. Pattern Grid — recipe preview updates on selection (Dedicated server)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Connect to a dedicated server with both players and the mod installed.</label>
+  <label><input type="checkbox" /> Open a Pattern Grid, place ingredients, switch recipes via Polymorph.</label>
+  <label><input type="checkbox" /> <span class="expected">Expected:</span> same behavior as SP — preview updates immediately, printed pattern matches.</label>
+  <label><input type="checkbox" /> Disconnect and reconnect. <span class="expected">Expected:</span> no stale selection leaks across sessions.</label>
+</div>
+
+<h2>3. Crafting Grid — recipe selection (regression)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Open a Crafting Grid, place an ambiguous recipe.</label>
+  <label><input type="checkbox" /> Select an alternative via Polymorph, craft the item.</label>
+  <label><input type="checkbox" /> <span class="expected">Expected:</span> crafted output matches the selection. Both SP and dedicated server.</label>
+</div>
+
+<h2>4. Autocrafting resolution using tagged pattern</h2>
+<div class="case">
+  <label><input type="checkbox" /> Print a pattern for a non-default recipe variant.</label>
+  <label><input type="checkbox" /> Insert the pattern into a Pattern Provider connected to an RS2 network.</label>
+  <label><input type="checkbox" /> Request the selected output via the Grid's autocraft menu.</label>
+  <label><input type="checkbox" /> <span class="expected">Expected:</span> <code>PatternResolver</code> picks the selected recipe (via <code>SELECTED_RECIPE_COMPONENT</code>), not the default first-match.</label>
+</div>
+
+<h2>5. Polymorph side button presence</h2>
+<div class="case">
+  <label><input type="checkbox" /> Button appears on Crafting Grid screens.</label>
+  <label><input type="checkbox" /> Button appears on Pattern Grid screens.</label>
+  <label><input type="checkbox" /> Button disappears when an empty matrix is opened.</label>
+  <label><input type="checkbox" /> <span class="expected">Expected:</span> behavior consistent across SP and dedicated server.</label>
+</div>
+
+<h2>6. Server-only integrity (no client class leak)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Start a dedicated server with only this mod, Polymorph, RS2, NeoForge. Confirm successful startup — no <code>ClassNotFoundException</code> / <code>NoClassDefFoundError</code> referencing <code>net.minecraft.client.*</code>.</label>
+  <label><input type="checkbox" /> Check server log for the "RS Polymorph initializing..." line.</label>
+  <label><input type="checkbox" /> <span class="expected">Expected:</span> clean startup, no stack traces. Client-only mixins (<code>MixinAbstractBaseScreen</code>, <code>MixinSelectionWidget</code>) must not load.</label>
+</div>
+
+<h2>7. Known issues / regressions to watch</h2>
+<div class="case regression">
+  <label><input type="checkbox" /> <span class="warn">Watch:</span> rapid double-clicking the Polymorph button during a server lag spike — verify the preview doesn't desync.</label>
+  <label><input type="checkbox" /> <span class="warn">Watch:</span> placing the exact same ingredient set in two Pattern Grids side-by-side — selection must be isolated per BlockEntity.</label>
+  <label><input type="checkbox" /> <span class="warn">Watch:</span> opening a muted matrix (during an RS2 internal bulk update) — the override should still apply on the next non-muted <code>updateResult</code>.</label>
+</div>
+
+<hr class="lang" />
+
+<h1>Procédure de test — RS Polymorph v1.0.7 (Français)</h1>
+<div class="meta">
+  <strong>Date :</strong> 2026-04-20<br />
+  <strong>Environnement cible :</strong> Minecraft 1.21.1 · NeoForge 21.1.219 · Refined Storage 2 ≥ 2.0.2 · Polymorph ≥ 1.1.0<br />
+  <strong>Portée des tests :</strong> solo (serveur intégré) + serveur dédié (multijoueur).
+</div>
+
+<h2>1. Pattern Grid — l'aperçu se met à jour à la sélection (Solo)</h2>
+<div class="case">
+  <p>Couvre le correctif principal : <code>MixinRecipeMatrix</code> synchronise maintenant <code>currentRecipe</code>, et <code>selectRecipe</code> envoie le paquet en SP comme en MP.</p>
+  <label><input type="checkbox" /> Placer les ingrédients d'une recette à plusieurs sorties possibles (ex. 4 planches → bâton vs. 4 planches → variantes de teinture).</label>
+  <label><input type="checkbox" /> Cliquer le bouton latéral Polymorph et choisir une autre sortie.</label>
+  <label><input type="checkbox" /> <span class="expected">Attendu :</span> l'aperçu dans la grille se met à jour <em>immédiatement</em> avec la recette choisie — sans avoir à imprimer un patron intermédiaire.</label>
+  <label><input type="checkbox" /> Imprimer le patron. <span class="expected">Attendu :</span> le patron imprimé correspond à l'aperçu (affichage et autocraft résolvent la recette sélectionnée).</label>
+</div>
+
+<h2>2. Pattern Grid — l'aperçu se met à jour à la sélection (Serveur dédié)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Se connecter à un serveur dédié avec les deux côtés ayant le mod installé.</label>
+  <label><input type="checkbox" /> Ouvrir un Pattern Grid, placer des ingrédients, changer de recette via Polymorph.</label>
+  <label><input type="checkbox" /> <span class="expected">Attendu :</span> même comportement qu'en solo — aperçu immédiat, patron imprimé conforme.</label>
+  <label><input type="checkbox" /> Se déconnecter puis se reconnecter. <span class="expected">Attendu :</span> aucune sélection résiduelle entre sessions.</label>
+</div>
+
+<h2>3. Crafting Grid — sélection de recette (non-régression)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Ouvrir un Crafting Grid, placer une recette ambiguë.</label>
+  <label><input type="checkbox" /> Sélectionner une alternative via Polymorph, fabriquer l'objet.</label>
+  <label><input type="checkbox" /> <span class="expected">Attendu :</span> la sortie fabriquée correspond à la sélection. En solo comme en serveur dédié.</label>
+</div>
+
+<h2>4. Autocrafting avec patron tagué</h2>
+<div class="case">
+  <label><input type="checkbox" /> Imprimer un patron pour une variante non par défaut.</label>
+  <label><input type="checkbox" /> Insérer le patron dans un Pattern Provider connecté à un réseau RS2.</label>
+  <label><input type="checkbox" /> Demander la sortie sélectionnée via le menu d'autocraft du Grid.</label>
+  <label><input type="checkbox" /> <span class="expected">Attendu :</span> <code>PatternResolver</code> choisit la recette sélectionnée (via <code>SELECTED_RECIPE_COMPONENT</code>), pas le premier match par défaut.</label>
+</div>
+
+<h2>5. Présence du bouton latéral Polymorph</h2>
+<div class="case">
+  <label><input type="checkbox" /> Bouton visible sur les écrans Crafting Grid.</label>
+  <label><input type="checkbox" /> Bouton visible sur les écrans Pattern Grid.</label>
+  <label><input type="checkbox" /> Bouton disparaît avec une matrice vide.</label>
+  <label><input type="checkbox" /> <span class="expected">Attendu :</span> comportement identique en solo et en serveur dédié.</label>
+</div>
+
+<h2>6. Intégrité serveur uniquement (pas de fuite de classe client)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Démarrer un serveur dédié avec seulement ce mod, Polymorph, RS2, NeoForge. Confirmer le démarrage — pas de <code>ClassNotFoundException</code> / <code>NoClassDefFoundError</code> mentionnant <code>net.minecraft.client.*</code>.</label>
+  <label><input type="checkbox" /> Vérifier le log serveur pour la ligne "RS Polymorph initializing...".</label>
+  <label><input type="checkbox" /> <span class="expected">Attendu :</span> démarrage propre, aucune stacktrace. Les mixins client (<code>MixinAbstractBaseScreen</code>, <code>MixinSelectionWidget</code>) ne doivent pas se charger.</label>
+</div>
+
+<h2>7. Points de vigilance / régressions à surveiller</h2>
+<div class="case regression">
+  <label><input type="checkbox" /> <span class="warn">À surveiller :</span> double-clic rapide sur le bouton Polymorph pendant un lag serveur — l'aperçu ne doit pas désynchroniser.</label>
+  <label><input type="checkbox" /> <span class="warn">À surveiller :</span> deux Pattern Grids voisins avec les mêmes ingrédients — la sélection doit rester isolée par BlockEntity.</label>
+  <label><input type="checkbox" /> <span class="warn">À surveiller :</span> ouvrir une matrice mutée (pendant une mise à jour interne RS2) — l'override doit s'appliquer au prochain <code>updateResult</code> non-muté.</label>
+</div>
+
+</body>
+</html>

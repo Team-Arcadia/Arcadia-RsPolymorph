@@ -24,16 +24,25 @@ public final class ClientSetup {
             Slot resultSlot = PolymorphWidgets.getInstance().findResultSlot(gridScreen);
 
             // Fallback: scan the slot list for a result-like slot if Polymorph didn't find one.
+            // Uses instanceof checks to correctly match anonymous inner classes that extend
+            // DisabledSlot/FilterSlot (e.g. PatternGridContainerMenu$5 extends DisabledSlot).
             if (resultSlot == null) {
                 for (Slot slot : gridScreen.getMenu().slots) {
                     if (slot.isActive()) {
-                        String name = slot.getClass().getName();
-                        if (name.contains("ResultSlot")
-                                || name.contains("DisabledSlot")
-                                || name.contains("ResourceSlot")) {
+                        if (slot instanceof com.refinedmods.refinedstorage.common.support.containermenu.DisabledSlot
+                                || slot instanceof net.minecraft.world.inventory.ResultSlot) {
                             resultSlot = slot;
                             break;
                         }
+                    }
+                }
+            }
+            // Last resort: find any DisabledSlot even if inactive (e.g. crafting tab not yet synced).
+            if (resultSlot == null) {
+                for (Slot slot : gridScreen.getMenu().slots) {
+                    if (slot instanceof com.refinedmods.refinedstorage.common.support.containermenu.DisabledSlot) {
+                        resultSlot = slot;
+                        break;
                     }
                 }
             }
