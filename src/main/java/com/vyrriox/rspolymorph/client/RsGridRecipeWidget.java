@@ -1,11 +1,9 @@
 package com.vyrriox.rspolymorph.client;
 
-import com.illusivesoulworks.polymorph.api.PolymorphApi;
 import com.illusivesoulworks.polymorph.api.client.base.PersistentRecipesWidget;
 import com.illusivesoulworks.polymorph.api.client.widgets.children.SelectionWidget;
 import com.illusivesoulworks.polymorph.api.common.base.IRecipePair;
 import com.vyrriox.rspolymorph.IRsRecipeMatrix;
-import com.vyrriox.rspolymorph.RsGridRecipeData;
 import com.vyrriox.rspolymorph.RsPolymorph;
 import com.vyrriox.rspolymorph.mixin.AccessorAbstractGridContainerMenu;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
@@ -15,7 +13,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -23,7 +20,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -382,32 +378,16 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
     @Override
     public void selectRecipe(ResourceLocation resourceLocation) {
         popupIsOpen = false;
+        // Fast-path cache: MixinPatternGrid.createCraftingPattern reads this static
+        // before falling back to RsGridRecipeData.selections.
         RsPolymorph.setSelectedRecipeId(resourceLocation);
 
-        final BlockEntity target = activeBlockEntity;
-
-        MinecraftServer server = Minecraft.getInstance().getSingleplayerServer();
-        if (server != null) {
-            // Singleplayer: persist the selection in RsGridRecipeData (mirrors the MP packet path)
-            // so the Polymorph fallback keeps working once the static selectedRecipeId is cleared.
-            server.execute(() -> {
-                if (target == null) return;
-                Level level = target.getLevel();
-                if (level == null || level.isClientSide()) return;
-
-                var recipeOpt = level.getRecipeManager().byKey(resourceLocation);
-                if (recipeOpt.isEmpty()) return;
-                RecipeHolder<?> recipe = recipeOpt.get();
-
-                var data = PolymorphApi.getInstance().getBlockEntityRecipeData(target);
-                if (data instanceof RsGridRecipeData rsData) {
-                    rsData.selectRecipe(recipe);
-                }
-            });
-        } else {
-            PacketDistributor.sendToServer(
-                    new com.vyrriox.rspolymorph.network.SelectRecipePacket(resourceLocation));
-        }
+        // Uniform path for singleplayer and dedicated server. The packet travels over
+        // the local loopback channel in SP. The server handler finds the server-side
+        // BlockEntity via player.containerMenu — avoids the SP pitfall where the
+        // widget's activeBlockEntity is the client BE (wrong level).
+        PacketDistributor.sendToServer(
+                new com.vyrriox.rspolymorph.network.SelectRecipePacket(resourceLocation));
     }
 
     // -------------------------------------------------------------------------
