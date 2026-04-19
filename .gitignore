@@ -1,44 +1,57 @@
-### Gradle ###
-.gradle
+# ── Build output ─────────────────────────────────────────
+.gradle/
 build/
+bin/
+out/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/**/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-### IntelliJ IDEA ###
+# ── IDE ──────────────────────────────────────────────────
 .idea/
-*.iws
+.vscode/
 *.iml
 *.ipr
-out/
-!**/src/**/out/
-
-.run/
-
-### Eclipse ###
-.apt_generated
+*.iws
+*.code-workspace
 .classpath
+.project
+.settings/
+.apt_generated
 .eclipse/
 .factorypath
-.project
-.settings
 .springBeans
 .sts4-cache
-bin/
-!**/src/**/bin/
+.run/
 
-### VS Code ###
-.vscode/
-
-### Mac OS ###
-.DS_Store
-
-### Minecraft Modding ###
-run/
-!**/src/**/run/
-**/src/generated/**/.cache/
-repo/
-!**/src/**/repo/
-
+# ── Java ─────────────────────────────────────────────────
+*.class
 *.log
+*.ctxt
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
 
+# ── Minecraft / NeoForge ────────────────────────────────
+run/
+run_server/
+run_client/
+logs/
+crash-reports/
+debug/
+src/generated/
+repo/
+
+# ── OS ───────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Claude Code (local only) ────────────────────────────
 .claude/
+CLAUDE.md
+
+# ── Local dependencies (tracked — required for CI build) ─
+# libs/ is committed so GitHub Actions can compile against rs2 / polymorph jars
+
+# ── Release artifacts ───────────────────────────────────
+RELEASE_NOTES.md

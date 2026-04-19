@@ -1,0 +1,32 @@
+name: "Feature Request / Demande de fonctionnalite"
+description: "Suggest a new feature | Proposer une fonctionnalite"
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Feature Description / Description"
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: "Motivation / Why? / Pourquoi ?"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives Considered / Alternatives envisagees"
+  - type: dropdown
+    id: scope
+    attributes:
+      label: "Scope / Portee"
+      options:
+        - Crafting Grid integration
+        - Pattern Grid integration
+        - Autocrafting / PatternResolver
+        - Recipe selection UI
+        - Localization / i18n
+        - Compatibility (other mods)
+        - Other / Autre

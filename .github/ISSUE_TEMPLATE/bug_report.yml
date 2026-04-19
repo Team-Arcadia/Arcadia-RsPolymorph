@@ -1,0 +1,92 @@
+name: "Bug Report / Rapport de Bug"
+description: "Report a bug | Signaler un bug"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **English:** Thank you for reporting a bug! Please fill in the details below.
+        **Francais:** Merci de signaler un bug ! Veuillez remplir les details ci-dessous.
+
+  - type: input
+    id: version
+    attributes:
+      label: "Mod Version"
+      description: "Which version of RS Polymorph? | Quelle version ?"
+      placeholder: "1.0.7"
+    validations:
+      required: true
+
+  - type: input
+    id: mc-version
+    attributes:
+      label: "Minecraft / NeoForge Version"
+      placeholder: "1.21.1 / NeoForge 21.1.219"
+    validations:
+      required: true
+
+  - type: input
+    id: deps-version
+    attributes:
+      label: "Polymorph & RS2 Versions"
+      placeholder: "Polymorph 1.1.0 / Refined Storage 2.0.2"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: side
+    attributes:
+      label: "Side / Cote"
+      options:
+        - Server (Dedicated)
+        - Client (Singleplayer)
+        - Both / Les deux
+    validations:
+      required: true
+
+  - type: dropdown
+    id: grid
+    attributes:
+      label: "Affected Grid / Grille concernee"
+      options:
+        - Crafting Grid
+        - Pattern Grid
+        - Both / Les deux
+        - N/A
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Bug Description"
+      description: "Describe the bug | Decrivez le bug"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to Reproduce / Etapes pour reproduire"
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected Behavior / Comportement attendu"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Crash Log / Stacktrace"
+      render: text
+
+  - type: textarea
+    id: modlist
+    attributes:
+      label: "Other Mods Installed / Autres mods installes"
