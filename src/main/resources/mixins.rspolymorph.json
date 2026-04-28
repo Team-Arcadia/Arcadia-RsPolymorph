@@ -9,7 +9,8 @@
     "AccessorRecipeMatrix",
     "MixinCraftingGrid",
     "MixinPatternGrid",
-    "MixinPatternResolver"
+    "MixinPatternResolver",
+    "MixinRecipeManagerSafety"
   ],
   "client": [
     "MixinAbstractBaseScreen",

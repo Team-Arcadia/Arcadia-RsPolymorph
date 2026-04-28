@@ -11,7 +11,7 @@
 | Author | vyrriox |
 | Organization | Team Arcadia |
 | License | All Rights Reserved |
-| Version | 1.0.7 |
+| Version | 1.0.8 |
 | Dependencies | Polymorph >= 1.1.0, Refined Storage 2 >= 2.0.1 |
 
 ## 2. Git Workflow

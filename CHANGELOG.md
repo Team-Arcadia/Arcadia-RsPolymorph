@@ -4,6 +4,18 @@ All notable changes to RS Polymorph are documented here.
 
 ---
 
+## [1.0.8] - 2026-04-27
+
+### Fixed
+
+- **ClassCastException with Create encased fan + Polymorph 1.1.0** — Reported as a server-side crash in `AllFanProcessingTypes$BlastingType.process` (`SmeltingRecipe cannot be cast to SmokingRecipe`). Polymorph 1.1.0's `MixinRecipeManager` injects on `RecipeManager.getRecipeFor(RecipeType, RecipeInput, Level, RecipeHolder)` and, under specific cross-block-entity tick orderings, can resolve a stored recipe of a different `RecipeType` than the one requested. The caller (Create's blasting/smoking dual lookup) holds the result via Java type erasure and crashes at the first use-site cast. Added `MixinRecipeManagerSafety`, an `@Inject(at = RETURN, cancellable = true)` on the same overload that validates the runtime recipe type matches the requested `RecipeType`; on mismatch it falls back to a fresh `getRecipesFor(...).stream().findFirst()` lookup scoped to the requested type. Polymorph behavior is preserved on all matching-type paths.
+
+### Correctifs
+
+- **ClassCastException avec le ventilateur encastré de Create + Polymorph 1.1.0** — Signalé comme crash serveur dans `AllFanProcessingTypes$BlastingType.process` (`SmeltingRecipe cannot be cast to SmokingRecipe`). Le `MixinRecipeManager` de Polymorph 1.1.0 injecte sur `RecipeManager.getRecipeFor(RecipeType, RecipeInput, Level, RecipeHolder)` et, dans certains ordres de tick croisés entre block entities, peut renvoyer une recette enregistrée d'un `RecipeType` différent de celui demandé. L'appelant (la double recherche blasting/smoking de Create) reçoit le résultat via l'effacement de type Java et plante au premier cast utilisé. Ajout de `MixinRecipeManagerSafety`, un `@Inject(at = RETURN, cancellable = true)` sur la même surcharge qui vérifie que le type runtime de la recette correspond au `RecipeType` demandé ; en cas d'incohérence, il retombe sur une recherche `getRecipesFor(...).stream().findFirst()` scopée au type demandé. Le comportement de Polymorph est préservé sur tous les chemins où les types correspondent.
+
+---
+
 ## [1.0.7] - 2026-04-20
 
 ### Fixed

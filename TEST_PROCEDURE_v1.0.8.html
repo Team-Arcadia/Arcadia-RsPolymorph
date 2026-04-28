@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Test Procedure — RS Polymorph v1.0.8</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 920px; margin: 2rem auto; padding: 0 1.5rem; color: #1b1f24; line-height: 1.55; }
+  h1 { border-bottom: 2px solid #0366d6; padding-bottom: .3rem; }
+  h2 { margin-top: 2rem; color: #0366d6; }
+  h3 { margin-top: 1.25rem; }
+  .meta { background: #f6f8fa; padding: .8rem 1rem; border-radius: 6px; font-size: .9rem; }
+  .case { border-left: 3px solid #0366d6; padding: .5rem 1rem; margin: .8rem 0; background: #fafbfc; border-radius: 0 4px 4px 0; }
+  .case label { display: block; margin: .25rem 0; }
+  .expected { color: #22863a; font-weight: 600; }
+  .warn { color: #b08800; }
+  .regression { background: #fff5f5; border-left-color: #d73a49; }
+  code { background: #f0f0f0; padding: 1px 5px; border-radius: 3px; font-size: .9em; }
+  hr.lang { border: none; border-top: 2px dashed #999; margin: 3rem 0; }
+</style>
+</head>
+<body>
+
+<h1>Test Procedure — RS Polymorph v1.0.8</h1>
+<div class="meta">
+  <strong>Date:</strong> 2026-04-27<br />
+  <strong>Target environment:</strong> Minecraft 1.21.1 · NeoForge 21.1.219 · Refined Storage 2 ≥ 2.0.1 · Polymorph ≥ 1.1.0 · Create 6.0.10 (for the regression test below)<br />
+  <strong>Test scope:</strong> singleplayer (integrated server) + dedicated server (multiplayer).
+</div>
+
+<h2>1. Encased Fan crash regression (the 1.0.8 fix)</h2>
+<div class="case regression">
+  <p>Reproduction of the crash report: <code>SmeltingRecipe cannot be cast to SmokingRecipe</code> in <code>AllFanProcessingTypes$BlastingType.process</code>.</p>
+  <label><input type="checkbox" /> Install Create 6.0.10, Polymorph 1.1.0, Refined Storage 2 ≥ 2.0.1, RS Polymorph 1.0.8.</label>
+  <label><input type="checkbox" /> Place a Create encased fan with a fire/lava block below it (blasting setup).</label>
+  <label><input type="checkbox" /> Drop items that have both a smelting and a smoking recipe (e.g. raw chicken, beef).</label>
+  <label><input type="checkbox" /> Wait several seconds for the fan to process them. <span class="expected">Expected:</span> the server does NOT crash. The items are processed normally.</label>
+  <label><input type="checkbox" /> Check the server log for any "RecipeType mismatch" warnings or stacktraces — none should appear.</label>
+  <label><input type="checkbox" /> Repeat with several different blasting/smoking-eligible items in succession.</label>
+</div>
+
+<h2>2. Pattern Grid — recipe selection (1.0.7 regression check)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Place ingredients for a recipe with multiple outputs in a Pattern Grid.</label>
+  <label><input type="checkbox" /> Click the Polymorph side button and select an alternative output.</label>
+  <label><input type="checkbox" /> <span class="expected">Expected:</span> preview updates immediately, printed pattern matches the selection.</label>
+</div>
+
+<h2>3. Crafting Grid — recipe selection (1.0.7 regression check)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Open a Crafting Grid, place an ambiguous recipe, select an alternative via Polymorph.</label>
+  <label><input type="checkbox" /> Craft the item. <span class="expected">Expected:</span> output matches the selection.</label>
+</div>
+
+<h2>4. Autocrafting — tagged pattern resolution (regression check)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Print a pattern for a non-default recipe variant.</label>
+  <label><input type="checkbox" /> Insert into a Pattern Provider and request the autocraft. <span class="expected">Expected:</span> the selected recipe resolves correctly.</label>
+</div>
+
+<h2>5. Server-only integrity (regression check)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Start a dedicated server with this mod, Polymorph, RS2, NeoForge (no Create). <span class="expected">Expected:</span> clean startup, no <code>ClassNotFoundException</code> / <code>NoClassDefFoundError</code> mentioning <code>net.minecraft.client.*</code>.</label>
+  <label><input type="checkbox" /> Confirm the new <code>MixinRecipeManagerSafety</code> applies without warnings (no "method not found" / "redirect failed" lines).</label>
+</div>
+
+<h2>6. Cross-mod recipe sanity</h2>
+<div class="case">
+  <label><input type="checkbox" /> Smelt items in a regular furnace. <span class="expected">Expected:</span> normal smelting, no behavior change.</label>
+  <label><input type="checkbox" /> Smoke items in a smoker. <span class="expected">Expected:</span> normal smoking, no behavior change.</label>
+  <label><input type="checkbox" /> Blast items in a blast furnace. <span class="expected">Expected:</span> normal blasting, no behavior change.</label>
+  <label><input type="checkbox" /> Use a Create mechanical mixer / press / blaze burner near the encased fan setup. <span class="expected">Expected:</span> all Create processing works normally.</label>
+</div>
+
+<h2>7. Known issues / regressions to watch</h2>
+<div class="case regression">
+  <label><input type="checkbox" /> <span class="warn">Watch:</span> Polymorph upstream may release a fix for the cross-type leak. If so, our safety net becomes dead code (still safe to keep — its checks are O(1) when the type matches).</label>
+  <label><input type="checkbox" /> <span class="warn">Watch:</span> if a third mod also injects on <code>RecipeManager.getRecipeFor</code> with a higher Mixin priority, our @Inject at RETURN may not see its return value — verify with a debug log if a similar crash resurfaces.</label>
+</div>
+
+<hr class="lang" />
+
+<h1>Procédure de test — RS Polymorph v1.0.8 (Français)</h1>
+<div class="meta">
+  <strong>Date :</strong> 2026-04-27<br />
+  <strong>Environnement cible :</strong> Minecraft 1.21.1 · NeoForge 21.1.219 · Refined Storage 2 ≥ 2.0.1 · Polymorph ≥ 1.1.0 · Create 6.0.10 (pour le test de régression ci-dessous)<br />
+  <strong>Portée des tests :</strong> solo (serveur intégré) + serveur dédié (multijoueur).
+</div>
+
+<h2>1. Régression du crash Encased Fan (le correctif 1.0.8)</h2>
+<div class="case regression">
+  <p>Reproduction du crash signalé : <code>SmeltingRecipe cannot be cast to SmokingRecipe</code> dans <code>AllFanProcessingTypes$BlastingType.process</code>.</p>
+  <label><input type="checkbox" /> Installer Create 6.0.10, Polymorph 1.1.0, Refined Storage 2 ≥ 2.0.1, RS Polymorph 1.0.8.</label>
+  <label><input type="checkbox" /> Poser un ventilateur encastré Create avec un bloc de feu/lave en dessous (setup blasting).</label>
+  <label><input type="checkbox" /> Jeter des items qui ont à la fois une recette de fusion (smelting) et de fumage (smoking) — ex. poulet/viande crue.</label>
+  <label><input type="checkbox" /> Attendre plusieurs secondes que le ventilateur traite. <span class="expected">Attendu :</span> le serveur NE plante PAS. Les items sont traités normalement.</label>
+  <label><input type="checkbox" /> Vérifier le log serveur pour d'éventuels warnings "RecipeType mismatch" ou stacktraces — il ne doit y en avoir aucun.</label>
+  <label><input type="checkbox" /> Répéter avec plusieurs items éligibles blasting/smoking à la suite.</label>
+</div>
+
+<h2>2. Pattern Grid — sélection de recette (régression 1.0.7)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Placer des ingrédients pour une recette à plusieurs sorties dans un Pattern Grid.</label>
+  <label><input type="checkbox" /> Cliquer le bouton latéral Polymorph et choisir une sortie alternative.</label>
+  <label><input type="checkbox" /> <span class="expected">Attendu :</span> l'aperçu se met à jour immédiatement, le patron imprimé correspond à la sélection.</label>
+</div>
+
+<h2>3. Crafting Grid — sélection de recette (régression 1.0.7)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Ouvrir un Crafting Grid, placer une recette ambiguë, choisir une alternative via Polymorph.</label>
+  <label><input type="checkbox" /> Fabriquer l'objet. <span class="expected">Attendu :</span> la sortie correspond à la sélection.</label>
+</div>
+
+<h2>4. Autocraft — résolution du patron tagué (régression)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Imprimer un patron pour une variante non par défaut.</label>
+  <label><input type="checkbox" /> Insérer dans un Pattern Provider et demander l'autocraft. <span class="expected">Attendu :</span> la recette sélectionnée est résolue correctement.</label>
+</div>
+
+<h2>5. Intégrité serveur (régression)</h2>
+<div class="case">
+  <label><input type="checkbox" /> Démarrer un serveur dédié avec ce mod, Polymorph, RS2, NeoForge (sans Create). <span class="expected">Attendu :</span> démarrage propre, pas de <code>ClassNotFoundException</code> / <code>NoClassDefFoundError</code> mentionnant <code>net.minecraft.client.*</code>.</label>
+  <label><input type="checkbox" /> Confirmer que <code>MixinRecipeManagerSafety</code> s'applique sans warning (pas de "method not found" / "redirect failed").</label>
+</div>
+
+<h2>6. Recettes cross-mod — vérification de sanité</h2>
+<div class="case">
+  <label><input type="checkbox" /> Cuire des items dans un four classique. <span class="expected">Attendu :</span> fusion normale, aucun changement.</label>
+  <label><input type="checkbox" /> Fumer des items dans un fumoir. <span class="expected">Attendu :</span> fumage normal, aucun changement.</label>
+  <label><input type="checkbox" /> Cuire au haut-fourneau. <span class="expected">Attendu :</span> blasting normal, aucun changement.</label>
+  <label><input type="checkbox" /> Utiliser un mixeur mécanique / presse / brûleur Create proche du setup ventilateur. <span class="expected">Attendu :</span> tous les processings Create fonctionnent normalement.</label>
+</div>
+
+<h2>7. Points de vigilance / régressions à surveiller</h2>
+<div class="case regression">
+  <label><input type="checkbox" /> <span class="warn">À surveiller :</span> Polymorph en amont pourra publier un correctif pour le leak cross-type. Si oui, notre filet de sécurité devient inutile (peut être conservé sans risque — les vérifs sont en O(1) quand le type correspond).</label>
+  <label><input type="checkbox" /> <span class="warn">À surveiller :</span> si un troisième mod injecte aussi sur <code>RecipeManager.getRecipeFor</code> avec une priorité Mixin plus élevée, notre @Inject at RETURN pourrait ne pas voir sa valeur de retour — vérifier via un log debug si un crash similaire réapparaît.</label>
+</div>
+
+</body>
+</html>
