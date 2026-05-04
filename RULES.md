@@ -11,7 +11,7 @@
 | Author | vyrriox |
 | Organization | Team Arcadia |
 | License | All Rights Reserved |
-| Version | 1.0.8 |
+| Version | 1.0.9 |
 | Dependencies | Polymorph >= 1.1.0, Refined Storage 2 >= 2.0.1 |
 
 ## 2. Git Workflow
@@ -45,6 +45,7 @@
   - Polymorph ↔ RS2 bridge: `RsGridRecipeData` persists the user's selection per `RecipeType` in the Polymorph `IBlockEntityRecipeData` capability.
   - `MixinRecipeMatrix` overrides RS2's result post-resolve and MUST sync `currentRecipe` via the accessor, otherwise RS2's `currentRecipe.matches(input)` fast path will revert the preview.
   - Selection packet: `SelectRecipePacket` is the unified client→server path for both SP (local loopback) and MP. Never schedule `matrix.updateResult` with a client-side BlockEntity — always resolve the server BE via `player.containerMenu`.
+  - `IRecipeDataFactory` registration must guard with `instanceof <ExpectedBE>` and return `null` for everything else. Polymorph's `createBlockEntityRecipeData` iterates a flat list and accepts the first non-null factory — a class-agnostic factory leaks `RsGridRecipeData` onto every BE in the world and pollutes Polymorph's input-keyed `RecipeCache` across recipe types (caused issue #1, the Create encased fan `ClassCastException`).
 - **Do NOT:**
   - Import `net.minecraft.client.*` or `com.mojang.blaze3d.*` from any common-side class or mixin
   - Use class-name string matching to detect slot types — use `instanceof` (anonymous inner classes like `PatternGridContainerMenu$5` break `contains("DisabledSlot")`)

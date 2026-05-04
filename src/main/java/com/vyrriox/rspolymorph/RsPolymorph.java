@@ -93,12 +93,22 @@ public class RsPolymorph {
         LOGGER.info("RS Polymorph initializing...");
 
         event.enqueueWork(() -> {
+            // IMPORTANT: Polymorph's createBlockEntityRecipeData iterates a flat
+            // List<IRecipeDataFactory> and accepts the first factory that returns non-null
+            // — the Class<?> argument we pass is metadata only, not enforced. A factory
+            // that always returns a value would attach RsGridRecipeData to EVERY block
+            // entity in the world (Create encased fans, hoppers, anything). That, combined
+            // with Polymorph's per-data RecipeCache being keyed by input alone (not by
+            // RecipeType), causes cross-type recipe leaks: a SMOKING query primes the
+            // cache, the next SMELTING query with the same input hits the cache and
+            // returns SMOKING recipes, and the caller crashes on ClassCastException.
+            // Filter by runtime class so non-RS2 BEs fall through to the next factory.
             PolymorphApi.getInstance().registerBlockEntity(
                     CraftingGridBlockEntity.class,
-                    be -> new RsGridRecipeData(be));
+                    be -> be instanceof CraftingGridBlockEntity ? new RsGridRecipeData(be) : null);
             PolymorphApi.getInstance().registerBlockEntity(
                     PatternGridBlockEntity.class,
-                    be -> new RsGridRecipeData(be));
+                    be -> be instanceof PatternGridBlockEntity ? new RsGridRecipeData(be) : null);
         });
 
         // Client widget registration lives in a separate class to keep all client-only

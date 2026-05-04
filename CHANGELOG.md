@@ -4,6 +4,18 @@ All notable changes to RS Polymorph are documented here.
 
 ---
 
+## [1.0.9] - 2026-05-05
+
+### Fixed
+
+- **Root cause of the Create encased fan crash** (issue #1, reported by @djsime1) — Polymorph's `PolymorphApi.registerBlockEntity(Class, IRecipeDataFactory)` records the class as metadata only and stores every factory in a flat list; `createBlockEntityRecipeData(be)` then iterates that list and returns the first factory's non-null result, regardless of the BE's actual class. Our factories `be -> new RsGridRecipeData(be)` always returned non-null, so Polymorph attached `RsGridRecipeData` to every block entity in the world (encased fans, hoppers, etc.). Combined with Polymorph's `RecipeCache` being keyed by input alone — not by `RecipeType` — a SMOKING lookup primed the cache and the next SMELTING query with the same input returned SMOKING recipes, propagating a wrong-typed `RecipeHolder` until Create's `BlastingType.process` blew up on the implicit cast. Factories now guard with `instanceof` so non-RS2 block entities fall through to the next factory and never receive our data. The 1.0.8 `MixinRecipeManagerSafety` is kept as a defense-in-depth backstop.
+
+### Correctifs
+
+- **Cause racine du crash du ventilateur encastré Create** (issue #1, signalée par @djsime1) — `PolymorphApi.registerBlockEntity(Class, IRecipeDataFactory)` enregistre la classe comme simple métadonnée et stocke toutes les factories dans une liste plate ; `createBlockEntityRecipeData(be)` itère cette liste et renvoie le premier non-null, sans vérifier la classe réelle du BE. Nos factories `be -> new RsGridRecipeData(be)` renvoyaient toujours non-null, donc Polymorph attachait `RsGridRecipeData` à **tous** les block entities (ventilateurs Create, entonnoirs, etc.). Comme le `RecipeCache` interne de Polymorph est indexé par input seul — pas par `RecipeType` — une requête SMOKING amorçait le cache, et la requête SMELTING suivante avec le même input renvoyait des recettes SMOKING ; un `RecipeHolder` du mauvais type se propageait jusqu'à `BlastingType.process` de Create qui plantait sur le cast implicite. Les factories sont maintenant protégées par un `instanceof` pour que les block entities non-RS2 passent à la factory suivante et ne reçoivent jamais nos données. Le `MixinRecipeManagerSafety` ajouté en 1.0.8 reste en place comme deuxième ligne de défense.
+
+---
+
 ## [1.0.8] - 2026-04-27
 
 ### Fixed

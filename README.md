@@ -31,7 +31,7 @@ This mod does not add any commands — it integrates transparently with the Refi
 
 1. Install [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) in your `mods/` folder
 2. Install [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2) in your `mods/` folder
-3. Place `rspolymorph-1.0.8.jar` in your `mods/` folder
+3. Place `rspolymorph-1.0.9.jar` in your `mods/` folder
 4. Start the game (singleplayer) or server
 
 ## Usage
@@ -92,7 +92,7 @@ Ce mod n'ajoute aucune commande — il s'intègre de manière transparente à l'
 
 1. Installez [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) dans votre dossier `mods/`
 2. Installez [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2) dans votre dossier `mods/`
-3. Placez `rspolymorph-1.0.8.jar` dans votre dossier `mods/`
+3. Placez `rspolymorph-1.0.9.jar` dans votre dossier `mods/`
 4. Démarrez le jeu (solo) ou le serveur
 
 ## Utilisation
