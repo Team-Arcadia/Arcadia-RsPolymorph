@@ -350,7 +350,7 @@
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><img src="https://img.shields.io/badge/Mods-490+-FFA500?style=flat-square" alt="490+ mods">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Quests-3000+-9C27B0?style=flat-square" alt="3000+ quests">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Servers-5_Live-2ea44f?style=flat-square" alt="5 live servers">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Languages-EN%20%2F%20FR-2196F3?style=flat-square" alt="EN / FR">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Hours_to_endgame-150–300-FFC107?style=flat-square" alt="Playtime"></p>
+<p style="text-align: center;"><img src="https://img.shields.io/badge/Mods-490+-FFA500?style=flat-square" alt="490+ mods">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Quests-3000+-9C27B0?style=flat-square" alt="3000+ quests">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Servers-5_Live-2ea44f?style=flat-square" alt="5 live servers">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Languages-EN%20%2F%20FR-2196F3?style=flat-square" alt="EN / FR">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Hours_to_endgame-150--300-FFC107?style=flat-square" alt="Playtime"></p>
 
 <p>&nbsp;</p>
 
