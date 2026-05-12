@@ -10,7 +10,7 @@
 | Tech Stack | Java 21, NeoForge 1.21.1, Gradle 8.x |
 | Author | vyrriox |
 | Organization | Team Arcadia |
-| License | GPL-3.0-or-later (with attribution requirement to "vyrriox / Team Arcadia") |
+| License | LGPL-3.0-or-later (matches upstream Polymorph; with attribution requirement to "vyrriox / Team Arcadia") |
 | Version | 1.0.9 |
 | Dependencies | Polymorph >= 1.1.0, Refined Storage 2 >= 2.0.1 |
 

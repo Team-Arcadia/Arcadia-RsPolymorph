@@ -1,6 +1,6 @@
 # RS Polymorph
 
-[Consult the full CurseForge description](./CURSEFORGE.md)
+[Consult the full CurseForge description](./CURSEFORGE_PAGE.md)
 
 RS Polymorph is a NeoForge Minecraft mod that adds [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) compatibility for [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2). When several recipes match the same ingredients, the Polymorph side button lets you pick which one the Crafting Grid crafts and which one the Pattern Grid prints for autocrafting.
 
@@ -53,7 +53,7 @@ This mod does not add any commands — it integrates transparently with the Refi
 
 Author: vyrriox
 Organization: Team Arcadia
-License: GPL-3.0-or-later — see [LICENSE](LICENSE). Forks and derivative works are welcome under the same license, provided you credit "vyrriox / Team Arcadia" and link back to the upstream repository.
+License: LGPL-3.0-or-later — see [LICENSE](LICENSE). Forks and derivative works are welcome under the same license, provided you credit "vyrriox / Team Arcadia" and link back to the upstream repository. Same license as upstream Polymorph.
 Discord: [discord.gg/xjF8Rtzyd4](https://discord.gg/xjF8Rtzyd4)
 Website: [arcadia-echoes-of-power.fr](https://arcadia-echoes-of-power.fr/)
 
@@ -61,7 +61,7 @@ Website: [arcadia-echoes-of-power.fr](https://arcadia-echoes-of-power.fr/)
 
 # RS Polymorph (Version Française)
 
-[Consulter la description CurseForge complète](./CURSEFORGE.md)
+[Consulter la description CurseForge complète](./CURSEFORGE_PAGE.md)
 
 RS Polymorph est un mod NeoForge pour Minecraft qui ajoute la compatibilité [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) pour [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2). Lorsque plusieurs recettes correspondent aux mêmes ingrédients, le bouton latéral Polymorph vous laisse choisir laquelle la Crafting Grid fabrique et laquelle la Pattern Grid imprime pour l'autocraft.
 
@@ -114,6 +114,6 @@ Ce mod n'ajoute aucune commande — il s'intègre de manière transparente à l'
 
 Auteur : vyrriox
 Organisation : Team Arcadia
-Licence : GPL-3.0-or-later — voir [LICENSE](LICENSE). Les forks et travaux dérivés sont les bienvenus sous la même licence, à condition de créditer « vyrriox / Team Arcadia » et de pointer vers le dépôt d'origine.
+Licence : LGPL-3.0-or-later — voir [LICENSE](LICENSE). Les forks et travaux dérivés sont les bienvenus sous la même licence, à condition de créditer « vyrriox / Team Arcadia » et de pointer vers le dépôt d'origine. Même licence que Polymorph en amont.
 Discord : [discord.gg/xjF8Rtzyd4](https://discord.gg/xjF8Rtzyd4)
 Site web : [arcadia-echoes-of-power.fr](https://arcadia-echoes-of-power.fr/)
