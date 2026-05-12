@@ -180,6 +180,21 @@
 
 <hr style="border: 1px solid #FFA500;">
 
+<p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>🤝 Official Hosting Partner</strong></span></p>
+<p style="text-align: center;">Want to run your own modded server with RS Polymorph and Refined Storage 2? Our official US/international partner offers high-performance Minecraft hosting optimized for modpacks.</p>
+
+<p>&nbsp;</p>
+
+<p style="text-align: center;"><a href="https://wabbanode.com/partner/vyrriox" target="_blank" rel="nofollow noopener"><img style="border: 2px solid #FFA500;" src="https://arcadia-echoes-of-power.fr/storage/curseforge/bannerwab.png" alt="WabbaNode — Official Hosting Partner" width="800"></a></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align: center;"><a href="https://wabbanode.com/partner/vyrriox" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Host_with-WabbaNode-FFA500?style=for-the-badge&amp;logo=server&amp;logoColor=white" alt="Host with WabbaNode"></a></p>
+
+<p>&nbsp;</p>
+
+<hr style="border: 1px solid #FFA500;">
+
 <p>&nbsp;</p>
 
 <h1 style="text-align: center;"><span style="color: #0055a4;">🇫🇷 Description (Français) 🇫🇷</span></h1>
@@ -305,6 +320,21 @@
 <p style="text-align: center;">RS Polymorph est entièrement open source sous LGPL-3.0-or-later. Les pull requests sont les bienvenues.</p>
 
 <p style="text-align: center;"><a href="https://github.com/Team-Arcadia/Arcadia-RsPolymorph" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Star_sur-GitHub-FFA500?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="Star sur GitHub"></a>&nbsp; &nbsp;<a href="https://github.com/Team-Arcadia/Arcadia-RsPolymorph/blob/main/.github/CONTRIBUTING.md" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Guide_de_contribution-Lire-2196F3?style=for-the-badge&amp;logo=readme&amp;logoColor=white" alt="Contribution"></a>&nbsp; &nbsp;<a href="https://github.com/Team-Arcadia/Arcadia-RsPolymorph/blob/main/CHANGELOG.md" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Changelog-Parchemin-orange?style=for-the-badge&amp;logo=readme&amp;logoColor=white" alt="Changelog"></a></p>
+
+<p>&nbsp;</p>
+
+<hr style="border: 1px solid #FFA500;">
+
+<p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>🤝 Hébergeur Officiel Partenaire</strong></span></p>
+<p style="text-align: center;">Vous souhaitez héberger votre propre serveur moddé avec RS Polymorph et Refined Storage 2 ? Notre partenaire officiel français propose un hébergement Minecraft haute performance optimisé pour les modpacks.</p>
+
+<p>&nbsp;</p>
+
+<p style="text-align: center;"><a href="https://lordhosting.fr/gaming/serveur-minecraft?ref=arcadia" target="_blank" rel="nofollow noopener"><img style="border: 2px solid #FFA500;" src="https://arcadia-echoes-of-power.fr/storage/curseforge/bannerlord.png" alt="LordHosting — Hébergeur Officiel Partenaire" width="800"></a></p>
+
+<p>&nbsp;</p>
+
+<p style="text-align: center;"><a href="https://lordhosting.fr/gaming/serveur-minecraft?ref=arcadia" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Heberger_avec-LordHosting-FFA500?style=for-the-badge&amp;logo=server&amp;logoColor=white" alt="Héberger avec LordHosting"></a></p>
 
 <p>&nbsp;</p>
 
