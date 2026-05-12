@@ -53,7 +53,7 @@ This mod does not add any commands — it integrates transparently with the Refi
 
 Author: vyrriox
 Organization: Team Arcadia
-License: All Rights Reserved
+License: GPL-3.0-or-later — see [LICENSE](LICENSE). Forks and derivative works are welcome under the same license, provided you credit "vyrriox / Team Arcadia" and link back to the upstream repository.
 Discord: [discord.gg/xjF8Rtzyd4](https://discord.gg/xjF8Rtzyd4)
 Website: [arcadia-echoes-of-power.fr](https://arcadia-echoes-of-power.fr/)
 
@@ -114,6 +114,6 @@ Ce mod n'ajoute aucune commande — il s'intègre de manière transparente à l'
 
 Auteur : vyrriox
 Organisation : Team Arcadia
-Licence : Tous droits réservés
+Licence : GPL-3.0-or-later — voir [LICENSE](LICENSE). Les forks et travaux dérivés sont les bienvenus sous la même licence, à condition de créditer « vyrriox / Team Arcadia » et de pointer vers le dépôt d'origine.
 Discord : [discord.gg/xjF8Rtzyd4](https://discord.gg/xjF8Rtzyd4)
 Site web : [arcadia-echoes-of-power.fr](https://arcadia-echoes-of-power.fr/)
