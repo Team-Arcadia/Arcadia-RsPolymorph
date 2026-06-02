@@ -3,7 +3,10 @@ package com.vyrriox.rspolymorph.network;
 import com.illusivesoulworks.polymorph.api.PolymorphApi;
 import com.vyrriox.rspolymorph.RsGridRecipeData;
 import com.vyrriox.rspolymorph.RsPolymorph;
+import com.refinedmods.refinedstorage.common.grid.CraftingGrid;
+import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrixContainer;
+import com.vyrriox.rspolymorph.mixin.AccessorAbstractCraftingGridContainerMenu;
 import com.vyrriox.rspolymorph.mixin.AccessorAbstractGridContainerMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -19,7 +22,6 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -71,27 +73,91 @@ public record SelectRecipePacket(ResourceLocation recipeId) implements CustomPac
             RecipeHolder<?> recipe = recipeOpt.get();
 
             BlockEntity targetBe = findBlockEntity(player.containerMenu);
-            if (targetBe == null) {
-                LOGGER.warn("[RS Polymorph] Could not find target BlockEntity for recipe selection (player: {})", player.getName().getString());
+            if (targetBe != null) {
+                var data = PolymorphApi.getInstance().getBlockEntityRecipeData(targetBe);
+                if (data instanceof RsGridRecipeData rsData) {
+                    // Set the static selectedRecipeId so MixinPatternGrid.createCraftingPattern()
+                    // can tag the pattern with the chosen recipe on the server side.
+                    RsPolymorph.setSelectedRecipeId(packet.recipeId());
+                    rsData.selectRecipe(recipe);
+                    RsPolymorph.setSelectedRecipeId(null);
+                }
                 return;
             }
 
-            var data = PolymorphApi.getInstance().getBlockEntityRecipeData(targetBe);
-            if (data instanceof RsGridRecipeData rsData) {
-                // Set the static selectedRecipeId so MixinPatternGrid.createCraftingPattern()
-                // can tag the pattern with the chosen recipe on the server side.
-                RsPolymorph.setSelectedRecipeId(packet.recipeId());
-                rsData.selectRecipe(recipe);
-                RsPolymorph.setSelectedRecipeId(null);
+            // No BlockEntity — this is a BlockEntity-free grid (e.g. the Quartz Arsenal
+            // wireless crafting grid). Drive the selection through its RecipeMatrix directly.
+            if (applyToBlockEntityFreeGrid(player, packet.recipeId())) {
+                return;
             }
+
+            LOGGER.warn("[RS Polymorph] Could not find target grid for recipe selection (player: {})", player.getName().getString());
         });
+    }
+
+    /**
+     * Applies the selection to a crafting grid that has no BlockEntity.
+     *
+     * Resolves the open menu's {@link com.refinedmods.refinedstorage.common.grid.CraftingGrid}
+     * via the menu accessor, looks up the {@link RecipeMatrix} that wraps its crafting matrix
+     * container (registered by MixinRecipeMatrix on construction), persists the choice in the
+     * per-matrix selection store so it survives later updateResult calls, then drives
+     * {@code updateResult}. The static selectedRecipeId provides the fast path for this first
+     * apply; the per-matrix store keeps it sticky afterwards.
+     *
+     * The override itself is applied by MixinRecipeMatrix at updateResult RETURN, which writes
+     * the chosen output into the grid's ResultContainer via setResult. The result reaches the
+     * client through the menu's crafting result slot (added over craftingGrid.getCraftingResult()
+     * in the AbstractCraftingGridContainerMenu constructor) on the next broadcastChanges() tick —
+     * the same path the wired grid uses. RecipeMatrix.setResult does NOT run the matrix listener,
+     * so we do not rely on it for the client sync.
+     *
+     * @return true if a matrix was found and updated; false if this menu is not a crafting grid
+     *         or its matrix is not registered.
+     */
+    private static boolean applyToBlockEntityFreeGrid(ServerPlayer player, ResourceLocation recipeId) {
+        AbstractContainerMenu menu = player.containerMenu;
+        if (!(menu instanceof AccessorAbstractCraftingGridContainerMenu craftingMenu)) return false;
+
+        CraftingGrid craftingGrid = craftingMenu.rspolymorph$getCraftingGrid();
+        if (craftingGrid == null) return false;
+
+        RecipeMatrixContainer container = craftingGrid.getCraftingMatrix();
+        if (container == null) return false;
+
+        RecipeMatrix<?, ?> matrix = RsPolymorph.getContainerToMatrixMap().get(container);
+        if (matrix == null) return false;
+
+        Level level = player.level();
+
+        // Persist for subsequent updateResult calls (input changes re-apply via MixinRecipeMatrix).
+        RsPolymorph.setMatrixSelection(matrix, recipeId);
+
+        // Fast path for this apply; MixinRecipeMatrix reads the static during updateResult and
+        // writes the chosen output into the result slot, which broadcastChanges syncs to the client.
+        RsPolymorph.setSelectedRecipeId(recipeId);
+        try {
+            matrix.updateResult(level);
+        } finally {
+            RsPolymorph.setSelectedRecipeId(null);
+        }
+        return true;
     }
 
     /**
      * Finds the BlockEntity backing the player's open grid menu.
      *
-     * Strategy 1: scan menu slots for RecipeMatrixContainer → CONTAINER_TO_BE lookup.
-     * Strategy 2: accessor on AbstractGridContainerMenu to get the Grid field directly.
+     * Both strategies are scoped to the OPEN menu, so the selection can only ever be applied
+     * to the grid the player is actually looking at. (A previous global reverse-scan fallback
+     * was removed: it returned the first registered grid with Polymorph data regardless of which
+     * menu was open, which mis-routed wireless-grid selections onto an unrelated wired grid and
+     * corrupted it.)
+     *
+     * Strategy 1: scan menu slots for RecipeMatrixContainer → CONTAINER_TO_BE lookup (CraftingGrid).
+     * Strategy 2: accessor on AbstractGridContainerMenu to get the Grid field directly (PatternGrid).
+     *
+     * Returns null for grids with no BlockEntity (e.g. the wireless crafting grid); the caller
+     * then routes through {@link #applyToBlockEntityFreeGrid}.
      */
     private static BlockEntity findBlockEntity(AbstractContainerMenu menu) {
         // Strategy 1: slot scan (works for CraftingGrid)
@@ -105,14 +171,6 @@ public record SelectRecipePacket(ResourceLocation recipeId) implements CustomPac
         if (menu instanceof AccessorAbstractGridContainerMenu accessor) {
             Object grid = accessor.rspolymorph$getGrid();
             if (grid instanceof BlockEntity be) return be;
-        }
-
-        // Strategy 3: reverse-lookup all registered containers for a matching BE
-        for (Map.Entry<RecipeMatrixContainer, BlockEntity> entry : RsPolymorph.getMatrixMap().entrySet()) {
-            BlockEntity be = entry.getValue();
-            if (be != null && PolymorphApi.getInstance().getBlockEntityRecipeData(be) != null) {
-                return be;
-            }
         }
 
         return null;

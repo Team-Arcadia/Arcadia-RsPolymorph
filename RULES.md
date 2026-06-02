@@ -11,8 +11,9 @@
 | Author | vyrriox |
 | Organization | Team Arcadia |
 | License | LGPL-3.0-or-later (matches upstream Polymorph; with attribution requirement to "vyrriox / Team Arcadia") |
-| Version | 1.0.9 |
+| Version | 1.1.0 |
 | Dependencies | Polymorph >= 1.1.0, Refined Storage 2 >= 2.0.1 |
+| Optional compat | Refined Storage - Quartz Arsenal >= 1.0.7 (wireless crafting grid) |
 
 ## 2. Git Workflow
 

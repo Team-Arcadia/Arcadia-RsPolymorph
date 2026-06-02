@@ -4,6 +4,42 @@ All notable changes to RS Polymorph are documented here.
 
 ---
 
+## [1.1.0] - 2026-06-02
+
+### Added
+
+- **Wireless Crafting Grid compatibility** (issue #2) — Polymorph recipe switching now works in the [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) Wireless Crafting Grid. The side button already appeared (the wireless menu extends RS2's `AbstractCraftingGridContainerMenu`, so the screen is an `AbstractGridScreen`), but clicking a recipe did nothing because the entire selection bridge was keyed on a `BlockEntity` and the wireless grid has none — it is a transient, player-bound `CraftingGrid` built from a held item. Added a `BlockEntity`-free selection path: `AccessorAbstractCraftingGridContainerMenu` exposes the menu's `craftingGrid`, `SelectRecipePacket` resolves its `RecipeMatrix` from the existing `CONTAINER_TO_MATRIX` registry and drives `updateResult`, and a new per-matrix selection store keeps the choice sticky across input changes (the wireless equivalent of `RsGridRecipeData.selections`). The result reaches the client through the menu's crafting result slot on the next `broadcastChanges` tick — the same path the wired grid uses.
+
+### Fixed
+
+- **Wireless selection mis-routed onto an unrelated wired grid** — `SelectRecipePacket.findBlockEntity` had a global reverse-scan fallback that returned the first registered grid carrying Polymorph data regardless of which menu was open. For a wireless grid (which yields no `BlockEntity`) in a world with any loaded wired grid, the selection was applied to that unrelated wired grid and silently corrupted it. Removed the fallback; resolution is now strictly scoped to the open menu (slot scan, then grid-field accessor).
+
+### Performance
+
+- **No per-open memory leak for wireless grids** — Each opened wireless grid creates a `RecipeMatrix` registered in `CONTAINER_TO_MATRIX`, which strong-references it with no removal hook, so a `WeakHashMap` selection store alone could never reclaim it. Added `MixinAbstractGridContainerMenu`, a `removed(Player)` hook that deterministically unregisters the matrix and its selection on menu close — but only for grids with no `BlockEntity`, so the wired grid's `BlockEntity`-owned mapping is never dropped (guarded by `instanceof BlockEntity`). The per-matrix store is also guarded so it can never shadow a `BlockEntity`-backed selection.
+
+### Compatibility
+
+- **Quartz Arsenal is an optional, soft dependency** — Declared `optional` in `neoforge.mods.toml`. No Quartz Arsenal class is referenced anywhere in the source: the accessor targets the Refined Storage 2 base class `AbstractCraftingGridContainerMenu`, so the fix applies to the wireless grid (which extends it) and to any future `BlockEntity`-free crafting grid, with no compile-time dependency on the addon. The mod loads and runs unchanged when Quartz Arsenal is absent.
+
+### Ajouts
+
+- **Compatibilité Wireless Crafting Grid** (issue #2) — Le changement de recette Polymorph fonctionne désormais dans la Wireless Crafting Grid de [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal). Le bouton latéral apparaissait déjà (le menu wireless étend `AbstractCraftingGridContainerMenu` de RS2, donc l'écran est un `AbstractGridScreen`), mais cliquer sur une recette ne faisait rien car tout le pont de sélection était indexé sur un `BlockEntity`, que la grille wireless ne possède pas — c'est un `CraftingGrid` éphémère, lié au joueur et construit depuis un objet tenu en main. Ajout d'un chemin de sélection sans `BlockEntity` : `AccessorAbstractCraftingGridContainerMenu` expose le `craftingGrid` du menu, `SelectRecipePacket` résout son `RecipeMatrix` depuis le registre existant `CONTAINER_TO_MATRIX` et déclenche `updateResult`, et un nouveau magasin de sélection par matrice garde le choix persistant à travers les changements d'ingrédients (l'équivalent wireless de `RsGridRecipeData.selections`). Le résultat parvient au client via le slot de résultat du menu au tick `broadcastChanges` suivant — le même chemin que la grille filaire.
+
+### Correctifs
+
+- **Sélection wireless dirigée par erreur vers une grille filaire sans rapport** — `SelectRecipePacket.findBlockEntity` avait un fallback de balayage global qui renvoyait la première grille enregistrée portant des données Polymorph, quelle que soit la grille ouverte. Pour une grille wireless (qui ne fournit aucun `BlockEntity`) dans un monde contenant une grille filaire chargée, la sélection était appliquée à cette grille filaire sans rapport et la corrompait silencieusement. Fallback supprimé ; la résolution est désormais strictement limitée au menu ouvert (scan des slots, puis accessor du champ grid).
+
+### Performance
+
+- **Plus de fuite mémoire à chaque ouverture pour les grilles wireless** — Chaque grille wireless ouverte crée un `RecipeMatrix` enregistré dans `CONTAINER_TO_MATRIX`, qui le référence fortement sans hook de suppression ; un magasin `WeakHashMap` seul ne pouvait donc jamais le récupérer. Ajout de `MixinAbstractGridContainerMenu`, un hook `removed(Player)` qui désenregistre de façon déterministe la matrice et sa sélection à la fermeture du menu — mais uniquement pour les grilles sans `BlockEntity`, afin que le mapping de la grille filaire (détenu par le `BlockEntity`) ne soit jamais supprimé (protégé par `instanceof BlockEntity`). Le magasin par matrice est aussi protégé pour ne jamais masquer une sélection adossée à un `BlockEntity`.
+
+### Compatibilité
+
+- **Quartz Arsenal est une dépendance optionnelle et souple** — Déclarée `optional` dans `neoforge.mods.toml`. Aucune classe de Quartz Arsenal n'est référencée dans le code source : l'accessor cible la classe de base de Refined Storage 2 `AbstractCraftingGridContainerMenu`, donc le correctif s'applique à la grille wireless (qui en hérite) et à toute future grille de craft sans `BlockEntity`, sans dépendance à la compilation envers l'addon. Le mod se charge et fonctionne à l'identique en l'absence de Quartz Arsenal.
+
+---
+
 ## [1.0.9] - 2026-05-05
 
 ### Fixed

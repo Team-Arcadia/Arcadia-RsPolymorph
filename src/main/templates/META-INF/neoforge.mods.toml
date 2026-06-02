@@ -101,6 +101,16 @@ config="mixins.rspolymorph.json"
     ordering="AFTER"
     side="BOTH"
 
+# Optional compat: Quartz Arsenal adds the Wireless Crafting Grid. We do not reference any
+# Quartz Arsenal class — our accessor targets the RS2 base AbstractCraftingGridContainerMenu —
+# so this stays a soft dependency. AFTER so our mixins apply once its menu type is registered.
+[[dependencies.${mod_id}]]
+    modId="refinedstorage_quartz_arsenal"
+    type="optional"
+    versionRange="[1.0.7,)"
+    ordering="AFTER"
+    side="BOTH"
+
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.

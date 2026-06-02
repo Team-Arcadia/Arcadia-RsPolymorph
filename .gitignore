@@ -55,3 +55,7 @@ CLAUDE.md
 
 # ── Release artifacts ───────────────────────────────────
 RELEASE_NOTES.md
+
+# ── Test procedure artefacts (local QA only — never push) ─
+test-procedures/
+TEST_PROCEDURE_*.html

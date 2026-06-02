@@ -23,7 +23,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -63,6 +65,21 @@ public class RsPolymorph {
     /** RecipeMatrixContainer → the RecipeMatrix wrapping it. Populated on RecipeMatrix construction. */
     private static final Map<RecipeMatrixContainer, RecipeMatrix<?, ?>> CONTAINER_TO_MATRIX =
             new ConcurrentHashMap<>();
+
+    /**
+     * RecipeMatrix → the recipe selection chosen for it, for grids that have NO BlockEntity
+     * (e.g. the Quartz Arsenal wireless crafting grid). The BlockEntity-keyed Polymorph
+     * capability cannot persist a selection for these, so we keep it here keyed by the matrix.
+     *
+     * Reclamation is deterministic via {@link #unregisterMatrix} on menu close — that is the
+     * load-bearing mechanism, because {@code CONTAINER_TO_MATRIX} strong-pins each matrix and
+     * would otherwise keep this entry reachable forever. The WeakHashMap with weak keys is kept
+     * only as a best-effort safety net (e.g. if a close hook is ever missed). Wrapped in a
+     * synchronized map because it is touched from the server thread (packet handler), the matrix
+     * mixin's updateResult, and the menu-close hook.
+     */
+    private static final Map<RecipeMatrix<?, ?>, ResourceLocation> MATRIX_SELECTION =
+            Collections.synchronizedMap(new WeakHashMap<>());
 
     // ── Selection state ───────────────────────────────────────────────────────
     /**
@@ -146,6 +163,48 @@ public class RsPolymorph {
 
     public static void registerMatrixToContainer(RecipeMatrixContainer container, RecipeMatrix<?, ?> matrix) {
         CONTAINER_TO_MATRIX.put(container, matrix);
+    }
+
+    // ── Per-matrix selection (BlockEntity-free grids, e.g. wireless crafting grid) ──
+
+    /**
+     * Persists a recipe selection for a grid that has no BlockEntity. {@code null} clears it.
+     *
+     * Guarded so the per-matrix store can NEVER shadow a BlockEntity-backed matrix: if the
+     * matrix's container is registered to a BlockEntity, the selection must go through the
+     * Polymorph capability ({@link RsGridRecipeData}) instead, and we ignore the store request.
+     * This keeps path-2 in {@code MixinRecipeMatrix} exclusively the non-BE channel.
+     */
+    public static void setMatrixSelection(RecipeMatrix<?, ?> matrix, ResourceLocation recipeId) {
+        if (matrix == null) return;
+        if (recipeId == null) {
+            MATRIX_SELECTION.remove(matrix);
+            return;
+        }
+        // BE-backed matrix → use the Polymorph capability path, not this store.
+        if (CONTAINER_TO_BE.get(matrix.getMatrix()) != null) return;
+        MATRIX_SELECTION.put(matrix, recipeId);
+    }
+
+    /** Returns the per-matrix recipe selection, or {@code null} if none was stored. */
+    public static ResourceLocation getMatrixSelection(RecipeMatrix<?, ?> matrix) {
+        if (matrix == null) return null;
+        return MATRIX_SELECTION.get(matrix);
+    }
+
+    /**
+     * Deterministically reclaims the registrations for a BlockEntity-free grid's crafting matrix
+     * when its menu closes. Removes the strong {@code CONTAINER_TO_MATRIX} entry (the actual leak
+     * root — the WeakHashMap selection store alone cannot collect because this map strong-pins the
+     * matrix) and the per-matrix selection in one go.
+     *
+     * CONTRACT: only call for grids that have NO BlockEntity. For BE-backed grids the mapping is
+     * owned by the BlockEntity lifecycle and must not be dropped on menu close.
+     */
+    public static void unregisterMatrix(RecipeMatrixContainer container) {
+        if (container == null) return;
+        RecipeMatrix<?, ?> m = CONTAINER_TO_MATRIX.remove(container);
+        if (m != null) MATRIX_SELECTION.remove(m);
     }
 
     /**

@@ -6,7 +6,9 @@
   "mixins": [
     "MixinRecipeMatrix",
     "AccessorAbstractGridContainerMenu",
+    "AccessorAbstractCraftingGridContainerMenu",
     "AccessorRecipeMatrix",
+    "MixinAbstractGridContainerMenu",
     "MixinCraftingGrid",
     "MixinPatternGrid",
     "MixinPatternResolver",

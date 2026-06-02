@@ -58,8 +58,9 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
      * active for this matrix.
      *
      * Strategy (in priority order):
-     *  1. Static selectedRecipeId (client→server singleplayer fast path).
-     *  2. Polymorph BlockEntity recipe data (persisted selection via Polymorph's capability).
+     *  1. Static selectedRecipeId (the just-applied selection; SP and the first server apply).
+     *  2. Per-matrix selection (BlockEntity-free grids such as the wireless crafting grid).
+     *  3. Polymorph BlockEntity recipe data (persisted selection via Polymorph's capability).
      *
      * Early-exit: if the current recipe already matches the selection, skip the search entirely.
      * This is the common case after the initial selection is applied.
@@ -95,10 +96,47 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
                     }
                 }
             }
-            // selectedId didn't match this matrix's inputs — fall through to Polymorph fallback.
+            // selectedId didn't match this matrix's inputs — fall through to the fallbacks.
         }
 
-        // ── 2) Polymorph BlockEntity data (persisted selection) ───────────────
+        // ── 2) Per-matrix selection (BlockEntity-free grids: wireless crafting grid) ──
+        // Grids with no BlockEntity (e.g. Quartz Arsenal's wireless crafting grid) cannot
+        // persist a selection through Polymorph's BlockEntity capability. SelectRecipePacket
+        // stores their choice keyed by this matrix instead, so re-apply it on every
+        // updateResult to survive input changes — exactly as the BlockEntity path does below.
+        // The selection is intentionally sticky-while-matching: applied only when it is still a
+        // valid recipe for the CURRENT inputs (mirroring the wired BE path's recipe.matches check),
+        // left untouched on a transient mismatch, and reclaimed deterministically on menu close
+        // by MixinAbstractGridContainerMenu — so it is never aggressively purged nor unbounded.
+        // Read-side BE guard (mirrors setMatrixSelection's write-side guard): a BE-backed matrix
+        // must resolve through the Polymorph capability in path 3, never through this store.
+        ResourceLocation matrixId = RsPolymorph.getBlockEntityForContainer(this.matrix) == null
+                ? RsPolymorph.getMatrixSelection((RecipeMatrix<?, ?>) (Object) this)
+                : null;
+        if (matrixId != null) {
+            RecipeHolder<T> current = accessor.rspolymorph$getCurrentRecipe();
+            if (current == null || !current.id().equals(matrixId)) {
+                I input = this.inputProvider.apply(this.matrix);
+                if (input != null) {
+                    List<RecipeHolder<T>> matches = level.getRecipeManager().getRecipesFor(this.recipeType, input, level);
+                    for (RecipeHolder<T> holder : matches) {
+                        if (holder.id().equals(matrixId)) {
+                            ItemStack output = holder.value().assemble(input, level.registryAccess());
+                            accessor.rspolymorph$setCurrentRecipe(holder);
+                            accessor.rspolymorph$invokeSetResult(holder, output);
+                            syncRecipesIfServer(level);
+                            return;
+                        }
+                    }
+                }
+            } else {
+                // Already correct — nothing to override.
+                syncRecipesIfServer(level);
+                return;
+            }
+        }
+
+        // ── 3) Polymorph BlockEntity data (persisted selection) ───────────────
         RecipeHolder<T> polymorphRecipe = (RecipeHolder<T>) RsPolymorph.getRecipe((RecipeMatrix<?, ?>) (Object) this, level);
         if (polymorphRecipe != null) {
             // Early-exit if the result is already correct.

@@ -7,6 +7,7 @@ RS Polymorph is a NeoForge Minecraft mod that adds [Polymorph](https://www.curse
 ## Features
 
 - **Crafting Grid** — Adds the Polymorph recipe selection button to the Refined Storage 2 Crafting Grid
+- **Wireless Crafting Grid** — Recipe selection also works in the [Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) Wireless Crafting Grid; the choice is driven through the grid's recipe matrix even though it has no block entity (optional compat, no hard dependency)
 - **Pattern Grid** — Adds the Polymorph recipe selection button to the Pattern Grid, with the selection persisted on the printed pattern via a custom data component
 - **Autocrafting integration** — `MixinPatternResolver` prefers the pattern's stored recipe ID over the default first-match, so autocrafting always resolves the recipe you chose
 - **Server-safe** — All client classes are isolated behind `FMLEnvironment.dist.isClient()`; client mixins are split into the `"client"` block of the mixin config, so dedicated servers start cleanly with no missing-class errors
@@ -26,13 +27,15 @@ This mod does not add any commands — it integrates transparently with the Refi
 | Java | 21 |
 | Polymorph | >= 1.1.0 |
 | Refined Storage 2 | >= 2.0.1 |
+| Refined Storage - Quartz Arsenal | >= 1.0.7 (optional, for the Wireless Crafting Grid) |
 
 ## Installation
 
 1. Install [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) in your `mods/` folder
 2. Install [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2) in your `mods/` folder
-3. Place `rspolymorph-1.0.9.jar` in your `mods/` folder
-4. Start the game (singleplayer) or server
+3. Place `rspolymorph-1.1.0.jar` in your `mods/` folder
+4. (Optional) Install [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) for Wireless Crafting Grid support
+5. Start the game (singleplayer) or server
 
 ## Usage
 
@@ -68,6 +71,7 @@ RS Polymorph est un mod NeoForge pour Minecraft qui ajoute la compatibilité [Po
 ## Caractéristiques
 
 - **Crafting Grid** — Ajoute le bouton de sélection de recette Polymorph à la Crafting Grid de Refined Storage 2
+- **Wireless Crafting Grid** — La sélection de recette fonctionne aussi dans la Wireless Crafting Grid de [Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) ; le choix est appliqué via la matrice de recette de la grille bien qu'elle n'ait aucun block entity (compat optionnelle, sans dépendance forte)
 - **Pattern Grid** — Ajoute le bouton de sélection de recette Polymorph à la Pattern Grid, avec la sélection persistée sur le patron imprimé via un data component custom
 - **Intégration autocraft** — `MixinPatternResolver` privilégie l'ID de recette stocké sur le patron plutôt que le premier match par défaut, donc l'autocraft résout toujours la recette choisie
 - **Sûr côté serveur** — Toutes les classes client sont isolées derrière `FMLEnvironment.dist.isClient()` ; les mixins client sont dans le bloc `"client"` du fichier mixins, donc les serveurs dédiés démarrent proprement sans erreur de classe manquante
@@ -87,13 +91,15 @@ Ce mod n'ajoute aucune commande — il s'intègre de manière transparente à l'
 | Java | 21 |
 | Polymorph | >= 1.1.0 |
 | Refined Storage 2 | >= 2.0.1 |
+| Refined Storage - Quartz Arsenal | >= 1.0.7 (optionnel, pour la Wireless Crafting Grid) |
 
 ## Installation
 
 1. Installez [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) dans votre dossier `mods/`
 2. Installez [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2) dans votre dossier `mods/`
-3. Placez `rspolymorph-1.0.9.jar` dans votre dossier `mods/`
-4. Démarrez le jeu (solo) ou le serveur
+3. Placez `rspolymorph-1.1.0.jar` dans votre dossier `mods/`
+4. (Optionnel) Installez [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) pour le support de la Wireless Crafting Grid
+5. Démarrez le jeu (solo) ou le serveur
 
 ## Utilisation
 
