@@ -1,0 +1,72 @@
+package com.vyrriox.rspolymorph.neoforge;
+
+import com.vyrriox.rspolymorph.RsPolymorph;
+import com.vyrriox.rspolymorph.network.SelectRecipePacket;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+/**
+ * NeoForge entrypoint for RS Polymorph. Registers the {@code selected_recipe} data component,
+ * the C2S selection payload, and wires the shared {@link RsPolymorph} core. All gameplay logic
+ * lives in the {@code common} module; this class only performs NeoForge-specific registration.
+ *
+ * Author: vyrriox
+ */
+@Mod(RsPolymorph.MOD_ID)
+public final class RsPolymorphNeoForge {
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    private static final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPES =
+            DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, RsPolymorph.MOD_ID);
+
+    private static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> SELECTED_RECIPE_COMPONENT =
+            DATA_COMPONENT_TYPES.register("selected_recipe", () ->
+                    DataComponentType.<ResourceLocation>builder()
+                            .persistent(ResourceLocation.CODEC)
+                            .build());
+
+    public RsPolymorphNeoForge(IEventBus modEventBus) {
+        DATA_COMPONENT_TYPES.register(modEventBus);
+        modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::registerPayloads);
+    }
+
+    private void registerPayloads(final RegisterPayloadHandlersEvent event) {
+        event.registrar("1").playToServer(
+                SelectRecipePacket.TYPE,
+                SelectRecipePacket.STREAM_CODEC,
+                (packet, context) -> context.enqueueWork(() -> {
+                    if (context.player() instanceof ServerPlayer player) {
+                        SelectRecipePacket.applyOnServer(player, packet.recipeId());
+                    }
+                })
+        );
+    }
+
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        LOGGER.info("RS Polymorph (NeoForge) initializing...");
+
+        // Inject the registered data component into the loader-agnostic core.
+        RsPolymorph.setSelectedRecipeComponent(SELECTED_RECIPE_COMPONENT.get());
+
+        event.enqueueWork(RsPolymorph::registerPolymorphFactories);
+
+        // Client widget registration lives in a separate class to keep client-only type
+        // references out of this class's constant pool / lambda methods on a dedicated server.
+        if (FMLEnvironment.dist.isClient()) {
+            com.vyrriox.rspolymorph.client.ClientSetup.init();
+        }
+    }
+}

@@ -7,12 +7,12 @@
 | Project | RS Polymorph |
 | Mod ID | `rspolymorph` |
 | Package | `com.vyrriox.rspolymorph` |
-| Tech Stack | Java 21, NeoForge 1.21.1, Gradle 8.x |
+| Tech Stack | Java 21, MultiLoader (NeoForge + Fabric) for MC 1.21.1, Gradle 9.5.1 |
 | Author | vyrriox |
 | Organization | Team Arcadia |
 | License | LGPL-3.0-or-later (matches upstream Polymorph; with attribution requirement to "vyrriox / Team Arcadia") |
-| Version | 1.1.0 |
-| Dependencies | Polymorph >= 1.1.0, Refined Storage 2 >= 2.0.1 |
+| Version | 1.2.0 |
+| Dependencies | Polymorph >= 1.1.0, Refined Storage 2 >= 2.0.1 (tested 2.0.8) |
 | Optional compat | Refined Storage - Quartz Arsenal >= 1.0.7 (wireless crafting grid) |
 
 ## 2. Git Workflow
@@ -65,25 +65,48 @@ arcadia-rspolymorph/
 ├── libs/
 │   ├── polymorph.jar      # Polymorph API (tracked for CI)
 │   └── rs2.jar            # Refined Storage 2 (tracked for CI)
-├── src/main/java/com/vyrriox/rspolymorph/
-│   ├── RsPolymorph.java           # Main @Mod class (server-safe)
-│   ├── RsGridRecipeData.java      # Polymorph IBlockEntityRecipeData impl
-│   ├── IRsRecipeMatrix.java       # Duck-type interface for RecipeMatrix accessor
-│   ├── client/                    # Client-only: ClientSetup, RsGridRecipeWidget, PolymorphSideButton
-│   ├── mixin/                     # Mixins (common + client split via mixins.rspolymorph.json)
-│   │   ├── MixinRecipeMatrix, MixinCraftingGrid, MixinPatternGrid  # common
-│   │   ├── MixinPatternResolver, AccessorRecipeMatrix              # common
-│   │   ├── AccessorAbstractGridContainerMenu                       # common
-│   │   ├── MixinAbstractBaseScreen, MixinSelectionWidget           # client-only
-│   └── network/
-│       └── SelectRecipePacket.java  # C2S packet, server handler
-├── src/main/resources/
-│   ├── mixins.rspolymorph.json
-│   ├── assets/rspolymorph/lang/ (en_us.json, fr_fr.json)
-│   └── META-INF/ via src/main/templates/META-INF/neoforge.mods.toml
+├── buildSrc/                      # MultiLoader convention plugins (multiloader-common, multiloader-loader)
+├── common/                        # Loader-agnostic — ALL gameplay logic + every mixin lives here
+│   └── src/main/
+│       ├── java/com/vyrriox/rspolymorph/
+│       │   ├── RsPolymorph.java       # Loader-agnostic core (registry maps, selection state) — NO @Mod
+│       │   ├── RsGridRecipeData.java   # Polymorph IBlockEntityRecipeData impl
+│       │   ├── IRsRecipeMatrix.java    # Duck-type interface for RecipeMatrix accessor
+│       │   ├── platform/               # Services + NetworkPlatform (ServiceLoader abstraction)
+│       │   ├── client/                 # ClientSetup, RsGridRecipeWidget, PolymorphSideButton
+│       │   ├── mixin/                  # All mixins (common + "client" split in the config)
+│       │   └── network/SelectRecipePacket.java  # payload + pure applyOnServer(...)
+│       └── resources/
+│           ├── rspolymorph-common.mixins.json
+│           ├── assets/rspolymorph/lang/ (en_us.json, fr_fr.json)
+│           └── pack.mcmeta
+├── neoforge/                      # NeoForge entrypoint only (loader wiring, no gameplay logic)
+│   └── src/main/
+│       ├── java/.../neoforge/      # RsPolymorphNeoForge (@Mod), NeoForgeNetworkPlatform
+│       └── resources/
+│           ├── META-INF/neoforge.mods.toml
+│           └── META-INF/services/...NetworkPlatform  → NeoForgeNetworkPlatform
+├── fabric/                        # Fabric entrypoint only
+│   └── src/main/
+│       ├── java/.../fabric/        # RsPolymorphFabric (ModInitializer), client/RsPolymorphFabricClient,
+│       │                           #   FabricNetworkPlatform
+│       └── resources/
+│           ├── fabric.mod.json
+│           └── META-INF/services/...NetworkPlatform  → FabricNetworkPlatform
+├── libs/                          # polymorph.jar + rs2.jar (NeoForge builds) — compileOnly for common,
+│                                  #   implementation for neoforge; Fabric pulls its own from Modrinth maven
 ├── build.gradle, gradle.properties, settings.gradle
-└── README.md, RULES.md, CHANGELOG.md, LICENSE, TEST_PROCEDURE_vX.Y.Z.html
+└── README.md, RULES.md, CHANGELOG.md, LICENSE
 ```
+
+> Build: `./gradlew build` produces `neoforge/build/libs/rspolymorph-neoforge-*.jar` and
+> `fabric/build/libs/rspolymorph-fabric-*.jar`. `./gradlew fusejars` adds an optional fused
+> `artifacts/fused/rspolymorph-<version>.jar` that loads on both loaders.
+>
+> Rule: gameplay logic and mixins go in `common` ONLY. `neoforge`/`fabric` contain loader wiring
+> (entrypoint, registration, networking impl) and nothing else. `common` must never import a
+> loader API — reach loader behaviour through `Services` (ServiceLoader). All mixins stay
+> `remap=false` (targets are RS2/Polymorph classes, never remapped on either loader).
 
 ## 5. Adding a New Feature (Step by Step)
 

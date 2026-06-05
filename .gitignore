@@ -3,6 +3,9 @@
 build/
 bin/
 out/
+artifacts/
+runs/
+repo/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/

@@ -2,7 +2,7 @@
 
 [Consult the full CurseForge description](./CURSEFORGE_PAGE.md)
 
-RS Polymorph is a NeoForge Minecraft mod that adds [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) compatibility for [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2). When several recipes match the same ingredients, the Polymorph side button lets you pick which one the Crafting Grid crafts and which one the Pattern Grid prints for autocrafting.
+RS Polymorph is a Minecraft mod for **NeoForge and Fabric** that adds [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) compatibility for [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2). When several recipes match the same ingredients, the Polymorph side button lets you pick which one the Crafting Grid crafts and which one the Pattern Grid prints for autocrafting.
 
 ## Features
 
@@ -23,17 +23,19 @@ This mod does not add any commands — it integrates transparently with the Refi
 | Dependency | Version |
 |------------|---------|
 | Minecraft | 1.21.1 |
-| NeoForge | 21.1.219+ |
+| Loader | NeoForge 21.1.219+ **or** Fabric Loader 0.16.10+ (with Fabric API) |
 | Java | 21 |
-| Polymorph | >= 1.1.0 |
-| Refined Storage 2 | >= 2.0.1 |
+| Polymorph | >= 1.1.0 (NeoForge or Fabric build) |
+| Refined Storage 2 | >= 2.0.1 (tested against 2.0.8; NeoForge or Fabric build) |
 | Refined Storage - Quartz Arsenal | >= 1.0.7 (optional, for the Wireless Crafting Grid) |
+
+Pick the jar matching your loader: `rspolymorph-neoforge-*.jar` or `rspolymorph-fabric-*.jar`. A single combined jar (`rspolymorph-*.jar`) that loads on both loaders is also available as a convenience.
 
 ## Installation
 
 1. Install [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) in your `mods/` folder
 2. Install [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2) in your `mods/` folder
-3. Place `rspolymorph-1.1.0.jar` in your `mods/` folder
+3. Place the jar matching your loader (`rspolymorph-neoforge-1.2.0.jar` or `rspolymorph-fabric-1.2.0.jar`) in your `mods/` folder
 4. (Optional) Install [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) for Wireless Crafting Grid support
 5. Start the game (singleplayer) or server
 
@@ -87,17 +89,19 @@ Ce mod n'ajoute aucune commande — il s'intègre de manière transparente à l'
 | Dépendance | Version |
 |------------|---------|
 | Minecraft | 1.21.1 |
-| NeoForge | 21.1.219+ |
+| Loader | NeoForge 21.1.219+ **ou** Fabric Loader 0.16.10+ (avec Fabric API) |
 | Java | 21 |
-| Polymorph | >= 1.1.0 |
-| Refined Storage 2 | >= 2.0.1 |
+| Polymorph | >= 1.1.0 (build NeoForge ou Fabric) |
+| Refined Storage 2 | >= 2.0.1 (testé avec 2.0.8 ; build NeoForge ou Fabric) |
 | Refined Storage - Quartz Arsenal | >= 1.0.7 (optionnel, pour la Wireless Crafting Grid) |
+
+Choisissez le jar correspondant à votre loader : `rspolymorph-neoforge-*.jar` ou `rspolymorph-fabric-*.jar`. Un jar combiné unique (`rspolymorph-*.jar`) chargeable sur les deux loaders est aussi disponible par commodité.
 
 ## Installation
 
 1. Installez [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) dans votre dossier `mods/`
 2. Installez [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2) dans votre dossier `mods/`
-3. Placez `rspolymorph-1.1.0.jar` dans votre dossier `mods/`
+3. Placez le jar correspondant à votre loader (`rspolymorph-neoforge-1.2.0.jar` ou `rspolymorph-fabric-1.2.0.jar`) dans votre dossier `mods/`
 4. (Optionnel) Installez [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) pour le support de la Wireless Crafting Grid
 5. Démarrez le jeu (solo) ou le serveur
 

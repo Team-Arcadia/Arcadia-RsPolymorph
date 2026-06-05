@@ -1,0 +1,54 @@
+modLoader="javafml"
+loaderVersion="${neoforge_loader_version_range}"
+license="${license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${version}"
+displayName="${mod_name}"
+authors="${mod_author}"
+credits="${credits}"
+description='''
+${description}
+'''
+
+[[mixins]]
+config="rspolymorph-common.mixins.json"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="${neoforge_loader_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="polymorph"
+    type="required"
+    versionRange="${polymorph_version_range}"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="refinedstorage"
+    type="required"
+    versionRange="${refinedstorage_version_range}"
+    ordering="AFTER"
+    side="BOTH"
+
+# Optional compat: Quartz Arsenal adds the Wireless Crafting Grid. We do not reference any
+# Quartz Arsenal class — our accessor targets the RS2 base AbstractCraftingGridContainerMenu —
+# so this stays a soft dependency. AFTER so our mixins apply once its menu type is registered.
+[[dependencies.${mod_id}]]
+    modId="refinedstorage_quartz_arsenal"
+    type="optional"
+    versionRange="${quartz_arsenal_version_range}"
+    ordering="AFTER"
+    side="BOTH"

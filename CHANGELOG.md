@@ -4,6 +4,32 @@ All notable changes to RS Polymorph are documented here.
 
 ---
 
+## [1.2.0] - 2026-06-05
+
+### Added
+
+- **Fabric support — one mod, two loaders** — RS Polymorph now ships for **Fabric** in addition to NeoForge, both for Minecraft 1.21.1. The project was restructured into a MultiLoader layout (`common` + `neoforge` + `fabric`): all gameplay logic and every mixin live in `common` and are shared verbatim by both loaders. Because the mixins target Refined Storage 2 and Polymorph classes (never Minecraft) with `remap=false`, and both RS2 and Polymorph ship their public surface in a shared cross-loader module, the injection logic resolves byte-for-byte identically on NeoForge and Fabric with no per-loader rewrite.
+- **Loader-agnostic core** — Introduced a small platform abstraction so `common` never references a loader API: `Services`/`NetworkPlatform` resolve the active loader's networking via `ServiceLoader`, the `selected_recipe` data component is registered by each loader and injected into the shared core, and `SelectRecipePacket` exposes a pure `applyOnServer(ServerPlayer, ResourceLocation)` that each loader drives from its own packet receiver (NeoForge `IPayloadContext`, Fabric `ServerPlayNetworking`).
+- **Combined single jar (optional)** — In addition to the two per-loader jars, an optional fused jar (`rspolymorph-<version>.jar`) that loads on both NeoForge and Fabric is produced via ModFusioner (`./gradlew fusejars`). The per-loader jars remain the primary, most robust distribution.
+
+### Changed
+
+- **Refined Storage 2 baseline bumped to 2.0.8** — The Fabric build pulls Refined Storage 2.0.8 and Polymorph 1.1.0+1.21.1 from the Modrinth maven; the declared `refinedstorage` dependency floor stays `>= 2.0.1`. RS 2.x and RS 3.x share the same internal package structure (`com.refinedmods.refinedstorage.common.*`), so the mixins are forward-compatible across the RS 2.x line with no signature changes.
+- **Build toolchain** — Migrated to the MultiLoader-Template build (Gradle 9.5.1, Fabric Loom 1.16.3 for the Fabric module, ModDevGradle 2.0.140 for the common/NeoForge modules). The Gradle wrapper was bumped from 9.2.1 to 9.5.1 to satisfy Loom 1.16.3.
+
+### Ajouts
+
+- **Support Fabric — un seul mod, deux loaders** — RS Polymorph est désormais publié pour **Fabric** en plus de NeoForge, tous deux pour Minecraft 1.21.1. Le projet a été restructuré en architecture MultiLoader (`common` + `neoforge` + `fabric`) : toute la logique de jeu et chaque mixin vivent dans `common` et sont partagés à l'identique par les deux loaders. Comme les mixins ciblent des classes de Refined Storage 2 et de Polymorph (jamais de Minecraft) avec `remap=false`, et que RS2 comme Polymorph exposent leur surface publique dans un module commun cross-loader, la logique d'injection se résout octet pour octet de façon identique sur NeoForge et Fabric, sans réécriture par loader.
+- **Noyau agnostique du loader** — Ajout d'une petite abstraction de plateforme pour que `common` ne référence jamais une API de loader : `Services`/`NetworkPlatform` résolvent le réseau du loader actif via `ServiceLoader`, le data component `selected_recipe` est enregistré par chaque loader puis injecté dans le noyau partagé, et `SelectRecipePacket` expose un `applyOnServer(ServerPlayer, ResourceLocation)` pur que chaque loader pilote depuis son propre récepteur de paquet (NeoForge `IPayloadContext`, Fabric `ServerPlayNetworking`).
+- **Jar unique combiné (optionnel)** — En plus des deux jars par loader, un jar fusionné optionnel (`rspolymorph-<version>.jar`) chargeable sur NeoForge ET Fabric est produit via ModFusioner (`./gradlew fusejars`). Les jars par loader restent la distribution principale, la plus robuste.
+
+### Modifications
+
+- **Base Refined Storage 2 portée à 2.0.8** — Le build Fabric récupère Refined Storage 2.0.8 et Polymorph 1.1.0+1.21.1 depuis le maven Modrinth ; le plancher de dépendance `refinedstorage` déclaré reste `>= 2.0.1`. RS 2.x et RS 3.x partagent la même structure de packages interne (`com.refinedmods.refinedstorage.common.*`), donc les mixins sont compatibles ascendant sur toute la ligne RS 2.x sans changement de signature.
+- **Chaîne de build** — Migration vers le build MultiLoader-Template (Gradle 9.5.1, Fabric Loom 1.16.3 pour le module Fabric, ModDevGradle 2.0.140 pour les modules common/NeoForge). Le wrapper Gradle est passé de 9.2.1 à 9.5.1 pour satisfaire Loom 1.16.3.
+
+---
+
 ## [1.1.0] - 2026-06-02
 
 ### Added

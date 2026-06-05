@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/rs-polymorph",
+    "sources": "https://github.com/Team-Arcadia/Arcadia-RsPolymorph"
+  },
+  "license": "${license}",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.vyrriox.rspolymorph.fabric.RsPolymorphFabric"
+    ],
+    "client": [
+      "com.vyrriox.rspolymorph.fabric.client.RsPolymorphFabricClient"
+    ]
+  },
+  "mixins": [
+    "rspolymorph-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "polymorph": "*",
+    "refinedstorage": "*"
+  },
+  "suggests": {
+    "refinedstorage_quartz_arsenal": "*"
+  }
+}
