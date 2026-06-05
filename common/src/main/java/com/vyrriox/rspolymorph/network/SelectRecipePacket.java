@@ -1,8 +1,8 @@
 package com.vyrriox.rspolymorph.network;
 
-import com.illusivesoulworks.polymorph.api.PolymorphApi;
-import com.vyrriox.rspolymorph.RsGridRecipeData;
+import com.vyrriox.rspolymorph.IRsRecipeMatrix;
 import com.vyrriox.rspolymorph.RsPolymorph;
+import com.vyrriox.rspolymorph.platform.Services;
 import com.refinedmods.refinedstorage.common.grid.CraftingGrid;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrixContainer;
@@ -16,11 +16,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -80,12 +82,17 @@ public record SelectRecipePacket(ResourceLocation recipeId) implements CustomPac
 
         BlockEntity targetBe = findBlockEntity(player.containerMenu);
         if (targetBe != null) {
-            var data = PolymorphApi.getInstance().getBlockEntityRecipeData(targetBe);
-            if (data instanceof RsGridRecipeData rsData) {
-                // Set the static selectedRecipeId so MixinPatternGrid.createCraftingPattern()
-                // can tag the pattern with the chosen recipe on the server side.
-                RsPolymorph.setSelectedRecipeId(recipeId);
-                rsData.selectRecipe(recipe);
+            RecipeType<?> type = recipe.value().getType();
+            // Persist the choice on the grid block entity (survives reload) via the loader store.
+            Services.GRID_STORE.set(targetBe, type, recipeId);
+
+            // Set the static selectedRecipeId so MixinPatternGrid.createCraftingPattern()
+            // can tag the pattern with the chosen recipe on the server side, and recompute the
+            // grid result now so the new output syncs to the client this tick.
+            RsPolymorph.setSelectedRecipeId(recipeId);
+            try {
+                updateMatchingMatrices(targetBe, type, level);
+            } finally {
                 RsPolymorph.setSelectedRecipeId(null);
             }
             return;
@@ -99,6 +106,26 @@ public record SelectRecipePacket(ResourceLocation recipeId) implements CustomPac
 
         LOGGER.warn("[RS Polymorph] Could not find target grid for recipe selection (player: {})",
                 player.getName().getString());
+    }
+
+    /**
+     * Recomputes the result for every {@link RecipeMatrix} owned by {@code be} whose recipe type
+     * matches {@code type}. {@code MixinRecipeMatrix} reads the freshly-persisted selection at the
+     * {@code updateResult} RETURN and writes the chosen output into the grid's result slot, which
+     * {@code broadcastChanges} then syncs to the client. Replaces the old
+     * {@code RsGridRecipeData.selectRecipe} trigger.
+     */
+    private static void updateMatchingMatrices(BlockEntity be, RecipeType<?> type, Level level) {
+        Map<RecipeMatrixContainer, BlockEntity> beMap = RsPolymorph.getMatrixMap();
+        Map<RecipeMatrixContainer, RecipeMatrix<?, ?>> matrixMap = RsPolymorph.getContainerToMatrixMap();
+        for (Map.Entry<RecipeMatrixContainer, BlockEntity> entry : beMap.entrySet()) {
+            if (entry.getValue() != be) continue;
+            RecipeMatrix<?, ?> matrix = matrixMap.get(entry.getKey());
+            if (matrix instanceof IRsRecipeMatrix<?, ?> rsMatrix
+                    && rsMatrix.rspolymorph$getRecipeType() == type) {
+                matrix.updateResult(level);
+            }
+        }
     }
 
     /**

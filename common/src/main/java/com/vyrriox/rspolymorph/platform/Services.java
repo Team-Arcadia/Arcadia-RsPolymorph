@@ -18,6 +18,8 @@ public final class Services {
 
     public static final NetworkPlatform NETWORK = load(NetworkPlatform.class);
 
+    public static final GridRecipeStore GRID_STORE = load(GridRecipeStore.class);
+
     private static <T> T load(Class<T> clazz) {
         return ServiceLoader.load(clazz)
                 .findFirst()

@@ -15,10 +15,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
-    // Refined Storage 2 (Fabric) + Polymorph (Fabric) from the Modrinth maven.
-    // RS 2.0.8 → project KDvYkUg3 ; Polymorph 1.1.0+1.21.1 → project tagwiZkJ
+    // Refined Storage 2 (Fabric) from the Modrinth maven. No Polymorph dependency (standalone).
+    // RS 2.0.8 → project KDvYkUg3
     modImplementation "maven.modrinth:refined-storage:2.0.8"
-    modImplementation "maven.modrinth:polymorph:1.1.0+1.21.1"
 }
 
 loom {

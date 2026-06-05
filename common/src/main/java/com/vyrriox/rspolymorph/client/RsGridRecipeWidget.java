@@ -1,11 +1,9 @@
 package com.vyrriox.rspolymorph.client;
 
-import com.illusivesoulworks.polymorph.api.client.base.PersistentRecipesWidget;
-import com.illusivesoulworks.polymorph.api.client.widgets.children.SelectionWidget;
-import com.illusivesoulworks.polymorph.api.common.base.IRecipePair;
 import com.vyrriox.rspolymorph.IRsRecipeMatrix;
 import com.vyrriox.rspolymorph.RsPolymorph;
 import com.vyrriox.rspolymorph.mixin.AccessorAbstractGridContainerMenu;
+import com.vyrriox.rspolymorph.platform.Services;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrixContainer;
 import net.minecraft.client.Minecraft;
@@ -21,102 +19,98 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import com.vyrriox.rspolymorph.platform.Services;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
- * Custom Polymorph widget for RS2 grids.
- * Works on both singleplayer (shared JVM) and dedicated servers (separate JVMs).
+ * Standalone recipe-selection driver for an RS2 grid screen — the Polymorph-free replacement for
+ * what used to extend Polymorph's {@code PersistentRecipesWidget}. It discovers the candidate
+ * recipes for the open grid and drives a {@link RecipeSelectorPopup} (our own UI). Selection is
+ * sent to the server through {@link Services#NETWORK} exactly as before.
  *
- * On dedicated servers, the menu slots may not directly expose RecipeMatrixContainer
- * (e.g., PatternGrid uses phantom/filter slots). In that case we fall back to:
- *  1. Accessing the Grid (BlockEntity) via the menu accessor
- *  2. Finding registered containers for that BE via CONTAINER_TO_BE reverse lookup
- *  3. Building CraftingInput directly as a last resort
+ * One instance exists per open grid screen ({@link #activeInstance}); it is created by
+ * {@code MixinAbstractBaseScreen} and rendered/clicked by {@code MixinAbstractGridScreenRender}.
  *
  * Author: vyrriox
  */
-public class RsGridRecipeWidget extends PersistentRecipesWidget {
+public class RsGridRecipeWidget {
 
     private static RsGridRecipeWidget activeInstance = null;
+
     private final Slot outputSlot;
     private final AbstractContainerScreen<?> screen;
-
-    /**
-     * BlockEntity for the currently open grid — computed once at construction.
-     * Found via menu slot scan or accessor fallback.
-     * May be null if neither approach works.
-     */
     private final BlockEntity activeBlockEntity;
+    private final RecipeSelectorPopup popup;
 
-    /** True only while the popup is intentionally open. */
-    private boolean popupIsOpen = false;
-    /** Grid contents hash at the moment the popup was opened. */
+    /** Grid contents hash at the moment the popup was opened (popup closes if inputs change). */
     private int popupOpenedAtHash = 0;
 
-    /**
-     * Cache for hasMultipleRecipes().
-     * Recomputed only when the input hash changes, not every frame.
-     */
+    // hasMultipleRecipes() cache — recomputed only when the input hash changes.
     private boolean cachedHasMultiple = false;
     private int lastHashForMultipleCheck = Integer.MIN_VALUE;
 
-    /** Per-frame cache: avoids recomputing containers and hash multiple times per render. */
+    // Per-frame cache for container discovery + input hash.
     private List<RecipeMatrixContainer> cachedContainers = null;
     private int cachedInputHash = Integer.MIN_VALUE;
     private long lastCacheFrame = -1;
 
     public RsGridRecipeWidget(AbstractContainerScreen<?> screen, Slot outputSlot) {
-        super(screen);
         this.screen = screen;
         this.outputSlot = outputSlot;
         this.activeBlockEntity = findBlockEntity(screen);
+        this.popup = new RecipeSelectorPopup(this::selectRecipe);
         activeInstance = this;
     }
 
-    /**
-     * Finds the BlockEntity that backs this screen's crafting grid.
-     *
-     * Strategy 1: scan menu slots for RecipeMatrixContainer and look up CONTAINER_TO_BE.
-     *   Works for CraftingGrid where slots directly reference the BE's containers.
-     *
-     * Strategy 2: use the accessor on AbstractGridContainerMenu to get the Grid field.
-     *   Works on integrated server (singleplayer) where the Grid IS the BlockEntity.
-     *   On dedicated server clients the grid field is null (client constructor uses GridData).
-     *
-     * Strategy 3: find the nearest grid BlockEntity registered in CONTAINER_TO_BE.
-     *   Works on dedicated server clients where the client-side BE was constructed via
-     *   chunk sync and registered by our mixin, but the menu doesn't reference it.
-     */
+    public static RsGridRecipeWidget getActiveInstance() {
+        return activeInstance;
+    }
+
+    /** Clears the active instance when its screen closes (called from the screen removed hook). */
+    public static void clearIfActive(AbstractContainerScreen<?> screen) {
+        if (activeInstance != null && activeInstance.screen == screen) {
+            activeInstance = null;
+        }
+    }
+
+    public Slot getOutputSlot() {
+        return outputSlot;
+    }
+
+    public boolean isPopupOpen() {
+        return popup.isOpen();
+    }
+
+    /** True if this widget belongs to the given screen (guards rendering to the right screen). */
+    public boolean isOpenForScreen(AbstractContainerScreen<?> screen) {
+        return this.screen == screen;
+    }
+
+    // -------------------------------------------------------------------------
+    // BlockEntity discovery (unchanged logic from the Polymorph version)
+    // -------------------------------------------------------------------------
+
     private static BlockEntity findBlockEntity(AbstractContainerScreen<?> screen) {
-        // Strategy 1: slot scan
         for (Slot slot : screen.getMenu().slots) {
             if (slot.container instanceof RecipeMatrixContainer rmc) {
                 BlockEntity be = RsPolymorph.getBlockEntityForContainer(rmc);
                 if (be != null) return be;
             }
         }
-
-        // Strategy 2: accessor on the menu's Grid field (works in singleplayer)
         if (screen.getMenu() instanceof AccessorAbstractGridContainerMenu accessor) {
             Object grid = accessor.rspolymorph$getGrid();
             if (grid instanceof BlockEntity be) return be;
         }
-
-        // Strategy 3: nearest grid BE from CONTAINER_TO_BE (dedicated server client)
         net.minecraft.world.entity.player.Player player = Minecraft.getInstance().player;
         if (player != null) {
             BlockEntity closest = null;
             double closestDist = Double.MAX_VALUE;
-            for (BlockEntity be : new java.util.HashSet<>(RsPolymorph.getMatrixMap().values())) {
+            for (BlockEntity be : new HashSet<>(RsPolymorph.getMatrixMap().values())) {
                 if (be.getLevel() == player.level()) {
                     double dist = be.getBlockPos().distSqr(player.blockPosition());
                     if (dist < closestDist) {
@@ -125,33 +119,15 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
                     }
                 }
             }
-            // Only return if within reasonable interaction range
             if (closest != null && closestDist <= 64) return closest;
         }
-
         return null;
     }
 
-    public static RsGridRecipeWidget getActiveInstance() {
-        return activeInstance;
-    }
-
-    public boolean isPopupOpen() {
-        return popupIsOpen;
-    }
-
-    @Override
-    public Slot getOutputSlot() {
-        return outputSlot;
-    }
-
     // -------------------------------------------------------------------------
-    // Container discovery — works for both CraftingGrid and PatternGrid
+    // Container discovery + recipe query (unchanged logic)
     // -------------------------------------------------------------------------
 
-    /**
-     * Invalidates the per-frame cache. Call once at the start of each render cycle.
-     */
     private void refreshFrameCache() {
         long frame = Minecraft.getInstance().getFrameTimeNs();
         if (frame == lastCacheFrame) return;
@@ -160,19 +136,9 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
         cachedInputHash = Integer.MIN_VALUE;
     }
 
-    /**
-     * Returns the RecipeMatrixContainer instances relevant to this screen.
-     * Cached per frame to avoid repeated slot scans.
-     *
-     * Path 1: scan menu slots directly (CraftingGrid — slots reference the container).
-     * Path 2: reverse-lookup CONTAINER_TO_BE for the active BlockEntity.
-     *   This finds containers registered by MixinCraftingGrid/MixinPatternGrid
-     *   on the CLIENT-SIDE BE construction (works even if slots are phantom).
-     */
     private List<RecipeMatrixContainer> getContainers() {
         if (cachedContainers != null) return cachedContainers;
 
-        // Path 1: direct from menu slots
         List<RecipeMatrixContainer> fromSlots = new ArrayList<>();
         Set<Integer> seen = new HashSet<>();
         for (Slot slot : screen.getMenu().slots) {
@@ -187,7 +153,6 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
             return cachedContainers;
         }
 
-        // Path 2: reverse-lookup from the BE
         if (activeBlockEntity != null) {
             Map<RecipeMatrixContainer, BlockEntity> beMap = RsPolymorph.getMatrixMap();
             List<RecipeMatrixContainer> fromBe = new ArrayList<>();
@@ -206,15 +171,8 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
         return cachedContainers;
     }
 
-    /**
-     * Queries available recipes for the given container.
-     *
-     * Primary: uses RecipeMatrix from CONTAINER_TO_MATRIX (correct type + inputProvider).
-     * Fallback: builds CraftingInput directly for 3x3 / 2x2 grids.
-     */
     @SuppressWarnings("unchecked")
     private List<RecipeHolder<?>> queryRecipes(RecipeMatrixContainer container, ClientLevel level) {
-        // Primary: use RecipeMatrix if registered
         RecipeMatrix<?, ?> matrix = RsPolymorph.getContainerToMatrixMap().get(container);
         if (matrix instanceof IRsRecipeMatrix<?, ?> rsMatrix) {
             RecipeInput input = (RecipeInput) rsMatrix.rspolymorph$getInputProvider().apply(container);
@@ -225,7 +183,6 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
             }
         }
 
-        // Fallback: build CraftingInput directly
         int size = container.getContainerSize();
         if (size == 9) {
             List<ItemStack> items = new ArrayList<>(9);
@@ -244,64 +201,14 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
     }
 
     // -------------------------------------------------------------------------
-    // Render
-    // -------------------------------------------------------------------------
-
-    @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        refreshFrameCache();
-
-        if (popupIsOpen) {
-            if (computeInputHash() != popupOpenedAtHash) {
-                closePopup();
-            }
-        }
-
-        if (!popupIsOpen) {
-            closeSelectionWidgetViaToggle();
-        }
-
-        super.render(graphics, mouseX, mouseY, partialTick);
-
-        if (!popupIsOpen) {
-            SelectionWidget sel = this.getSelectionWidget();
-            if (sel != null) sel.setActive(false);
-        }
-
-        if (this.openButton != null) {
-            this.openButton.visible = false;
-        }
-    }
-
-    private void closePopup() {
-        popupIsOpen = false;
-        RsPolymorph.setSelectedRecipeId(null);
-        this.setRecipesList(new TreeSet<>(), null);
-    }
-
-    private void closeSelectionWidgetViaToggle() {
-        SelectionWidget sel = this.getSelectionWidget();
-        if (sel == null || !sel.isActive()) return;
-
-        if (this.openButton != null) {
-            this.openButton.active = true;
-            this.openButton.onPress();
-            this.openButton.active = false;
-        }
-        sel.setActive(false);
-    }
-
-    // -------------------------------------------------------------------------
     // Input hash
     // -------------------------------------------------------------------------
 
     private int computeInputHash() {
         if (cachedInputHash != Integer.MIN_VALUE) return cachedInputHash;
 
-        List<RecipeMatrixContainer> containers = getContainers();
-
         int hash = 1;
-        for (RecipeMatrixContainer container : containers) {
+        for (RecipeMatrixContainer container : getContainers()) {
             hash = 31 * hash + System.identityHashCode(container);
             for (int i = 0; i < container.getContainerSize(); i++) {
                 ItemStack stack = container.getItem(i);
@@ -318,7 +225,7 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
     }
 
     // -------------------------------------------------------------------------
-    // hasMultipleRecipes
+    // hasMultipleRecipes (drives side-button active state)
     // -------------------------------------------------------------------------
 
     public boolean hasMultipleRecipes() {
@@ -333,7 +240,6 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
     private boolean queryHasMultipleRecipes() {
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) return false;
-
         for (RecipeMatrixContainer container : getContainers()) {
             if (container.isEmpty()) continue;
             if (queryRecipes(container, level).size() > 1) return true;
@@ -342,71 +248,63 @@ public class RsGridRecipeWidget extends PersistentRecipesWidget {
     }
 
     // -------------------------------------------------------------------------
-    // triggerSelection
+    // Popup open / select
     // -------------------------------------------------------------------------
 
+    /** Toggles the recipe-selection popup. Called by the side button. */
     public void triggerSelection() {
-        if (this.openButton == null) return;
+        if (popup.isOpen()) {
+            popup.close();
+            return;
+        }
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) return;
 
-        Set<IRecipePair> pairs = new TreeSet<>();
+        // Collect distinct candidate recipes (id -> output) across all containers.
+        java.util.LinkedHashMap<ResourceLocation, ItemStack> byId = new java.util.LinkedHashMap<>();
         for (RecipeMatrixContainer container : getContainers()) {
             if (container.isEmpty()) continue;
             for (RecipeHolder<?> holder : queryRecipes(container, level)) {
-                ItemStack output = holder.value().getResultItem(level.registryAccess());
-                pairs.add(new RecipePairEntry(holder.id(), output));
+                byId.computeIfAbsent(holder.id(),
+                        k -> holder.value().getResultItem(level.registryAccess()));
             }
         }
+        if (byId.size() < 2) return;
 
-        if (pairs.size() < 2) return;
+        List<RecipeSelectorPopup.Entry> entries = new ArrayList<>(byId.size());
+        for (Map.Entry<ResourceLocation, ItemStack> e : byId.entrySet()) {
+            entries.add(new RecipeSelectorPopup.Entry(e.getKey(), e.getValue()));
+        }
 
         popupOpenedAtHash = computeInputHash();
-        popupIsOpen = true;
+        // Anchor near the result slot, in screen coordinates.
+        int anchorX = ((AccessorScreenOffset) screen).rspolymorph$leftPos() + outputSlot.x;
+        int anchorY = ((AccessorScreenOffset) screen).rspolymorph$topPos() + outputSlot.y;
+        popup.open(entries, anchorX, anchorY);
+    }
 
-        this.setRecipesList(pairs, null);
-        this.openButton.active = true;
-        this.openButton.visible = true;
-        this.openButton.onPress();
-        this.openButton.visible = false;
+    public void selectRecipe(ResourceLocation recipeId) {
+        // Fast-path cache read by MixinPatternGrid before the persistent store.
+        RsPolymorph.setSelectedRecipeId(recipeId);
+        // Uniform SP/MP path via the loader-agnostic network service.
+        Services.NETWORK.sendSelectToServer(recipeId);
     }
 
     // -------------------------------------------------------------------------
-    // selectRecipe
+    // Render + click (called from MixinAbstractGridScreenRender)
     // -------------------------------------------------------------------------
 
-    @Override
-    public void selectRecipe(ResourceLocation resourceLocation) {
-        popupIsOpen = false;
-        // Fast-path cache: MixinPatternGrid.createCraftingPattern reads this static
-        // before falling back to RsGridRecipeData.selections.
-        RsPolymorph.setSelectedRecipeId(resourceLocation);
-
-        // Uniform path for singleplayer and dedicated server. The packet travels over
-        // the local loopback channel in SP. The server handler finds the server-side
-        // BlockEntity via player.containerMenu — avoids the SP pitfall where the
-        // widget's activeBlockEntity is the client BE (wrong level). Routed through the
-        // loader-agnostic network service (NeoForge PacketDistributor / Fabric ClientPlayNetworking).
-        Services.NETWORK.sendSelectToServer(resourceLocation);
+    public void renderPopup(GuiGraphics graphics, int mouseX, int mouseY) {
+        refreshFrameCache();
+        // Auto-close the popup if the grid inputs changed since it opened.
+        if (popup.isOpen() && computeInputHash() != popupOpenedAtHash) {
+            popup.close();
+        }
+        popup.render(graphics, mouseX, mouseY);
     }
 
-    // -------------------------------------------------------------------------
-    // RecipePairEntry
-    // -------------------------------------------------------------------------
-
-    private static final class RecipePairEntry implements IRecipePair {
-        private final ResourceLocation id;
-        private final ItemStack output;
-
-        RecipePairEntry(ResourceLocation id, ItemStack output) {
-            this.id = id;
-            this.output = output;
-        }
-
-        @Override public ItemStack getOutput() { return output; }
-        @Override public ResourceLocation getResourceLocation() { return id; }
-        @Override public int compareTo(IRecipePair other) {
-            return id.compareTo(other.getResourceLocation());
-        }
+    /** @return true if the popup consumed the click (screen must not pass it to slots). */
+    public boolean handleClick(double mouseX, double mouseY) {
+        return popup.mouseClicked(mouseX, mouseY);
     }
 }

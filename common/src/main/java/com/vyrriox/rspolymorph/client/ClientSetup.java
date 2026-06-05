@@ -1,15 +1,15 @@
 package com.vyrriox.rspolymorph.client;
 
-import com.illusivesoulworks.polymorph.api.client.PolymorphWidgets;
 import com.refinedmods.refinedstorage.common.grid.screen.AbstractGridScreen;
+import com.refinedmods.refinedstorage.common.support.containermenu.DisabledSlot;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.inventory.Slot;
 
 /**
- * Client-only initialisation — loaded exclusively when Dist == CLIENT.
- *
- * Isolating every client-class reference here prevents the JVM verifier from
- * trying to resolve client-only types (AbstractGridScreen, PolymorphWidgets, …)
- * when loading the main @Mod class on a dedicated server.
+ * Client-only helpers for the standalone recipe-selection UI. No Polymorph: the widget is created
+ * directly when a grid screen initializes (from {@code MixinAbstractBaseScreen}) and the result
+ * slot is detected from RS's own slot types.
  *
  * Author: vyrriox
  */
@@ -17,37 +17,46 @@ public final class ClientSetup {
 
     private ClientSetup() {}
 
+    /** Retained as a no-op entry point for symmetry with the loader entrypoints. */
     public static void init() {
-        PolymorphWidgets.getInstance().registerWidget(screen -> {
-            if (!(screen instanceof AbstractGridScreen<?> gridScreen)) return null;
+        // Nothing to register globally anymore — the widget is built per screen in onGridScreenInit.
+    }
 
-            Slot resultSlot = PolymorphWidgets.getInstance().findResultSlot(gridScreen);
+    /**
+     * Builds the {@link RsGridRecipeWidget} for a freshly-initialized grid screen, locating the
+     * crafting result slot to anchor the popup. Called from {@code MixinAbstractBaseScreen} after
+     * {@code init()} so all slots exist.
+     */
+    public static void onGridScreenInit(AbstractGridScreen<?> screen) {
+        Slot resultSlot = findResultSlot(screen);
+        if (resultSlot != null) {
+            // Constructing the widget registers it as the active instance.
+            new RsGridRecipeWidget(screen, resultSlot);
+        }
+    }
 
-            // Fallback: scan the slot list for a result-like slot if Polymorph didn't find one.
-            // Uses instanceof checks to correctly match anonymous inner classes that extend
-            // DisabledSlot/FilterSlot (e.g. PatternGridContainerMenu$5 extends DisabledSlot).
-            if (resultSlot == null) {
-                for (Slot slot : gridScreen.getMenu().slots) {
-                    if (slot.isActive()) {
-                        if (slot instanceof com.refinedmods.refinedstorage.common.support.containermenu.DisabledSlot
-                                || slot instanceof net.minecraft.world.inventory.ResultSlot) {
-                            resultSlot = slot;
-                            break;
-                        }
-                    }
-                }
+    /**
+     * Finds the crafting result slot on the grid screen. RS's own {@code CraftingGridResultSlot}
+     * is package-private, so we match on the vanilla {@code ResultSlot} it extends first, then fall
+     * back to any active {@code DisabledSlot} (public RS slot used for the grid result), then any
+     * {@code DisabledSlot}. This mirrors the detection the mod used before going standalone.
+     */
+    private static Slot findResultSlot(AbstractContainerScreen<?> screen) {
+        for (Slot slot : screen.getMenu().slots) {
+            if (slot instanceof ResultSlot) {
+                return slot;
             }
-            // Last resort: find any DisabledSlot even if inactive (e.g. crafting tab not yet synced).
-            if (resultSlot == null) {
-                for (Slot slot : gridScreen.getMenu().slots) {
-                    if (slot instanceof com.refinedmods.refinedstorage.common.support.containermenu.DisabledSlot) {
-                        resultSlot = slot;
-                        break;
-                    }
-                }
+        }
+        for (Slot slot : screen.getMenu().slots) {
+            if (slot.isActive() && slot instanceof DisabledSlot) {
+                return slot;
             }
-
-            return resultSlot != null ? new RsGridRecipeWidget(gridScreen, resultSlot) : null;
-        });
+        }
+        for (Slot slot : screen.getMenu().slots) {
+            if (slot instanceof DisabledSlot) {
+                return slot;
+            }
+        }
+        return null;
     }
 }

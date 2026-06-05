@@ -54,7 +54,10 @@ desktop.ini
 CLAUDE.md
 
 # ── Local dependencies (tracked — required for CI build) ─
-# libs/ is committed so GitHub Actions can compile against rs2 / polymorph jars
+# libs/ is committed so GitHub Actions can compile against the Refined Storage jars.
+!libs/rs2.jar
+!libs/rs3.jar
+!libs/quartz-arsenal.jar
 
 # ── Release artifacts ───────────────────────────────────
 RELEASE_NOTES.md

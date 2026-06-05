@@ -2,7 +2,7 @@
 
 [Consult the full CurseForge description](./CURSEFORGE_PAGE.md)
 
-RS Polymorph is a Minecraft mod for **NeoForge and Fabric** that adds [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) compatibility for [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2). When several recipes match the same ingredients, the Polymorph side button lets you pick which one the Crafting Grid crafts and which one the Pattern Grid prints for autocrafting.
+RS Polymorph is a standalone Minecraft add-on for **NeoForge and Fabric** that adds recipe selection to the [Refined Storage](https://www.curseforge.com/minecraft/mc-mods/refined-storage) crafting and pattern grids — **no Polymorph mod required**. When several recipes match the same ingredients, a side button opens a popup that lets you pick which one the Crafting Grid crafts and which one the Pattern Grid prints for autocrafting.
 
 ## Features
 
@@ -20,30 +20,29 @@ This mod does not add any commands — it integrates transparently with the Refi
 
 ## Requirements
 
-| Dependency | Version |
-|------------|---------|
-| Minecraft | 1.21.1 |
-| Loader | NeoForge 21.1.219+ **or** Fabric Loader 0.16.10+ (with Fabric API) |
-| Java | 21 |
-| Polymorph | >= 1.1.0 (NeoForge or Fabric build) |
-| Refined Storage 2 | >= 2.0.1 (tested against 2.0.8; NeoForge or Fabric build) |
-| Refined Storage - Quartz Arsenal | >= 1.0.7 (optional, for the Wireless Crafting Grid) |
+| Target | Minecraft | Loader | Refined Storage | Java |
+|--------|-----------|--------|-----------------|------|
+| 1.21.1 NeoForge | 1.21.1 | NeoForge 21.1.219+ | RS 2.x (tested 2.0.8) | 21 |
+| 1.21.1 Fabric | 1.21.1 | Fabric Loader 0.16.10+ (+ Fabric API) | RS 2.x (tested 2.0.8) | 21 |
+| 26.1.2 NeoForge | 26.1.2 | NeoForge 26.1.2.x | RS 3.x (tested 3.2.0) | 25 |
 
-Pick the jar matching your loader: `rspolymorph-neoforge-*.jar` or `rspolymorph-fabric-*.jar`. A single combined jar (`rspolymorph-*.jar`) that loads on both loaders is also available as a convenience.
+- **No Polymorph dependency** — recipe selection is built in.
+- **Optional:** Refined Storage - Quartz Arsenal >= 1.0.7 for the Wireless Crafting Grid.
+
+Pick the jar matching your Minecraft version and loader (e.g. `rspolymorph-neoforge-1.21.1-*.jar`, `rspolymorph-fabric-1.21.1-*.jar`, `rspolymorph-neoforge-26.1.2-*.jar`). On 1.21.1 a single combined NeoForge+Fabric jar is also available. *Fabric for 26.1.2 is implemented but pending a stable Fabric Loom with Minecraft 26.x support (see CHANGELOG).*
 
 ## Installation
 
-1. Install [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) in your `mods/` folder
-2. Install [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2) in your `mods/` folder
-3. Place the jar matching your loader (`rspolymorph-neoforge-1.2.0.jar` or `rspolymorph-fabric-1.2.0.jar`) in your `mods/` folder
-4. (Optional) Install [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) for Wireless Crafting Grid support
-5. Start the game (singleplayer) or server
+1. Install [Refined Storage](https://www.curseforge.com/minecraft/mc-mods/refined-storage) in your `mods/` folder
+2. Place the RS Polymorph jar matching your Minecraft version and loader in your `mods/` folder
+3. (Optional) Install [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) for Wireless Crafting Grid support
+4. Start the game (singleplayer) or server — **no Polymorph mod needed**
 
 ## Usage
 
-1. Open a Crafting Grid or Pattern Grid with a Refined Storage 2 network
+1. Open a Crafting Grid or Pattern Grid with a Refined Storage network
 2. Place ingredients that match multiple recipes (e.g. 4 planks → sticks vs. a dye variant)
-3. Click the **Polymorph side button** on the left side of the grid
+3. Click the **recipe selection side button** on the left side of the grid
 4. Select your preferred recipe from the popup
 5. The grid preview (Crafting Grid) or the printed pattern (Pattern Grid) will use your selection
 
@@ -68,7 +67,7 @@ Website: [arcadia-echoes-of-power.fr](https://arcadia-echoes-of-power.fr/)
 
 [Consulter la description CurseForge complète](./CURSEFORGE_PAGE.md)
 
-RS Polymorph est un mod NeoForge pour Minecraft qui ajoute la compatibilité [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) pour [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2). Lorsque plusieurs recettes correspondent aux mêmes ingrédients, le bouton latéral Polymorph vous laisse choisir laquelle la Crafting Grid fabrique et laquelle la Pattern Grid imprime pour l'autocraft.
+RS Polymorph est un add-on autonome pour Minecraft (**NeoForge et Fabric**) qui ajoute la sélection de recette aux grilles de craft et de patron de [Refined Storage](https://www.curseforge.com/minecraft/mc-mods/refined-storage) — **sans nécessiter le mod Polymorph**. Lorsque plusieurs recettes correspondent aux mêmes ingrédients, un bouton latéral ouvre un popup qui vous laisse choisir laquelle la Crafting Grid fabrique et laquelle la Pattern Grid imprime pour l'autocraft.
 
 ## Caractéristiques
 
@@ -86,30 +85,29 @@ Ce mod n'ajoute aucune commande — il s'intègre de manière transparente à l'
 
 ## Prérequis
 
-| Dépendance | Version |
-|------------|---------|
-| Minecraft | 1.21.1 |
-| Loader | NeoForge 21.1.219+ **ou** Fabric Loader 0.16.10+ (avec Fabric API) |
-| Java | 21 |
-| Polymorph | >= 1.1.0 (build NeoForge ou Fabric) |
-| Refined Storage 2 | >= 2.0.1 (testé avec 2.0.8 ; build NeoForge ou Fabric) |
-| Refined Storage - Quartz Arsenal | >= 1.0.7 (optionnel, pour la Wireless Crafting Grid) |
+| Cible | Minecraft | Loader | Refined Storage | Java |
+|-------|-----------|--------|-----------------|------|
+| 1.21.1 NeoForge | 1.21.1 | NeoForge 21.1.219+ | RS 2.x (testé 2.0.8) | 21 |
+| 1.21.1 Fabric | 1.21.1 | Fabric Loader 0.16.10+ (+ Fabric API) | RS 2.x (testé 2.0.8) | 21 |
+| 26.1.2 NeoForge | 26.1.2 | NeoForge 26.1.2.x | RS 3.x (testé 3.2.0) | 25 |
 
-Choisissez le jar correspondant à votre loader : `rspolymorph-neoforge-*.jar` ou `rspolymorph-fabric-*.jar`. Un jar combiné unique (`rspolymorph-*.jar`) chargeable sur les deux loaders est aussi disponible par commodité.
+- **Aucune dépendance à Polymorph** — la sélection de recette est intégrée.
+- **Optionnel :** Refined Storage - Quartz Arsenal >= 1.0.7 pour la Wireless Crafting Grid.
+
+Choisissez le jar correspondant à votre version de Minecraft et loader (ex. `rspolymorph-neoforge-1.21.1-*.jar`, `rspolymorph-fabric-1.21.1-*.jar`, `rspolymorph-neoforge-26.1.2-*.jar`). Sur 1.21.1, un jar combiné NeoForge+Fabric unique est aussi disponible. *Fabric pour 26.1.2 est implémenté mais en attente d'un Fabric Loom stable supportant Minecraft 26.x (voir CHANGELOG).*
 
 ## Installation
 
-1. Installez [Polymorph](https://www.curseforge.com/minecraft/mc-mods/polymorph) dans votre dossier `mods/`
-2. Installez [Refined Storage 2](https://www.curseforge.com/minecraft/mc-mods/refined-storage-2) dans votre dossier `mods/`
-3. Placez le jar correspondant à votre loader (`rspolymorph-neoforge-1.2.0.jar` ou `rspolymorph-fabric-1.2.0.jar`) dans votre dossier `mods/`
-4. (Optionnel) Installez [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) pour le support de la Wireless Crafting Grid
-5. Démarrez le jeu (solo) ou le serveur
+1. Installez [Refined Storage](https://www.curseforge.com/minecraft/mc-mods/refined-storage) dans votre dossier `mods/`
+2. Placez le jar RS Polymorph correspondant à votre version de Minecraft et loader dans votre dossier `mods/`
+3. (Optionnel) Installez [Refined Storage - Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) pour le support de la Wireless Crafting Grid
+4. Démarrez le jeu (solo) ou le serveur — **aucun mod Polymorph requis**
 
 ## Utilisation
 
-1. Ouvrez une Crafting Grid ou Pattern Grid avec un réseau Refined Storage 2
+1. Ouvrez une Crafting Grid ou Pattern Grid avec un réseau Refined Storage
 2. Placez des ingrédients qui correspondent à plusieurs recettes (ex. 4 planches → bâtons vs. une variante de teinture)
-3. Cliquez sur le **bouton latéral Polymorph** sur la gauche de la grille
+3. Cliquez sur le **bouton latéral de sélection de recette** sur la gauche de la grille
 4. Sélectionnez votre recette préférée dans le popup
 5. L'aperçu de la grille (Crafting Grid) ou le patron imprimé (Pattern Grid) utilisera votre sélection
 

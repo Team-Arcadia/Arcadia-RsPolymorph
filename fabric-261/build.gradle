@@ -1,0 +1,73 @@
+plugins {
+    id 'java-library'
+    id 'fabric-loom'
+}
+
+base {
+    archivesName = "${mod_id}-fabric-${minecraft_version_261}"
+}
+
+version = mod_version
+group = mod_group_id
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(java_version_261 as int)
+}
+
+repositories {
+    mavenCentral()
+    maven { name = 'BlameJared'; url = 'https://maven.blamejared.com' }
+    exclusiveContent {
+        forRepository { maven { name = 'Modrinth'; url = 'https://api.modrinth.com/maven' } }
+        filter { includeGroup('maven.modrinth') }
+    }
+}
+
+def common261Java = configurations.create('common261Java') { canBeResolved = true }
+def common261Resources = configurations.create('common261Resources') { canBeResolved = true }
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version_261}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version_261}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version_261}"
+
+    // Refined Storage 3.2.0 (Fabric) — pinned by Modrinth version-ID (loader-deterministic).
+    modImplementation "maven.modrinth:refined-storage:${refinedstorage_261_fabric}"
+
+    // Shared 26.x-adapted common sources/resources.
+    add('common261Java', project(path: ':common-261', configuration: 'common261Java'))
+    add('common261Resources', project(path: ':common-261', configuration: 'common261Resources'))
+}
+
+loom {
+    mixin {
+        defaultRefmapName.set("${mod_id}.refmap.json")
+    }
+    runs {
+        client { client(); ideConfigGenerated(true); runDir('runs/client') }
+        server { server(); ideConfigGenerated(true); runDir('runs/server') }
+    }
+}
+
+tasks.named('compileJava', JavaCompile) {
+    dependsOn(common261Java)
+    source(common261Java)
+}
+
+processResources {
+    dependsOn(common261Resources)
+    from(common261Resources)
+    var props = [
+            version                 : mod_version,
+            minecraft_version       : minecraft_version_261,
+            fabric_loader_version   : fabric_loader_version_261,
+            mod_id                  : mod_id,
+            mod_name                : mod_name,
+            mod_author              : mod_author,
+            license                 : license,
+            description             : description,
+    ]
+    inputs.properties(props)
+    filesMatching(['fabric.mod.json', 'pack.mcmeta', '*.mixins.json']) { expand props }
+}

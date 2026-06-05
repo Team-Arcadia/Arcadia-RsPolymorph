@@ -7,12 +7,13 @@
 | Project | RS Polymorph |
 | Mod ID | `rspolymorph` |
 | Package | `com.vyrriox.rspolymorph` |
-| Tech Stack | Java 21, MultiLoader (NeoForge + Fabric) for MC 1.21.1, Gradle 9.5.1 |
+| Tech Stack | Java 21 (MC 1.21.1) / Java 25 (MC 26.1.2), MultiLoader (NeoForge + Fabric), Gradle 9.5.1 |
 | Author | vyrriox |
 | Organization | Team Arcadia |
-| License | LGPL-3.0-or-later (matches upstream Polymorph; with attribution requirement to "vyrriox / Team Arcadia") |
+| License | LGPL-3.0-or-later (with attribution requirement to "vyrriox / Team Arcadia") |
 | Version | 1.2.0 |
-| Dependencies | Polymorph >= 1.1.0, Refined Storage 2 >= 2.0.1 (tested 2.0.8) |
+| Dependencies | **Standalone — NO Polymorph.** Refined Storage 2.x (MC 1.21.1, tested 2.0.8) or 3.x (MC 26.1.2, tested 3.2.0) |
+| Targets | 1.21.1 NeoForge ✓ · 1.21.1 Fabric ✓ · 26.1.2 NeoForge ✓ · 26.1.2 Fabric (coded, pending Loom 26.x) |
 | Optional compat | Refined Storage - Quartz Arsenal >= 1.0.7 (wireless crafting grid) |
 
 ## 2. Git Workflow
@@ -106,7 +107,23 @@ arcadia-rspolymorph/
 > Rule: gameplay logic and mixins go in `common` ONLY. `neoforge`/`fabric` contain loader wiring
 > (entrypoint, registration, networking impl) and nothing else. `common` must never import a
 > loader API — reach loader behaviour through `Services` (ServiceLoader). All mixins stay
-> `remap=false` (targets are RS2/Polymorph classes, never remapped on either loader).
+> `remap=false` (targets are RS classes, never remapped on either loader).
+
+### MC 26.1.2 / RS 3.x line (`common-261`, `neoforge-261`, `fabric-261`)
+
+- Shares the 1.21.1 `common` sources via a build-time remap (`common-261:remapCommonSources`):
+  `ResourceLocation`→`Identifier`, `GuiGraphics`→`GuiGraphicsExtractor`. Files whose 26.x API
+  differs **semantically** (recipe lookup, `assemble`, `RecipeHolder.id()` as `ResourceKey`, the
+  `extractRenderState`/`extractContents` GUI pipeline) are **forked** under `common-261/src` and
+  excluded from the remap (see the `forkedFor261` list in `common-261/build.gradle`).
+- MC 26.1.x needs **Java 25** and runs **un-obfuscated**. Build the 26.1.2 modules with Gradle on
+  JDK 25: `./gradlew :neoforge-261:build -Dorg.gradle.java.home=<jdk25>`. The default
+  `./gradlew build` (Java 21) still compiles them via Gradle toolchains.
+- `fabric-261` is implemented but excluded from the default build: un-obfuscated 26.x needs
+  `fabric-loom` 1.17.0-alpha+, which conflicts with the stable Loom 1.16.3 used by the 1.21.1
+  Fabric module. Enable on a branch that bumps Loom.
+- NeoForge 26.x API deltas already handled: `FMLEnvironment.getDist()`, `ClientPacketDistributor`
+  (`net.neoforged.neoforge.client.network`), `AttachmentType.Builder.serialize(MapCodec)`.
 
 ## 5. Adding a New Feature (Step by Step)
 

@@ -42,7 +42,8 @@ public final class RsPolymorphFabric implements ModInitializer {
                 context.server().execute(() ->
                         SelectRecipePacket.applyOnServer(context.player(), payload.recipeId())));
 
-        // Register the Polymorph recipe-data factories (shared with NeoForge).
-        RsPolymorph.registerPolymorphFactories();
+        // Touch the grid store so its persistent attachment is registered at startup (the Fabric
+        // attachment is created in FabricGridRecipeStore's class initializer).
+        com.vyrriox.rspolymorph.platform.Services.GRID_STORE.getClass();
     }
 }

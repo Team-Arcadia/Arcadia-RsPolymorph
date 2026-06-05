@@ -1,15 +1,14 @@
 package com.vyrriox.rspolymorph;
 
-import com.illusivesoulworks.polymorph.api.PolymorphApi;
-import com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridBlockEntity;
-import com.refinedmods.refinedstorage.common.grid.CraftingGridBlockEntity;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrixContainer;
+import com.vyrriox.rspolymorph.platform.Services;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -63,28 +62,6 @@ public final class RsPolymorph {
                     "selected_recipe data component accessed before loader registration");
         }
         return c;
-    }
-
-    // ── Polymorph block-entity factory registration (shared) ──────────────────
-    /**
-     * Registers the Polymorph recipe-data factories for the RS2 crafting and pattern grids.
-     * Called once from each loader's common-setup hook.
-     *
-     * Polymorph's {@code createBlockEntityRecipeData} iterates a flat {@code List<IRecipeDataFactory>}
-     * and accepts the FIRST factory that returns non-null — the {@code Class<?>} argument is metadata
-     * only, not enforced. A factory that always returns a value would attach {@link RsGridRecipeData}
-     * to EVERY block entity in the world (Create encased fans, hoppers, anything). Combined with
-     * Polymorph's per-data {@code RecipeCache} being keyed by input alone (not by RecipeType), that
-     * causes cross-type recipe leaks and ClassCastExceptions. Filter by runtime class so non-RS2 BEs
-     * fall through to the next factory.
-     */
-    public static void registerPolymorphFactories() {
-        PolymorphApi.getInstance().registerBlockEntity(
-                CraftingGridBlockEntity.class,
-                be -> be instanceof CraftingGridBlockEntity ? new RsGridRecipeData(be) : null);
-        PolymorphApi.getInstance().registerBlockEntity(
-                PatternGridBlockEntity.class,
-                be -> be instanceof PatternGridBlockEntity ? new RsGridRecipeData(be) : null);
     }
 
     // ── Registry maps ─────────────────────────────────────────────────────────
@@ -156,7 +133,7 @@ public final class RsPolymorph {
      *
      * Guarded so the per-matrix store can NEVER shadow a BlockEntity-backed matrix: if the
      * matrix's container is registered to a BlockEntity, the selection must go through the
-     * Polymorph capability ({@link RsGridRecipeData}) instead, and we ignore the store request.
+     * persistent grid store ({@code Services.GRID_STORE}) instead, and we ignore the store request.
      * This keeps path-2 in {@code MixinRecipeMatrix} exclusively the non-BE channel.
      */
     public static void setMatrixSelection(RecipeMatrix<?, ?> matrix, ResourceLocation recipeId) {
@@ -165,7 +142,7 @@ public final class RsPolymorph {
             MATRIX_SELECTION.remove(matrix);
             return;
         }
-        // BE-backed matrix → use the Polymorph capability path, not this store.
+        // BE-backed matrix → use the persistent grid store path, not this in-memory store.
         if (CONTAINER_TO_BE.get(matrix.getMatrix()) != null) return;
         MATRIX_SELECTION.put(matrix, recipeId);
     }
@@ -201,15 +178,17 @@ public final class RsPolymorph {
 
         BlockEntity be = CONTAINER_TO_BE.get(matrix.getMatrix());
         if (be == null) return null;
-
-        var data = PolymorphApi.getInstance().getBlockEntityRecipeData(be);
-        if (!(data instanceof RsGridRecipeData rsData)) return null;
         if (!(matrix instanceof IRsRecipeMatrix<?, ?> rsMatrix)) return null;
 
-        RecipeHolder<?> selected = rsData.getSelectedRecipe(rsMatrix.rspolymorph$getRecipeType());
+        RecipeType<?> type = rsMatrix.rspolymorph$getRecipeType();
+        ResourceLocation selectedId = Services.GRID_STORE.get(be, type);
+        if (selectedId == null) return null;
+
+        RecipeHolder<?> selected = level.getRecipeManager().byKey(selectedId).orElse(null);
         if (selected == null) return null;
 
-        // Validate the selection still matches the current inputs.
+        // Validate the stored selection is still of the right type and matches the current inputs.
+        if (selected.value().getType() != type) return null;
         Recipe<RecipeInput> recipe = (Recipe<RecipeInput>) selected.value();
         RecipeInput input = (RecipeInput) rsMatrix.rspolymorph$getInputProvider().apply(matrix.getMatrix());
         return (input != null && recipe.matches(input, level)) ? selected : null;

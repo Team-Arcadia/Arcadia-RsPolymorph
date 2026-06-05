@@ -12,12 +12,12 @@
     "MixinAbstractGridContainerMenu",
     "MixinCraftingGrid",
     "MixinPatternGrid",
-    "MixinPatternResolver",
-    "MixinRecipeManagerSafety"
+    "MixinPatternResolver"
   ],
   "client": [
     "MixinAbstractBaseScreen",
-    "MixinSelectionWidget"
+    "MixinAbstractGridScreenRender",
+    "MixinAbstractContainerScreenOffset"
   ],
   "injectors": {
     "defaultRequire": 1

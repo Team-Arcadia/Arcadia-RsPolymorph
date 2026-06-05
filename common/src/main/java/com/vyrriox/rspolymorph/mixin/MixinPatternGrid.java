@@ -1,14 +1,12 @@
 package com.vyrriox.rspolymorph.mixin;
 
-import com.illusivesoulworks.polymorph.api.PolymorphApi;
-import com.vyrriox.rspolymorph.RsGridRecipeData;
 import com.vyrriox.rspolymorph.RsPolymorph;
+import com.vyrriox.rspolymorph.platform.Services;
 import com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridBlockEntity;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrixContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,9 +41,9 @@ public abstract class MixinPatternGrid {
      *
      * Reads the selection from two sources (in priority order):
      *  1. Static selectedRecipeId — fast path for singleplayer (shared JVM).
-     *  2. RsGridRecipeData.selections — persisted selection from SelectRecipePacket,
-     *     works on dedicated servers where the static field may already be cleared
-     *     by the time RS2's createCraftingPattern packet arrives.
+     *  2. The persisted per-grid selection store ({@code Services.GRID_STORE}) — works on
+     *     dedicated servers where the static field may already be cleared by the time RS2's
+     *     createCraftingPattern packet arrives.
      */
     @Inject(method = "createCraftingPattern()Lnet/minecraft/world/item/ItemStack;", at = @At("RETURN"), remap = false)
     private void RSPOLYMORPH_tagWithSelectedRecipe(CallbackInfoReturnable<ItemStack> cir) {
@@ -55,16 +53,10 @@ public abstract class MixinPatternGrid {
         // 1) Static fast path (singleplayer)
         ResourceLocation selectedId = RsPolymorph.getSelectedRecipeId();
 
-        // 2) Persisted selection from RsGridRecipeData (dedicated server)
+        // 2) Persisted selection from the grid store (dedicated server)
         if (selectedId == null) {
             PatternGridBlockEntity be = (PatternGridBlockEntity) (Object) this;
-            var data = PolymorphApi.getInstance().getBlockEntityRecipeData(be);
-            if (data instanceof RsGridRecipeData rsData) {
-                RecipeHolder<?> selected = rsData.getSelectedRecipe(RecipeType.CRAFTING);
-                if (selected != null) {
-                    selectedId = selected.id();
-                }
-            }
+            selectedId = Services.GRID_STORE.get(be, RecipeType.CRAFTING);
         }
 
         if (selectedId != null) {

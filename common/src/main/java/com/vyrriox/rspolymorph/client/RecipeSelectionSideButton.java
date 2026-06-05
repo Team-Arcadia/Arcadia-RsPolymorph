@@ -9,13 +9,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Native RS2 side button to trigger Polymorph recipe selection.
- * Uses RS2's sprite system for proper theming.
+ * Native RS grid side button that opens the recipe-selection popup.
+ * Uses RS's sprite system for proper theming. No Polymorph dependency.
  * Author: vyrriox
  */
-public class PolymorphSideButton extends AbstractSideButtonWidget {
+public class RecipeSelectionSideButton extends AbstractSideButtonWidget {
 
-    public PolymorphSideButton() {
+    public RecipeSelectionSideButton() {
         super(button -> {
             RsGridRecipeWidget widget = RsGridRecipeWidget.getActiveInstance();
             if (widget != null) {

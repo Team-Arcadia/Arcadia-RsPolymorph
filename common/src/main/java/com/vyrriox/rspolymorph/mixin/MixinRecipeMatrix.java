@@ -1,7 +1,5 @@
 package com.vyrriox.rspolymorph.mixin;
 
-import com.illusivesoulworks.polymorph.api.PolymorphApi;
-import com.illusivesoulworks.polymorph.api.common.capability.IBlockEntityRecipeData;
 import com.vyrriox.rspolymorph.IRsRecipeMatrix;
 import com.vyrriox.rspolymorph.RsPolymorph;
 import com.refinedmods.refinedstorage.common.support.RecipeMatrix;
@@ -13,7 +11,6 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -54,13 +51,13 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
     }
 
     /**
-     * After RS2 has resolved its default recipe, override with Polymorph's selection if one is
+     * After RS2 has resolved its default recipe, override with the user's selection if one is
      * active for this matrix.
      *
      * Strategy (in priority order):
      *  1. Static selectedRecipeId (the just-applied selection; SP and the first server apply).
      *  2. Per-matrix selection (BlockEntity-free grids such as the wireless crafting grid).
-     *  3. Polymorph BlockEntity recipe data (persisted selection via Polymorph's capability).
+     *  3. Persisted per-grid selection (block-entity-backed grids, via Services.GRID_STORE).
      *
      * Early-exit: if the current recipe already matches the selection, skip the search entirely.
      * This is the common case after the initial selection is applied.
@@ -77,7 +74,6 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
             // Skip the search if RS2 already resolved the right recipe.
             RecipeHolder<T> current = accessor.rspolymorph$getCurrentRecipe();
             if (current != null && current.id().equals(selectedId)) {
-                syncRecipesIfServer(level);
                 return;
             }
 
@@ -91,7 +87,6 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
                         // to the old recipe via the `currentRecipe.matches(input)` fast path.
                         accessor.rspolymorph$setCurrentRecipe(holder);
                         accessor.rspolymorph$invokeSetResult(holder, output);
-                        syncRecipesIfServer(level);
                         return;
                     }
                 }
@@ -101,15 +96,14 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
 
         // ── 2) Per-matrix selection (BlockEntity-free grids: wireless crafting grid) ──
         // Grids with no BlockEntity (e.g. Quartz Arsenal's wireless crafting grid) cannot
-        // persist a selection through Polymorph's BlockEntity capability. SelectRecipePacket
-        // stores their choice keyed by this matrix instead, so re-apply it on every
-        // updateResult to survive input changes — exactly as the BlockEntity path does below.
-        // The selection is intentionally sticky-while-matching: applied only when it is still a
-        // valid recipe for the CURRENT inputs (mirroring the wired BE path's recipe.matches check),
-        // left untouched on a transient mismatch, and reclaimed deterministically on menu close
-        // by MixinAbstractGridContainerMenu — so it is never aggressively purged nor unbounded.
+        // persist a selection on a block entity. SelectRecipePacket stores their choice keyed by
+        // this matrix instead, so re-apply it on every updateResult to survive input changes —
+        // exactly as the BlockEntity path does below. The selection is intentionally
+        // sticky-while-matching: applied only when it is still a valid recipe for the CURRENT
+        // inputs, left untouched on a transient mismatch, and reclaimed deterministically on menu
+        // close by MixinAbstractGridContainerMenu — so it is never aggressively purged nor unbounded.
         // Read-side BE guard (mirrors setMatrixSelection's write-side guard): a BE-backed matrix
-        // must resolve through the Polymorph capability in path 3, never through this store.
+        // must resolve through the persistent grid store in path 3, never through this store.
         ResourceLocation matrixId = RsPolymorph.getBlockEntityForContainer(this.matrix) == null
                 ? RsPolymorph.getMatrixSelection((RecipeMatrix<?, ?>) (Object) this)
                 : null;
@@ -124,53 +118,29 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
                             ItemStack output = holder.value().assemble(input, level.registryAccess());
                             accessor.rspolymorph$setCurrentRecipe(holder);
                             accessor.rspolymorph$invokeSetResult(holder, output);
-                            syncRecipesIfServer(level);
                             return;
                         }
                     }
                 }
             } else {
                 // Already correct — nothing to override.
-                syncRecipesIfServer(level);
                 return;
             }
         }
 
-        // ── 3) Polymorph BlockEntity data (persisted selection) ───────────────
-        RecipeHolder<T> polymorphRecipe = (RecipeHolder<T>) RsPolymorph.getRecipe((RecipeMatrix<?, ?>) (Object) this, level);
-        if (polymorphRecipe != null) {
+        // ── 3) Persisted per-grid selection (block-entity-backed grids) ───────────
+        RecipeHolder<T> storedRecipe = (RecipeHolder<T>) RsPolymorph.getRecipe((RecipeMatrix<?, ?>) (Object) this, level);
+        if (storedRecipe != null) {
             // Early-exit if the result is already correct.
             RecipeHolder<T> current = accessor.rspolymorph$getCurrentRecipe();
-            if (current == null || !current.id().equals(polymorphRecipe.id())) {
+            if (current == null || !current.id().equals(storedRecipe.id())) {
                 I input = this.inputProvider.apply(this.matrix);
                 if (input != null) {
-                    ItemStack output = polymorphRecipe.value().assemble(input, level.registryAccess());
-                    accessor.rspolymorph$setCurrentRecipe(polymorphRecipe);
-                    accessor.rspolymorph$invokeSetResult(polymorphRecipe, output);
+                    ItemStack output = storedRecipe.value().assemble(input, level.registryAccess());
+                    accessor.rspolymorph$setCurrentRecipe(storedRecipe);
+                    accessor.rspolymorph$invokeSetResult(storedRecipe, output);
                 }
             }
-        }
-
-        syncRecipesIfServer(level);
-    }
-
-    /**
-     * Pushes the current recipe list to Polymorph's sync mechanism (server side only).
-     * Throttling is handled inside RsGridRecipeData.forceUpdateRecipes().
-     * Wrapped in try-catch so an unexpected Polymorph issue never crashes the server.
-     */
-    private void syncRecipesIfServer(Level level) {
-        if (level.isClientSide()) return;
-        try {
-            BlockEntity be = RsPolymorph.getBlockEntityForContainer(this.matrix);
-            if (be == null) return;
-            IBlockEntityRecipeData data = PolymorphApi.getInstance().getBlockEntityRecipeData(be);
-            if (data instanceof com.vyrriox.rspolymorph.RsGridRecipeData rsData) {
-                rsData.forceUpdateRecipes(level);
-            }
-        } catch (Exception e) {
-            org.apache.logging.log4j.LogManager.getLogger("RSPolymorph")
-                    .warn("Failed to sync recipes to Polymorph", e);
         }
     }
 }

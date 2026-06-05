@@ -1,0 +1,109 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev'
+}
+
+base {
+    archivesName = "${mod_id}-${project.name}-${minecraft_version_261}"
+}
+
+java {
+    // MC 26.1.x runs on Java 25. Gradle auto-provisions the JDK via the foojay resolver.
+    toolchain.languageVersion = JavaLanguageVersion.of(java_version_261 as int)
+    // No sourcesJar: this module's sources are generated (remapped + forks) and shared with the
+    // loader subprojects, not published on their own.
+}
+
+repositories {
+    mavenCentral()
+    maven { name = 'NeoForge'; url = 'https://maven.neoforged.net/releases' }
+    maven { name = 'BlameJared'; url = 'https://maven.blamejared.com' }
+    exclusiveContent {
+        forRepository { maven { name = 'Modrinth'; url = 'https://api.modrinth.com/maven' } }
+        filter { includeGroup('maven.modrinth') }
+    }
+}
+
+neoForge {
+    // Compile the 26.1.2 common module against vanilla via NeoForm 26.1.2-1.
+    neoFormVersion = neoform_version_261
+}
+
+dependencies {
+    compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.7'
+    compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.4.1'
+    annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.4.1'
+
+    // Refined Storage 3.2.0 (NeoForge) compile reference.
+    compileOnly files('../libs/rs3.jar')
+}
+
+// ── Source remap (1.21.1 → 26.1.2 Mojmap renames) ─────────────────────────────
+// MC 26.x renamed two vanilla classes used pervasively by the shared 1.21.1 sources:
+//   net.minecraft.resources.ResourceLocation        -> net.minecraft.resources.Identifier
+//   net.minecraft.client.gui.GuiGraphics            -> net.minecraft.client.gui.GuiGraphicsExtractor
+// Rather than fork every file, copy the shared common sources into a build dir, rewriting those
+// identifiers, then compile the rewritten copy. MixinPatternResolver is excluded (RS3 fork lives
+// in this module's own src/main/java, compiled as-is).
+def remappedCommonSrc = layout.buildDirectory.dir('remapped-common/java')
+
+// Files whose MC 26.x changes are SEMANTIC (recipe lookup via server.getRecipeManager, single-arg
+// assemble(input), RecipeHolder.id() returning ResourceKey instead of Identifier, new GUI render
+// API) are forked in this module's own src/main/java and excluded from the textual remap.
+def forkedFor261 = [
+        'com/vyrriox/rspolymorph/mixin/MixinPatternResolver.java',
+        'com/vyrriox/rspolymorph/RsPolymorph.java',
+        'com/vyrriox/rspolymorph/network/SelectRecipePacket.java',
+        'com/vyrriox/rspolymorph/mixin/MixinRecipeMatrix.java',
+        'com/vyrriox/rspolymorph/client/RsGridRecipeWidget.java',
+        'com/vyrriox/rspolymorph/client/RecipeSelectorPopup.java',
+        // GUI render pipeline changed in 26.x (extractRenderState/extractWidgetRenderState):
+        'com/vyrriox/rspolymorph/client/RecipeSelectionSideButton.java',
+        'com/vyrriox/rspolymorph/mixin/MixinAbstractGridScreenRender.java',
+        'com/vyrriox/rspolymorph/mixin/MixinAbstractContainerScreenOffset.java',
+]
+
+// Produce ONE unified source dir = (1.21.1 sources textually remapped, minus the forks)
+// + (this module's hand-written 26.x forks copied verbatim). Both the local compile and the
+// loader subprojects consume this single dir, so every class is present exactly once.
+def remapCommonSources = tasks.register('remapCommonSources', Copy) {
+    // 1) the shared 1.21.1 sources with the simple Mojmap renames, excluding the forks
+    from('../common/src/main/java') {
+        forkedFor261.each { exclude it }
+        filter { String line ->
+            line.replaceAll(/\bResourceLocation\b/, 'Identifier')
+                .replaceAll(/\bGuiGraphics\b/, 'GuiGraphicsExtractor')
+        }
+    }
+    // 2) the 26.x forks, copied as-is (already written against the 26.x API)
+    from('src/main/java')
+    into remappedCommonSrc
+    duplicatesStrategy = DuplicatesStrategy.FAIL  // a fork colliding with a remapped file is a bug
+}
+
+sourceSets {
+    main {
+        java {
+            // ONLY the unified dir — do not also add src/main/java, or forks compile twice.
+            srcDirs = [remappedCommonSrc]
+        }
+        resources {
+            srcDir '../common/src/main/resources'
+        }
+    }
+}
+
+tasks.named('compileJava') {
+    dependsOn remapCommonSources
+}
+
+configurations {
+    common261Java { canBeResolved = false; canBeConsumed = true }
+    common261Resources { canBeResolved = false; canBeConsumed = true }
+}
+
+artifacts {
+    common261Java(remappedCommonSrc) { builtBy remapCommonSources }
+    common261Resources(file('../common/src/main/resources'))
+}
