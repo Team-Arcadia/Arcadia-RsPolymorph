@@ -93,7 +93,10 @@ jar {
 
 processResources {
     var expandProps = [
-            'version'                      : version,
+            // Use mod_version (from gradle.properties) directly: the subproject's `version` may
+            // still be 'unspecified' when this convention plugin configures processResources,
+            // since `version = mod_version` in the loader build.gradle runs afterwards.
+            'version'                      : mod_version,
             'group'                        : project.group, // Else we target the task's group.
             'minecraft_version'            : minecraft_version,
             'minecraft_version_range'      : minecraft_version_range,

@@ -1,7 +1,9 @@
 {
-  "modmenu.description.rspolymorph": "A compatibility mod for Polymorph and Refined Storage 2.",
+  "modmenu.description.rspolymorph": "Standalone recipe selection for Refined Storage crafting and pattern grids.",
   "rspolymorph.button.select": "Select Recipe",
   "rspolymorph.button.clear": "Clear Selection",
   "rspolymorph.gui.recipe_selection": "Recipe Selection",
-  "rspolymorph.gui.click_to_select": "Click to select a recipe"
+  "rspolymorph.gui.click_to_select": "Click to select a recipe",
+  "item.rspolymorph.test_stick_1": "Test Stick 1",
+  "item.rspolymorph.test_stick_2": "Test Stick 2"
 }

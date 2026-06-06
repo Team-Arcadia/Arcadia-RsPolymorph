@@ -1,17 +1,21 @@
 package com.vyrriox.rspolymorph.neoforge;
 
 import com.vyrriox.rspolymorph.RsPolymorph;
+import com.vyrriox.rspolymorph.TestItems;
 import com.vyrriox.rspolymorph.platform.GridSelectionData;
 import com.vyrriox.rspolymorph.network.SelectRecipePacket;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -53,11 +57,31 @@ public final class RsPolymorphNeoForge {
                             .serialize(GridSelectionData.CODEC)
                             .build());
 
+    // Two debug items with identical crafting inputs (test_stick_1 / test_stick_2) to exercise
+    // the recipe-selection popup. On 1.21.1 the registry id comes from the registry key only —
+    // no Item.Properties.setId needed (that is a 1.21.2+ requirement, handled in the 26.1.2 build).
+    private static final DeferredRegister<Item> ITEMS =
+            DeferredRegister.create(Registries.ITEM, RsPolymorph.MOD_ID);
+
+    private static final DeferredHolder<Item, Item> TEST_STICK_1 =
+            ITEMS.register("test_stick_1", () -> new Item(new Item.Properties()));
+    private static final DeferredHolder<Item, Item> TEST_STICK_2 =
+            ITEMS.register("test_stick_2", () -> new Item(new Item.Properties()));
+
     public RsPolymorphNeoForge(IEventBus modEventBus) {
         DATA_COMPONENT_TYPES.register(modEventBus);
         ATTACHMENT_TYPES.register(modEventBus);
+        ITEMS.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::registerPayloads);
+        modEventBus.addListener(this::addCreativeTab);
+    }
+
+    private void addCreativeTab(final BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(TEST_STICK_1.get());
+            event.accept(TEST_STICK_2.get());
+        }
     }
 
     private void registerPayloads(final RegisterPayloadHandlersEvent event) {
@@ -80,6 +104,10 @@ public final class RsPolymorphNeoForge {
 
         // Bind the attachment-backed grid selection store used by NeoForgeGridRecipeStore.
         NeoForgeGridRecipeStore.bind(GRID_SELECTION);
+
+        // Expose the debug items to the loader-agnostic core.
+        TestItems.setTestStick1(TEST_STICK_1.get());
+        TestItems.setTestStick2(TEST_STICK_2.get());
 
         // Client widget registration lives in a separate class to keep client-only type
         // references out of this class's constant pool / lambda methods on a dedicated server.
