@@ -72,7 +72,11 @@ public abstract class MixinRecipeMatrix<T extends Recipe<I>, I extends RecipeInp
 
         AccessorRecipeMatrix<T, I> accessor = (AccessorRecipeMatrix<T, I>) this;
 
-        MinecraftServer server = ((ServerLevel) level).getServer();
+        // RS2 RecipeMatrix.updateResult runs on BOTH logical sides; the override is server-only
+        // (the client receives the result via broadcastChanges). Guard the ServerLevel cast so a
+        // client-side invocation cannot throw ClassCastException and break the open grid.
+        if (!(level instanceof ServerLevel serverLevel)) return;
+        MinecraftServer server = serverLevel.getServer();
 
         // ── 1) Static selection (singleplayer fast path) ──────────────────────
         Identifier selectedId = RsPolymorph.getSelectedRecipeId();

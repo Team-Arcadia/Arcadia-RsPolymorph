@@ -206,7 +206,9 @@ public final class RsPolymorph {
         Identifier selectedId = Services.GRID_STORE.get(be, type);
         if (selectedId == null) return null;
 
-        MinecraftServer server = ((ServerLevel) level).getServer();
+        // Server-only resolution; guard the cast (updateResult can run client-side too).
+        if (!(level instanceof ServerLevel serverLevel)) return null;
+        MinecraftServer server = serverLevel.getServer();
         ResourceKey<Recipe<?>> selectedKey = ResourceKey.create(Registries.RECIPE, selectedId);
         RecipeHolder<?> selected = server.getRecipeManager().byKey(selectedKey).orElse(null);
         if (selected == null) return null;

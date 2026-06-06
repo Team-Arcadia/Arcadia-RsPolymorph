@@ -4,6 +4,7 @@ import com.refinedmods.refinedstorage.common.grid.screen.AbstractGridScreen;
 import com.vyrriox.rspolymorph.client.RsGridRecipeWidget;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.MouseButtonEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -11,12 +12,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Draws the standalone recipe-selection popup over the RS grid screen and routes clicks to it,
- * replacing the role Polymorph's {@code SelectionWidget} + its render mixin used to play.
+ * Draws the standalone recipe-selection popup over the RS grid screen and routes clicks to it.
  *
- * The class target is RS's {@code AbstractGridScreen} ({@code remap=false}), but {@code extractRenderState}
- * and {@code mouseClicked} are inherited vanilla methods, so those injectors use {@code remap=true}
- * to resolve the obfuscated names on both loaders.
+ * IMPORTANT (MC 26.x): mixin {@code @Inject} only resolves methods DECLARED in the target class,
+ * not inherited ones. {@code AbstractGridScreen} overrides {@code extractContents} (the 26.x content
+ * render phase) and {@code mouseClicked(MouseButtonEvent, boolean)}, so we target those — NOT the
+ * vanilla {@code extractRenderState} / old {@code mouseClicked(DDI)Z}, which are not declared here
+ * and would fail to apply (critical injection error at class load).
  *
  * Author: vyrriox
  */
@@ -24,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinAbstractGridScreenRender {
 
     @Inject(
-            method = "extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V",
+            method = "extractContents(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V",
             at = @At("RETURN"),
             remap = true
     )
@@ -36,23 +38,16 @@ public abstract class MixinAbstractGridScreenRender {
     }
 
     @Inject(
-            method = "mouseClicked(DDI)Z",
+            method = "mouseClicked(Lnet/minecraft/client/input/MouseButtonEvent;Z)Z",
             at = @At("HEAD"),
             cancellable = true,
             remap = true
     )
-    private void rspolymorph$popupClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+    private void rspolymorph$popupClick(MouseButtonEvent event, boolean doubleClick, CallbackInfoReturnable<Boolean> cir) {
         RsGridRecipeWidget widget = RsGridRecipeWidget.getActiveInstance();
         if (widget == null || !widget.isPopupOpen()) return;
-        if (widget.handleClick(mouseX, mouseY)) {
+        if (widget.handleClick(event.x(), event.y())) {
             cir.setReturnValue(true); // consumed — don't let the click reach slots
         }
-    }
-
-    @Inject(method = "removed()V", at = @At("RETURN"), remap = true)
-    private void rspolymorph$onClosed(CallbackInfo ci) {
-        // Release the per-screen widget (and the menu/BlockEntity/level it captured) on close,
-        // instead of leaving the last one pinned until the next grid opens.
-        RsGridRecipeWidget.clearIfActive((AbstractContainerScreen<?>) (Object) this);
     }
 }

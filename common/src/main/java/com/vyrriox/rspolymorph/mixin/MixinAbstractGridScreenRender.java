@@ -49,10 +49,9 @@ public abstract class MixinAbstractGridScreenRender {
         }
     }
 
-    @Inject(method = "removed()V", at = @At("RETURN"), remap = true)
-    private void rspolymorph$onClosed(CallbackInfo ci) {
-        // Release the per-screen widget (and the menu/BlockEntity/level it captured) on close,
-        // instead of leaving the last one pinned until the next grid opens.
-        RsGridRecipeWidget.clearIfActive((AbstractContainerScreen<?>) (Object) this);
-    }
+    // NOTE: no Screen#removed() hook — removed() is an inherited vanilla method that no RS screen
+    // class declares, so a mixin on AbstractGridScreen cannot target it (it would fail to apply and
+    // crash at class load). The active widget is instead bounded by replacement: every grid open
+    // runs init() -> ClientSetup.onGridScreenInit() which overwrites activeInstance, so at most one
+    // closed screen is retained until the next grid opens (one object, not a growing leak).
 }

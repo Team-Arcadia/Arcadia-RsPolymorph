@@ -76,6 +76,10 @@ public final class RecipeSelectorPopup {
         int w = COLS * SLOT + PADDING * 2;
         int h = rows * SLOT + PADDING * 2;
 
+        // We draw at the RETURN of the grid screen's extractContents (before slots/items in the
+        // 26.x pipeline), so advance to a new stratum to composite the popup ABOVE the slots.
+        graphics.nextStratum();
+
         // Background + border.
         graphics.fill(x - 1, y - 1, x + w + 1, y + h + 1, BORDER);
         graphics.fill(x, y, x + w, y + h, BG);
