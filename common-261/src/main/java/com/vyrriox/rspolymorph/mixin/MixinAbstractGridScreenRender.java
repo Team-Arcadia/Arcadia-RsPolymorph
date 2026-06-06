@@ -45,7 +45,9 @@ public abstract class MixinAbstractGridScreenRender {
     )
     private void rspolymorph$popupClick(MouseButtonEvent event, boolean doubleClick, CallbackInfoReturnable<Boolean> cir) {
         RsGridRecipeWidget widget = RsGridRecipeWidget.getActiveInstance();
-        if (widget == null || !widget.isPopupOpen()) return;
+        // Route the click when EITHER the popup or the first-open tutorial card is up — both are
+        // handled by handleClick. Gating only on isPopupOpen() left the tutorial undismissable.
+        if (widget == null || (!widget.isPopupOpen() && !widget.isShowingTutorial())) return;
         if (widget.handleClick(event.x(), event.y())) {
             cir.setReturnValue(true); // consumed — don't let the click reach slots
         }

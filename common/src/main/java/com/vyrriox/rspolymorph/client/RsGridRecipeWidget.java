@@ -46,6 +46,12 @@ public class RsGridRecipeWidget {
     private final BlockEntity activeBlockEntity;
     private final RecipeSelectorPopup popup;
 
+    /** True while the one-time first-open tutorial card should be shown over this screen. */
+    private boolean showTutorial = false;
+    /** Persist + narrate the tutorial exactly once while it is up (the card stays until dismissed). */
+    private boolean tutorialPersisted = false;
+    private boolean narratorAnnounced = false;
+
     /** Grid contents hash at the moment the popup was opened (popup closes if inputs change). */
     private int popupOpenedAtHash = 0;
 
@@ -63,6 +69,7 @@ public class RsGridRecipeWidget {
         this.outputSlot = outputSlot;
         this.activeBlockEntity = findBlockEntity(screen);
         this.popup = new RecipeSelectorPopup(this::selectRecipe);
+        this.showTutorial = !TutorialState.hasSeen();
         activeInstance = this;
     }
 
@@ -83,6 +90,11 @@ public class RsGridRecipeWidget {
 
     public boolean isPopupOpen() {
         return popup.isOpen();
+    }
+
+    /** True while the one-time tutorial card is up (routes input to its dismiss handler). */
+    public boolean isShowingTutorial() {
+        return showTutorial;
     }
 
     /** True if the popup is open and the cursor is over it (drives slot-tooltip suppression). */
@@ -319,10 +331,58 @@ public class RsGridRecipeWidget {
         }
         // Pass the current output item so the popup can highlight the recipe that is active now.
         popup.render(graphics, mouseX, mouseY, outputSlot.getItem());
+
+        // One-time tutorial card, drawn last so it sits on top. The card stays up until dismissed;
+        // persistence + narration fire exactly once (guarded flags), not every frame.
+        if (showTutorial) {
+            if (!tutorialPersisted) {
+                tutorialPersisted = true;
+                // Persist "seen" the first time it shows, so it never reappears next session even if
+                // the screen is closed (e.g. Esc) without an explicit dismiss.
+                TutorialState.markSeen();
+            }
+            if (!narratorAnnounced) {
+                narratorAnnounced = true;
+                announceTutorialToNarrator();
+            }
+            TutorialOverlay.render(graphics);
+        }
+    }
+
+    /** Reads the tutorial text aloud once for screen-reader users. Fail-soft. */
+    private static void announceTutorialToNarrator() {
+        try {
+            net.minecraft.network.chat.Component msg =
+                    net.minecraft.network.chat.Component.translatable("rspolymorph.tutorial.title")
+                            .copy()
+                            .append(". ")
+                            .append(net.minecraft.network.chat.Component.translatable("rspolymorph.tutorial.line1"))
+                            .append(" ")
+                            .append(net.minecraft.network.chat.Component.translatable("rspolymorph.tutorial.line2"))
+                            .append(" ")
+                            .append(net.minecraft.network.chat.Component.translatable("rspolymorph.tutorial.dismiss"));
+            Minecraft.getInstance().getNarrator().say(msg);
+        } catch (Throwable ignored) {
+            // Narrator API differences must never break the screen.
+        }
     }
 
     /** @return true if the popup consumed the click (screen must not pass it to slots). */
     public boolean handleClick(double mouseX, double mouseY) {
+        if (showTutorial) {
+            // Any click dismisses the tutorial card; consume it so it doesn't reach popup/slots/button.
+            showTutorial = false;
+            return true;
+        }
         return popup.mouseClicked(mouseX, mouseY);
+    }
+
+    /** Keyboard dismissal of the tutorial card (Space/Enter). @return true if it consumed the key. */
+    public boolean dismissTutorialByKey() {
+        if (showTutorial) {
+            showTutorial = false;
+            return true;
+        }
+        return false;
     }
 }

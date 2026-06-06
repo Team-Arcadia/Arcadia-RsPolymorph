@@ -58,6 +58,8 @@ def forkedFor261 = [
         'com/vyrriox/rspolymorph/mixin/MixinRecipeMatrix.java',
         'com/vyrriox/rspolymorph/client/RsGridRecipeWidget.java',
         'com/vyrriox/rspolymorph/client/RecipeSelectorPopup.java',
+        // Uses the 26.x two-phase draw API (graphics.text / nextStratum), not just type renames.
+        'com/vyrriox/rspolymorph/client/TutorialOverlay.java',
         // GUI render pipeline changed in 26.x (extractRenderState/extractWidgetRenderState):
         'com/vyrriox/rspolymorph/client/RecipeSelectionSideButton.java',
         'com/vyrriox/rspolymorph/mixin/MixinAbstractGridScreenRender.java',

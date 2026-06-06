@@ -18,7 +18,8 @@
     "MixinAbstractBaseScreen",
     "MixinAbstractGridScreenRender",
     "MixinAbstractContainerScreenOffset",
-    "MixinScreenTooltipSuppress"
+    "MixinScreenTooltipSuppress",
+    "MixinScreenKeyDismiss"
   ],
   "injectors": {
     "defaultRequire": 1

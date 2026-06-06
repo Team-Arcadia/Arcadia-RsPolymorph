@@ -1,6 +1,6 @@
-<h1 style="text-align: center;"><span style="color: #ffa500;">🔧 RS POLYMORPH — RECIPE CHOICE FOR REFINED STORAGE 2 🔧</span></h1>
+<h1 style="text-align: center;"><span style="color: #ffa500;">🔧 RS POLYMORPH — RECIPE CHOICE FOR REFINED STORAGE 🔧</span></h1>
 <p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>⚡ Pick the recipe you actually want ⚡</strong></span></p>
-<p style="text-align: center;"><span style="font-size: large;"><em>The missing bridge between Polymorph and Refined Storage 2.</em></span></p>
+<p style="text-align: center;"><span style="font-size: large;"><em>A standalone recipe selector for Refined Storage — no Polymorph required.</em></span></p>
 
 <p>&nbsp;</p>
 
@@ -8,22 +8,22 @@
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><img src="https://img.shields.io/badge/Minecraft-1.21.1-62B47A?style=flat-square&amp;logo=minecraft&amp;logoColor=white" alt="MC 1.21.1">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/NeoForge-21.1.219+-F16436?style=flat-square" alt="NeoForge">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Java-21-007396?style=flat-square&amp;logo=openjdk&amp;logoColor=white" alt="Java 21">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Polymorph-1.1.0+-9C27B0?style=flat-square" alt="Polymorph 1.1.0+">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Refined_Storage_2-2.0.1+-2196F3?style=flat-square" alt="RS2 2.0.1+">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/License-LGPL--3.0-FFA500?style=flat-square" alt="LGPL-3.0">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Languages-EN%20%2F%20FR-2196F3?style=flat-square" alt="EN / FR"></p>
+<p style="text-align: center;"><img src="https://img.shields.io/badge/Minecraft-1.21.1-62B47A?style=flat-square&amp;logo=minecraft&amp;logoColor=white" alt="MC 1.21.1">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Minecraft-26.1.2-62B47A?style=flat-square&amp;logo=minecraft&amp;logoColor=white" alt="MC 26.1.2">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/NeoForge-✓-F16436?style=flat-square" alt="NeoForge">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Fabric-✓-DBD0B4?style=flat-square&amp;logo=fabric&amp;logoColor=black" alt="Fabric">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Refined_Storage-2_%26_3-2196F3?style=flat-square" alt="RS 2 & 3">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Standalone-No_Polymorph-9C27B0?style=flat-square" alt="Standalone">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/License-LGPL--3.0-FFA500?style=flat-square" alt="LGPL-3.0">&nbsp;&nbsp;&nbsp; <img src="https://img.shields.io/badge/Languages-EN%20%2F%20FR-2196F3?style=flat-square" alt="EN / FR"></p>
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><img src="https://img.shields.io/badge/Stable_Release-v1.0.9-00cc00?style=for-the-badge" alt="Stable v1.0.9"></p>
+<p style="text-align: center;"><img src="https://img.shields.io/badge/Stable_Release-v1.2.0-00cc00?style=for-the-badge" alt="Stable v1.2.0"></p>
 
 <table style="margin-left: auto; margin-right: auto; max-width: 850px; border: 2px solid #FFC107; background-color: rgba(255, 193, 7, 0.15);">
 <tbody>
 <tr>
 <td style="padding: 14px 18px; vertical-align: top; width: 50%; border-right: 2px solid #FFC107;">
 <p><span style="color: #FFC107; font-size: large;"><strong>[EN] Free & Open Source</strong></span></p>
-<p>RS Polymorph is licensed under <strong>LGPL-3.0-or-later</strong> — the same license as upstream Polymorph. You are free to use, study, modify, fork and redistribute it, including for commercial purposes, as long as derivative works credit <strong>vyrriox / Team Arcadia</strong> and link back to the upstream repository.</p>
+<p>RS Polymorph is licensed under <strong>LGPL-3.0-or-later</strong>. You are free to use, study, modify, fork and redistribute it, including for commercial purposes, as long as derivative works credit <strong>vyrriox / Team Arcadia</strong> and link back to the upstream repository.</p>
 </td>
 <td style="padding: 14px 18px; vertical-align: top; width: 50%;">
 <p><span style="color: #FFC107; font-size: large;"><strong>[FR] Libre & Open Source</strong></span></p>
-<p>RS Polymorph est sous licence <strong>LGPL-3.0-or-later</strong> — la même licence que Polymorph en amont. Vous êtes libre de l'utiliser, l'étudier, le modifier, le forker et le redistribuer, y compris à des fins commerciales, à condition que les travaux dérivés créditent <strong>vyrriox / Team Arcadia</strong> et pointent vers le dépôt d'origine.</p>
+<p>RS Polymorph est sous licence <strong>LGPL-3.0-or-later</strong>. Vous êtes libre de l'utiliser, l'étudier, le modifier, le forker et le redistribuer, y compris à des fins commerciales, à condition que les travaux dérivés créditent <strong>vyrriox / Team Arcadia</strong> et pointent vers le dépôt d'origine.</p>
 </td>
 </tr>
 </tbody>
@@ -36,13 +36,13 @@
 <tr>
 <td style="padding: 14px 18px; vertical-align: top; width: 50%; border-right: 2px solid #2196F3; text-align: center;">
 <p><span style="color: #2196F3; font-size: large;"><strong>🔌 PLUG-AND-PLAY ADDON</strong></span></p>
-<p>Drop it in your <code>mods/</code> folder next to Polymorph and Refined Storage 2 — no configuration, no commands, no extra blocks or items to learn. The Polymorph side button just <strong>appears</strong> on RS2 grid screens whenever a recipe conflict is detected.</p>
-<p>✅ <strong>Works in singleplayer and on dedicated servers.</strong> Server-safe by design — no client-only class references leak into common code.</p>
+<p>Drop it in your <code>mods/</code> folder next to Refined Storage — <strong>no Polymorph, no configuration, no commands</strong>, no extra blocks or items to learn. A recipe-selection button just <strong>appears</strong> on RS grid screens whenever multiple recipes share your ingredients.</p>
+<p>✅ <strong>Fabric &amp; NeoForge.</strong> ✅ <strong>Minecraft 1.21.1 &amp; 26.1.2.</strong> ✅ <strong>Singleplayer &amp; dedicated servers</strong> — server-safe by design, no client-only class leaks into common code.</p>
 </td>
 <td style="padding: 14px 18px; vertical-align: top; width: 50%; text-align: center;">
 <p><span style="color: #2196F3; font-size: large;"><strong>🔌 ADDON PRÊT À L'EMPLOI</strong></span></p>
-<p>Posez le jar dans votre dossier <code>mods/</code> à côté de Polymorph et Refined Storage 2 — aucune config, aucune commande, aucun bloc ou item supplémentaire à apprendre. Le bouton Polymorph <strong>apparaît</strong> sur les écrans des grilles RS2 dès qu'un conflit de recettes est détecté.</p>
-<p>✅ <strong>Fonctionne en solo et sur serveur dédié.</strong> Sûr côté serveur par design — aucune classe client ne fuit dans le code commun.</p>
+<p>Posez le jar dans votre dossier <code>mods/</code> à côté de Refined Storage — <strong>sans Polymorph, sans config, sans commande</strong>, aucun bloc ou item à apprendre. Un bouton de sélection de recette <strong>apparaît</strong> sur les écrans de grille RS dès que plusieurs recettes partagent vos ingrédients.</p>
+<p>✅ <strong>Fabric &amp; NeoForge.</strong> ✅ <strong>Minecraft 1.21.1 &amp; 26.1.2.</strong> ✅ <strong>Solo &amp; serveur dédié</strong> — sûr côté serveur par design, aucune classe client ne fuit dans le code commun.</p>
 </td>
 </tr>
 </tbody>
@@ -54,7 +54,7 @@
 
 <h1 style="text-align: center;"><span style="color: #ffa500;">🇺🇸 Description (English) 🇺🇸</span></h1>
 
-<p style="text-align: center;"><span style="font-size: large;"><strong>🌟 Stop letting Refined Storage 2 pick the wrong recipe for you. 🌟</strong></span></p>
+<p style="text-align: center;"><span style="font-size: large;"><strong>🌟 Stop letting Refined Storage pick the wrong recipe for you. 🌟</strong></span></p>
 
 <p>&nbsp;</p>
 
@@ -64,10 +64,26 @@
 <tbody>
 <tr>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🛠️ Crafting Grid — fixed</strong></span><br>The Polymorph side button now works on the RS2 <strong>Crafting Grid</strong>. When multiple recipes match your ingredients (e.g. planks → sticks vs. a dye variant), pick the exact one you want before crafting.</p>
+<p><span style="color: #ffa500;"><strong>🧩 Fully Standalone</strong></span><br>RS Polymorph no longer depends on Polymorph. The selection button, the recipe popup and the per-grid persistence are <strong>all built in</strong>. A true Refined Storage add-on that works everywhere RS works.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>📜 Pattern Grid — fixed</strong></span><br>Same workflow on the <strong>Pattern Grid</strong>. Your selection is <strong>stamped onto the printed pattern</strong> via a custom data component, so autocrafting always resolves the recipe you actually chose.</p>
+<p><span style="color: #ffa500;"><strong>🌍 Two MC Lines, Two Loaders</strong></span><br>One project, ready for <strong>Minecraft 1.21.1</strong> (NeoForge &amp; Fabric) and <strong>Minecraft 26.1.2</strong> (NeoForge), against <strong>Refined Storage 2 and 3</strong>. Grab the jar that matches your setup.</p>
+</td>
+</tr>
+<tr>
+<td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
+<p><span style="color: #ffa500;"><strong>🛠️ Crafting Grid</strong></span><br>The recipe button works on the RS <strong>Crafting Grid</strong>. When several recipes match your ingredients (e.g. planks → sticks vs. a variant), pick the exact one you want before crafting.</p>
+</td>
+<td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
+<p><span style="color: #ffa500;"><strong>📜 Pattern Grid</strong></span><br>Same workflow on the <strong>Pattern Grid</strong>. Your selection is <strong>stamped onto the printed pattern</strong> via a custom data component, so autocrafting always resolves the recipe you actually chose.</p>
+</td>
+</tr>
+<tr>
+<td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
+<p><span style="color: #ffa500;"><strong>🎨 Redesigned Selector</strong></span><br>A clean, native-looking popup: titled header, inset slot frames, a <strong>gold highlight on the recipe currently produced</strong>, on-screen clamping, and a single readable recipe name on hover.</p>
+</td>
+<td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
+<p><span style="color: #ffa500;"><strong>🎓 First-Time Tutorial</strong></span><br>The very first time you open an RS grid, a one-time card explains the feature in your language. Dismiss it with a click — it never nags you again.</p>
 </td>
 </tr>
 <tr>
@@ -75,15 +91,15 @@
 <p><span style="color: #ffa500;"><strong>🎯 Live Preview</strong></span><br>The grid's output preview updates <strong>immediately</strong> when you pick a different recipe. No need to print, craft or refresh — what you see is what you get.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🔄 Smart Visibility</strong></span><br>The side button only appears when a recipe conflict actually exists. Empty matrix or single-recipe input → button stays hidden. Zero visual clutter.</p>
+<p><span style="color: #ffa500;"><strong>🔄 Smart Visibility</strong></span><br>The button only appears when a recipe conflict actually exists. Empty matrix or single-recipe input → button stays hidden. Zero visual clutter.</p>
 </td>
 </tr>
 <tr>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🌐 100% Bilingual EN/FR</strong></span><br>Every user-facing string is translated. English and French lang files ship in the jar.</p>
+<p><span style="color: #ffa500;"><strong>🛡️ Server-Safe &amp; Audited</strong></span><br>Built without client-only leaks into common code, with a multi-dimensional audit (bugs, performance, server safety, visuals, accessibility) kept green. Defense in depth.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🛡️ Crash-Hardened</strong></span><br>Built-in safety mixin neutralizes the upstream <a href="https://github.com/Team-Arcadia/Arcadia-RsPolymorph/issues/1" rel="nofollow noopener">Create + Polymorph cross-type recipe leak</a> that previously crashed encased fans. Defense in depth.</p>
+<p><span style="color: #ffa500;"><strong>🌐 100% Bilingual EN/FR</strong></span><br>Every user-facing string is translated. English and French lang files ship in the jar.</p>
 </td>
 </tr>
 </tbody>
@@ -98,7 +114,7 @@
 <tbody>
 <tr>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
-<p><span style="color: #ffa500;"><strong>1️⃣</strong></span> Open any RS2 <strong>Crafting Grid</strong> or <strong>Pattern Grid</strong> screen.</p>
+<p><span style="color: #ffa500;"><strong>1️⃣</strong></span> Open any RS <strong>Crafting Grid</strong> or <strong>Pattern Grid</strong> screen.</p>
 </td>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
 <p><span style="color: #ffa500;"><strong>2️⃣</strong></span> Place ingredients that match <strong>multiple recipes</strong>.</p>
@@ -106,10 +122,10 @@
 </tr>
 <tr>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
-<p><span style="color: #ffa500;"><strong>3️⃣</strong></span> Click the <strong>Polymorph side button</strong> on the left edge of the grid.</p>
+<p><span style="color: #ffa500;"><strong>3️⃣</strong></span> Click the <strong>recipe-selection button</strong> next to the grid.</p>
 </td>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
-<p><span style="color: #ffa500;"><strong>4️⃣</strong></span> Pick your preferred output from the popup. Done.</p>
+<p><span style="color: #ffa500;"><strong>4️⃣</strong></span> Pick your preferred output from the popup. Done — it's remembered per grid.</p>
 </td>
 </tr>
 </tbody>
@@ -121,40 +137,34 @@
 
 <p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>📦 Requirements</strong></span></p>
 
-<table style="margin-left: auto; margin-right: auto; max-width: 700px; border-collapse: collapse;">
+<table style="margin-left: auto; margin-right: auto; max-width: 820px; border-collapse: collapse;">
 <thead>
 <tr style="background-color: rgba(255, 165, 0, 0.18);">
-<th style="text-align: center; padding: 10px 24px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Dependency</span></th>
-<th style="text-align: center; padding: 10px 24px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Version</span></th>
+<th style="text-align: center; padding: 10px 20px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Minecraft</span></th>
+<th style="text-align: center; padding: 10px 20px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Loader</span></th>
+<th style="text-align: center; padding: 10px 20px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Java</span></th>
+<th style="text-align: center; padding: 10px 20px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Refined Storage</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>Minecraft</strong></td>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">1.21.1</td>
-</tr>
-<tr style="background-color: rgba(255, 165, 0, 0.10);">
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>NeoForge</strong></td>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">21.1.219+</td>
-</tr>
-<tr>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>Java</strong></td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>1.21.1</strong></td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">NeoForge 21.1.219+ &nbsp;/&nbsp; Fabric</td>
 <td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">21</td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">RS 2 (≥ 2.0.8)</td>
 </tr>
 <tr style="background-color: rgba(255, 165, 0, 0.10);">
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>Polymorph</strong></td>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">≥ 1.1.0</td>
-</tr>
-<tr>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>Refined Storage 2</strong></td>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">≥ 2.0.1</td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>26.1.2</strong></td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">NeoForge 26.1.2.73+</td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">25</td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">RS 3 (≥ 3.2.0)</td>
 </tr>
 </tbody>
 </table>
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><em>Both Polymorph and Refined Storage 2 are required dependencies — install them alongside this mod.</em></p>
+<p style="text-align: center;"><em><strong>Refined Storage is the only dependency.</strong> No Polymorph needed. Download the jar that matches your Minecraft version and loader.</em></p>
 
 <p>&nbsp;</p>
 
@@ -165,7 +175,7 @@
 
 <p style="text-align: center;"><a href="https://github.com/Team-Arcadia/Arcadia-RsPolymorph/issues/new?template=bug_report.yml" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Report_a_bug-GitHub_Issue-d73a49?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="Report a bug"></a>&nbsp; &nbsp;<a href="https://discord.gg/xjF8Rtzyd4" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Ask_on-Discord-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Discord"></a></p>
 
-<p style="text-align: center;"><em>Please include your full crash log, the versions of RS Polymorph, Polymorph, Refined Storage 2 and NeoForge, and clear steps to reproduce.</em></p>
+<p style="text-align: center;"><em>Please include your full crash log, the versions of RS Polymorph, Refined Storage, your loader (NeoForge/Fabric) and Minecraft, and clear steps to reproduce.</em></p>
 
 <p>&nbsp;</p>
 
@@ -181,7 +191,7 @@
 <hr style="border: 1px solid #FFA500;">
 
 <p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>🤝 Official Hosting Partner</strong></span></p>
-<p style="text-align: center;">Want to run your own modded server with RS Polymorph and Refined Storage 2? Our official US/international partner offers high-performance Minecraft hosting optimized for modpacks.</p>
+<p style="text-align: center;">Want to run your own modded server with RS Polymorph and Refined Storage? Our official US/international partner offers high-performance Minecraft hosting optimized for modpacks.</p>
 
 <p>&nbsp;</p>
 
@@ -199,7 +209,7 @@
 
 <h1 style="text-align: center;"><span style="color: #0055a4;">🇫🇷 Description (Français) 🇫🇷</span></h1>
 
-<p style="text-align: center;"><span style="font-size: large;"><strong>🌟 Arrêtez de laisser Refined Storage 2 choisir la mauvaise recette à votre place. 🌟</strong></span></p>
+<p style="text-align: center;"><span style="font-size: large;"><strong>🌟 Arrêtez de laisser Refined Storage choisir la mauvaise recette à votre place. 🌟</strong></span></p>
 
 <p>&nbsp;</p>
 
@@ -209,10 +219,26 @@
 <tbody>
 <tr>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🛠️ Crafting Grid — corrigée</strong></span><br>Le bouton latéral Polymorph fonctionne désormais sur la <strong>Grille de Fabrication</strong> de RS2. Quand plusieurs recettes correspondent à vos ingrédients (planches → bâtons vs. variante de teinture, par ex.), choisissez celle que vous voulez avant de crafter.</p>
+<p><span style="color: #ffa500;"><strong>🧩 Entièrement Autonome</strong></span><br>RS Polymorph ne dépend plus de Polymorph. Le bouton de sélection, le popup de recette et la persistance par grille sont <strong>tous intégrés</strong>. Un véritable add-on Refined Storage qui fonctionne partout où RS fonctionne.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>📜 Pattern Grid — corrigée</strong></span><br>Même workflow sur la <strong>Grille de Patrons</strong>. Votre sélection est <strong>marquée sur le patron imprimé</strong> via un data component custom, donc l'autocraft résout toujours la recette que vous avez réellement choisie.</p>
+<p><span style="color: #ffa500;"><strong>🌍 Deux Lignes MC, Deux Loaders</strong></span><br>Un seul projet, prêt pour <strong>Minecraft 1.21.1</strong> (NeoForge &amp; Fabric) et <strong>Minecraft 26.1.2</strong> (NeoForge), avec <strong>Refined Storage 2 et 3</strong>. Prenez le jar adapté à votre installation.</p>
+</td>
+</tr>
+<tr>
+<td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
+<p><span style="color: #ffa500;"><strong>🛠️ Grille de Fabrication</strong></span><br>Le bouton de recette fonctionne sur la <strong>Grille de Fabrication</strong> de RS. Quand plusieurs recettes correspondent à vos ingrédients (planches → bâtons vs. variante, par ex.), choisissez celle que vous voulez avant de crafter.</p>
+</td>
+<td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
+<p><span style="color: #ffa500;"><strong>📜 Grille de Patrons</strong></span><br>Même workflow sur la <strong>Grille de Patrons</strong>. Votre sélection est <strong>marquée sur le patron imprimé</strong> via un data component custom, donc l'autocraft résout toujours la recette que vous avez réellement choisie.</p>
+</td>
+</tr>
+<tr>
+<td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
+<p><span style="color: #ffa500;"><strong>🎨 Sélecteur Redesigné</strong></span><br>Un popup épuré, d'aspect natif : en-tête titré, slots en relief, <strong>surbrillance dorée sur la recette produite</strong>, calage à l'écran, et un seul nom de recette lisible au survol.</p>
+</td>
+<td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
+<p><span style="color: #ffa500;"><strong>🎓 Tutoriel au Premier Lancement</strong></span><br>La toute première fois que vous ouvrez une grille RS, une carte unique explique la fonctionnalité dans votre langue. Fermez-la d'un clic — elle ne réapparaît plus jamais.</p>
 </td>
 </tr>
 <tr>
@@ -220,15 +246,15 @@
 <p><span style="color: #ffa500;"><strong>🎯 Aperçu en Direct</strong></span><br>L'aperçu de sortie de la grille se met à jour <strong>immédiatement</strong> quand vous choisissez une autre recette. Pas besoin d'imprimer, de crafter ou de rafraîchir — ce que vous voyez est ce que vous obtenez.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🔄 Visibilité Intelligente</strong></span><br>Le bouton latéral n'apparaît que lorsqu'un conflit de recettes existe réellement. Matrice vide ou input à une seule recette → bouton caché. Zéro encombrement visuel.</p>
+<p><span style="color: #ffa500;"><strong>🔄 Visibilité Intelligente</strong></span><br>Le bouton n'apparaît que lorsqu'un conflit de recettes existe réellement. Matrice vide ou input à une seule recette → bouton caché. Zéro encombrement visuel.</p>
 </td>
 </tr>
 <tr>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🌐 100% Bilingue EN/FR</strong></span><br>Chaque texte visible par l'utilisateur est traduit. Les fichiers de langue anglais et français sont inclus dans le jar.</p>
+<p><span style="color: #ffa500;"><strong>🛡️ Sûr Côté Serveur &amp; Audité</strong></span><br>Conçu sans fuite de classe client dans le code commun, avec un audit multi-dimensionnel (bugs, performance, sûreté serveur, visuel, accessibilité) maintenu au vert. Défense en profondeur.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🛡️ Anti-Crash Renforcé</strong></span><br>Un mixin de sécurité intégré neutralise la <a href="https://github.com/Team-Arcadia/Arcadia-RsPolymorph/issues/1" rel="nofollow noopener">fuite de type entre Create et Polymorph</a> qui faisait crasher les ventilateurs encastrés. Défense en profondeur.</p>
+<p><span style="color: #ffa500;"><strong>🌐 100% Bilingue EN/FR</strong></span><br>Chaque texte visible par l'utilisateur est traduit. Les fichiers de langue anglais et français sont inclus dans le jar.</p>
 </td>
 </tr>
 </tbody>
@@ -243,7 +269,7 @@
 <tbody>
 <tr>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
-<p><span style="color: #ffa500;"><strong>1️⃣</strong></span> Ouvrez une <strong>Grille de Fabrication</strong> ou <strong>Grille de Patrons</strong> RS2.</p>
+<p><span style="color: #ffa500;"><strong>1️⃣</strong></span> Ouvrez une <strong>Grille de Fabrication</strong> ou <strong>Grille de Patrons</strong> RS.</p>
 </td>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
 <p><span style="color: #ffa500;"><strong>2️⃣</strong></span> Placez des ingrédients qui correspondent à <strong>plusieurs recettes</strong>.</p>
@@ -251,10 +277,10 @@
 </tr>
 <tr>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
-<p><span style="color: #ffa500;"><strong>3️⃣</strong></span> Cliquez sur le <strong>bouton latéral Polymorph</strong> à gauche de la grille.</p>
+<p><span style="color: #ffa500;"><strong>3️⃣</strong></span> Cliquez sur le <strong>bouton de sélection de recette</strong> à côté de la grille.</p>
 </td>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
-<p><span style="color: #ffa500;"><strong>4️⃣</strong></span> Choisissez votre recette préférée dans le popup. Terminé.</p>
+<p><span style="color: #ffa500;"><strong>4️⃣</strong></span> Choisissez votre recette préférée dans le popup. Terminé — c'est mémorisé par grille.</p>
 </td>
 </tr>
 </tbody>
@@ -266,40 +292,34 @@
 
 <p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>📦 Prérequis</strong></span></p>
 
-<table style="margin-left: auto; margin-right: auto; max-width: 700px; border-collapse: collapse;">
+<table style="margin-left: auto; margin-right: auto; max-width: 820px; border-collapse: collapse;">
 <thead>
 <tr style="background-color: rgba(255, 165, 0, 0.18);">
-<th style="text-align: center; padding: 10px 24px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Dépendance</span></th>
-<th style="text-align: center; padding: 10px 24px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Version</span></th>
+<th style="text-align: center; padding: 10px 20px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Minecraft</span></th>
+<th style="text-align: center; padding: 10px 20px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Loader</span></th>
+<th style="text-align: center; padding: 10px 20px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Java</span></th>
+<th style="text-align: center; padding: 10px 20px; border: 1px solid #FFA500;"><span style="color: #ffa500;">Refined Storage</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>Minecraft</strong></td>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">1.21.1</td>
-</tr>
-<tr style="background-color: rgba(255, 165, 0, 0.10);">
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>NeoForge</strong></td>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">21.1.219+</td>
-</tr>
-<tr>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>Java</strong></td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>1.21.1</strong></td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">NeoForge 21.1.219+ &nbsp;/&nbsp; Fabric</td>
 <td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">21</td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">RS 2 (≥ 2.0.8)</td>
 </tr>
 <tr style="background-color: rgba(255, 165, 0, 0.10);">
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>Polymorph</strong></td>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">≥ 1.1.0</td>
-</tr>
-<tr>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>Refined Storage 2</strong></td>
-<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">≥ 2.0.1</td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;"><strong>26.1.2</strong></td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">NeoForge 26.1.2.73+</td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">25</td>
+<td style="text-align: center; padding: 8px; border: 1px solid #FFA500;">RS 3 (≥ 3.2.0)</td>
 </tr>
 </tbody>
 </table>
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><em>Polymorph et Refined Storage 2 sont des dépendances obligatoires — installez-les à côté de ce mod.</em></p>
+<p style="text-align: center;"><em><strong>Refined Storage est la seule dépendance.</strong> Pas besoin de Polymorph. Téléchargez le jar correspondant à votre version de Minecraft et à votre loader.</em></p>
 
 <p>&nbsp;</p>
 
@@ -310,7 +330,7 @@
 
 <p style="text-align: center;"><a href="https://github.com/Team-Arcadia/Arcadia-RsPolymorph/issues/new?template=bug_report.yml" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Signaler_un_bug-Issue_GitHub-d73a49?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="Signaler un bug"></a>&nbsp; &nbsp;<a href="https://discord.gg/xjF8Rtzyd4" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Demander_sur-Discord-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Discord"></a></p>
 
-<p style="text-align: center;"><em>Merci d'inclure votre log de crash complet, les versions de RS Polymorph, Polymorph, Refined Storage 2 et NeoForge, ainsi que des étapes claires pour reproduire.</em></p>
+<p style="text-align: center;"><em>Merci d'inclure votre log de crash complet, les versions de RS Polymorph, Refined Storage, votre loader (NeoForge/Fabric) et Minecraft, ainsi que des étapes claires pour reproduire.</em></p>
 
 <p>&nbsp;</p>
 
@@ -326,7 +346,7 @@
 <hr style="border: 1px solid #FFA500;">
 
 <p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>🤝 Hébergeur Officiel Partenaire</strong></span></p>
-<p style="text-align: center;">Vous souhaitez héberger votre propre serveur moddé avec RS Polymorph et Refined Storage 2 ? Notre partenaire officiel français propose un hébergement Minecraft haute performance optimisé pour les modpacks.</p>
+<p style="text-align: center;">Vous souhaitez héberger votre propre serveur moddé avec RS Polymorph et Refined Storage ? Notre partenaire officiel français propose un hébergement Minecraft haute performance optimisé pour les modpacks.</p>
 
 <p>&nbsp;</p>
 
@@ -395,4 +415,4 @@
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><span style="font-size: small;">&copy; 2026 RS Polymorph | Created by vyrriox / Team Arcadia | LGPL-3.0-or-later | Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft. Refined Storage is © refinedmods. Polymorph is © Illusive Soulworks.</span></p>
+<p style="text-align: center;"><span style="font-size: small;">&copy; 2026 RS Polymorph | Created by vyrriox / Team Arcadia | LGPL-3.0-or-later | Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft. Refined Storage is © refinedmods. Originally derived from Polymorph (© Illusive Soulworks, LGPL-3.0).</span></p>
