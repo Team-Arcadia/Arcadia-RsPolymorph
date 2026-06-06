@@ -62,6 +62,9 @@ def forkedFor261 = [
         'com/vyrriox/rspolymorph/client/RecipeSelectionSideButton.java',
         'com/vyrriox/rspolymorph/mixin/MixinAbstractGridScreenRender.java',
         'com/vyrriox/rspolymorph/mixin/MixinAbstractContainerScreenOffset.java',
+        // Targets RS grid-screen classes on 1.21.1; 26.x has a different tooltip pipeline, so the
+        // 26.x fork is a fail-soft no-op (see common-261's MixinScreenTooltipSuppress).
+        'com/vyrriox/rspolymorph/mixin/MixinScreenTooltipSuppress.java',
 ]
 
 // Produce ONE unified source dir = (1.21.1 sources textually remapped, minus the forks)

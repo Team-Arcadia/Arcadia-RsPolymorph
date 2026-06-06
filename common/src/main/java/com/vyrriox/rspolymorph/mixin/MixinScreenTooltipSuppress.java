@@ -1,23 +1,35 @@
 package com.vyrriox.rspolymorph.mixin;
 
+import com.refinedmods.refinedstorage.common.autocrafting.patterngrid.PatternGridScreen;
+import com.refinedmods.refinedstorage.common.grid.screen.AbstractGridScreen;
+import com.refinedmods.refinedstorage.common.grid.screen.CraftingGridScreen;
 import com.vyrriox.rspolymorph.client.RsGridRecipeWidget;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Suppresses the vanilla hovered-slot tooltip while the recipe-selection popup is open AND the
- * cursor is over it. The popup draws its own recipe-name tooltip; without this the screen would
- * also draw the underlying slot's tooltip at the same cursor, producing the overlapping double
- * text seen in-game. Vanilla target → remapped. {@code require = 0}: best-effort, never fails the
- * load if the obfuscated signature differs on a given loader.
+ * Suppresses the grid screen's hovered-slot tooltip while the recipe-selection popup is open AND
+ * the cursor is over it, so only the popup's own recipe-name tooltip shows (no overlapping "Stick"
+ * double text).
+ *
+ * Why the RS grid screen classes and not {@code AbstractContainerScreen}: Refined Storage's grid
+ * screens render tooltips through their OWN {@code renderTooltip(GuiGraphics,int,int)} override
+ * chain (CraftingGridScreen / PatternGridScreen override it; AbstractGridScreen declares it). The
+ * grid screen's {@code render()} dispatches to that override via {@code invokevirtual}, so a cancel
+ * on the vanilla {@code AbstractContainerScreen.renderTooltip} never fires for these screens.
+ * Cancelling the entry override's HEAD stops the whole tooltip pass (its own resource-slot tooltips
+ * and the vanilla hovered-slot tooltip it draws via super) in one shot.
+ *
+ * {@code require = 0}: fail-soft — never fails the load if a target lacks the method on some RS
+ * build. Vanilla-named target on RS classes → remapped (default {@code remap=true}; Loom remaps it
+ * at build for Fabric, NeoForge runs Mojmap).
  *
  * Author: vyrriox
  */
-@Mixin(AbstractContainerScreen.class)
+@Mixin({CraftingGridScreen.class, PatternGridScreen.class, AbstractGridScreen.class})
 public abstract class MixinScreenTooltipSuppress {
 
     @Inject(
