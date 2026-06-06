@@ -32,7 +32,7 @@ import java.util.Set;
  * Standalone recipe-selection driver for an RS2 grid screen — the Polymorph-free replacement for
  * what used to extend Polymorph's {@code PersistentRecipesWidget}. It discovers the candidate
  * recipes for the open grid and drives a {@link RecipeSelectorPopup} (our own UI). Selection is
- * sent to the server through {@link Services#NETWORK} exactly as before.
+ * sent to the server through {@link Services#network()} exactly as before.
  *
  * One instance exists per open grid screen ({@link #activeInstance}); it is created by
  * {@code MixinAbstractBaseScreen} and rendered/clicked by {@code MixinAbstractGridScreenRender}.
@@ -303,10 +303,11 @@ public class RsGridRecipeWidget {
     }
 
     public void selectRecipe(Identifier recipeId) {
-        // Fast-path cache read by MixinPatternGrid before the persistent store.
-        RsPolymorph.setSelectedRecipeId(recipeId);
-        // Uniform SP/MP path via the loader-agnostic network service.
-        Services.NETWORK.sendSelectToServer(recipeId);
+        // Uniform SP/MP path via the loader-agnostic network service. The server sets and clears
+        // the static selectedRecipeId authoritatively inside applyOnServer's try/finally — we must
+        // NOT set it from the client here (in singleplayer that shared static could be left stale
+        // and mis-tag a later pattern, since the client never clears it).
+        Services.network().sendSelectToServer(recipeId);
     }
 
     // -------------------------------------------------------------------------

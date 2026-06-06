@@ -16,9 +16,25 @@ public final class Services {
 
     private Services() {}
 
-    public static final NetworkPlatform NETWORK = load(NetworkPlatform.class);
-
+    /**
+     * The grid-selection persistence store. Server-safe (no client-only references), so it is
+     * eagerly resolved — touching it at server startup is how each loader registers its attachment.
+     */
     public static final GridRecipeStore GRID_STORE = load(GridRecipeStore.class);
+
+    /**
+     * The networking platform. Resolved LAZILY (initialization-on-demand holder) because the Fabric
+     * implementation references client-only {@code ClientPlayNetworking}; eagerly loading it
+     * alongside {@code GRID_STORE} would risk a {@code NoClassDefFoundError} on a dedicated server.
+     * Only the client send path ({@code RsGridRecipeWidget.selectRecipe}) ever calls this.
+     */
+    public static NetworkPlatform network() {
+        return NetworkHolder.INSTANCE;
+    }
+
+    private static final class NetworkHolder {
+        private static final NetworkPlatform INSTANCE = load(NetworkPlatform.class);
+    }
 
     private static <T> T load(Class<T> clazz) {
         return ServiceLoader.load(clazz)

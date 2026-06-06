@@ -86,10 +86,12 @@ public class MixinPatternResolver {
             return result;
         }
         // Reorder so the override recipe (if present) is first; preserve the rest as-is.
+        // MC 26.x: RecipeHolder.id() is a ResourceKey<Recipe<?>>, so unwrap to Identifier to
+        // compare against the stored override id (mirrors MixinRecipeMatrix / RsGridRecipeWidget).
         java.util.List<RecipeHolder<T>> list = result.toList();
         return Stream.concat(
-                list.stream().filter(h -> h.id().equals(override)),
-                list.stream().filter(h -> !h.id().equals(override))
+                list.stream().filter(h -> h.id().identifier().equals(override)),
+                list.stream().filter(h -> !h.id().identifier().equals(override))
         );
     }
 }

@@ -48,4 +48,11 @@ public abstract class MixinAbstractGridScreenRender {
             cir.setReturnValue(true); // consumed — don't let the click reach slots
         }
     }
+
+    @Inject(method = "removed()V", at = @At("RETURN"), remap = true)
+    private void rspolymorph$onClosed(CallbackInfo ci) {
+        // Release the per-screen widget (and the menu/BlockEntity/level it captured) on close,
+        // instead of leaving the last one pinned until the next grid opens.
+        RsGridRecipeWidget.clearIfActive((AbstractContainerScreen<?>) (Object) this);
+    }
 }

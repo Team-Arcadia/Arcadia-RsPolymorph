@@ -116,6 +116,7 @@ public final class RsPolymorph {
 
     public static void registerContainerBlockEntity(RecipeMatrixContainer container, BlockEntity be) {
         CONTAINER_TO_BE.put(container, be);
+        reapStaleEntries();
     }
 
     public static BlockEntity getBlockEntityForContainer(RecipeMatrixContainer container) {
@@ -124,6 +125,23 @@ public final class RsPolymorph {
 
     public static void registerMatrixToContainer(RecipeMatrixContainer container, RecipeMatrix<?, ?> matrix) {
         CONTAINER_TO_MATRIX.put(container, matrix);
+    }
+
+    /**
+     * Reclaims registrations whose owning grid BlockEntity has been removed (block broken / chunk
+     * unloaded). Without this, the strong {@code CONTAINER_TO_BE} / {@code CONTAINER_TO_MATRIX} maps
+     * would pin every wired-grid BlockEntity — and through it an entire {@code ServerLevel} — for
+     * the server lifetime. Called opportunistically at the registration sites, so growth is matched
+     * by cleanup and the maps stay bounded to live grids. Uses the stable vanilla
+     * {@code BlockEntity#isRemoved()}, so it behaves identically across MC versions.
+     */
+    public static void reapStaleEntries() {
+        CONTAINER_TO_BE.entrySet().removeIf(e -> {
+            if (!e.getValue().isRemoved()) return false;
+            RecipeMatrix<?, ?> m = CONTAINER_TO_MATRIX.remove(e.getKey());
+            if (m != null) MATRIX_SELECTION.remove(m);
+            return true;
+        });
     }
 
     // ── Per-matrix selection (BlockEntity-free grids, e.g. wireless crafting grid) ──

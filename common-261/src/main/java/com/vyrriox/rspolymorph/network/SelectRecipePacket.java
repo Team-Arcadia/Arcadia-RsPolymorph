@@ -82,37 +82,39 @@ public record SelectRecipePacket(Identifier recipeId) implements CustomPacketPay
         ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, recipeId);
         Optional<RecipeHolder<?>> recipeOpt = server.getRecipeManager().byKey(recipeKey);
         if (recipeOpt.isEmpty()) {
-            LOGGER.warn("[RS Polymorph] Server received unknown recipe ID: {}", recipeId);
+            // Debug, not warn: a modified client must not be able to flood the server log.
+            LOGGER.debug("[RS Polymorph] Server received unknown recipe ID: {}", recipeId);
             return;
         }
         RecipeHolder<?> recipe = recipeOpt.get();
 
-        BlockEntity targetBe = findBlockEntity(player.containerMenu);
-        if (targetBe != null) {
-            RecipeType<?> type = recipe.value().getType();
-            // Persist the choice on the grid block entity (survives reload) via the loader store.
-            Services.GRID_STORE.set(targetBe, type, recipeId);
-
-            // Set the static selectedRecipeId so MixinPatternGrid.createCraftingPattern()
-            // can tag the pattern with the chosen recipe on the server side, and recompute the
-            // grid result now so the new output syncs to the client this tick.
-            RsPolymorph.setSelectedRecipeId(recipeId);
-            try {
+        // The static selectedRecipeId is read by MixinPatternGrid.createCraftingPattern() and
+        // MixinRecipeMatrix while we recompute the grid this tick. Set it ONCE here and clear it
+        // unconditionally in the finally, so NO return path (BE, BE-free, or not-found) can leave a
+        // stale value that would mis-tag a later, unrelated craft.
+        RsPolymorph.setSelectedRecipeId(recipeId);
+        try {
+            BlockEntity targetBe = findBlockEntity(player.containerMenu);
+            if (targetBe != null) {
+                RecipeType<?> type = recipe.value().getType();
+                // Persist the choice on the grid block entity (survives reload) via the loader store.
+                Services.GRID_STORE.set(targetBe, type, recipeId);
+                // Recompute the grid result now so the new output syncs to the client this tick.
                 updateMatchingMatrices(targetBe, type, level);
-            } finally {
-                RsPolymorph.setSelectedRecipeId(null);
+                return;
             }
-            return;
-        }
 
-        // No BlockEntity — this is a BlockEntity-free grid (e.g. the Quartz Arsenal
-        // wireless crafting grid). Drive the selection through its RecipeMatrix directly.
-        if (applyToBlockEntityFreeGrid(player, recipeId)) {
-            return;
-        }
+            // No BlockEntity — this is a BlockEntity-free grid (e.g. the Quartz Arsenal
+            // wireless crafting grid). Drive the selection through its RecipeMatrix directly.
+            if (applyToBlockEntityFreeGrid(player, recipeId)) {
+                return;
+            }
 
-        LOGGER.warn("[RS Polymorph] Could not find target grid for recipe selection (player: {})",
-                player.getName().getString());
+            LOGGER.debug("[RS Polymorph] Could not find target grid for recipe selection (player: {})",
+                    player.getName().getString());
+        } finally {
+            RsPolymorph.setSelectedRecipeId(null);
+        }
     }
 
     /**
@@ -173,14 +175,10 @@ public record SelectRecipePacket(Identifier recipeId) implements CustomPacketPay
         // Persist for subsequent updateResult calls (input changes re-apply via MixinRecipeMatrix).
         RsPolymorph.setMatrixSelection(matrix, recipeId);
 
-        // Fast path for this apply; MixinRecipeMatrix reads the static during updateResult and
-        // writes the chosen output into the result slot, which broadcastChanges syncs to the client.
-        RsPolymorph.setSelectedRecipeId(recipeId);
-        try {
-            matrix.updateResult(level);
-        } finally {
-            RsPolymorph.setSelectedRecipeId(null);
-        }
+        // The static selectedRecipeId is already set by the caller (applyOnServer) and cleared in
+        // its finally; MixinRecipeMatrix reads it during updateResult and writes the chosen output
+        // into the result slot, which broadcastChanges syncs to the client.
+        matrix.updateResult(level);
         return true;
     }
 
