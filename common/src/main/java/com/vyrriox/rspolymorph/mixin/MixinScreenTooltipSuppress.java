@@ -40,7 +40,12 @@ public abstract class MixinScreenTooltipSuppress {
     )
     private void rspolymorph$suppressSlotTooltip(GuiGraphics graphics, int mouseX, int mouseY, CallbackInfo ci) {
         RsGridRecipeWidget widget = RsGridRecipeWidget.getActiveInstance();
-        if (widget != null && widget.isPopupOpen() && widget.isMouseOverPopup(mouseX, mouseY)) {
+        // Gate on popup-open, NOT mouse-over-popup. RS's CraftingGridScreen.renderTooltip draws the
+        // underlying matrix slot's tooltip ("Stick") itself and returns before super, and that slot
+        // can sit OUTSIDE the popup box — so a mouse-over gate is skipped exactly when the overlap
+        // happens. The popup is a modal selector: while it is open, suppress the screen's whole
+        // tooltip pass; the popup renders its own recipe-name tooltip for its hovered entry.
+        if (widget != null && widget.isPopupOpen()) {
             ci.cancel();
         }
     }
