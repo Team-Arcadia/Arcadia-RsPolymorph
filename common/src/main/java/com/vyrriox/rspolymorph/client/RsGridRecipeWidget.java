@@ -85,6 +85,11 @@ public class RsGridRecipeWidget {
         return popup.isOpen();
     }
 
+    /** True if the popup is open and the cursor is over it (drives slot-tooltip suppression). */
+    public boolean isMouseOverPopup(double mouseX, double mouseY) {
+        return popup.isMouseOver(mouseX, mouseY);
+    }
+
     /** True if this widget belongs to the given screen (guards rendering to the right screen). */
     public boolean isOpenForScreen(AbstractContainerScreen<?> screen) {
         return this.screen == screen;
@@ -312,7 +317,8 @@ public class RsGridRecipeWidget {
         if (popup.isOpen() && computeInputHash() != popupOpenedAtHash) {
             popup.close();
         }
-        popup.render(graphics, mouseX, mouseY);
+        // Pass the current output item so the popup can highlight the recipe that is active now.
+        popup.render(graphics, mouseX, mouseY, outputSlot.getItem());
     }
 
     /** @return true if the popup consumed the click (screen must not pass it to slots). */

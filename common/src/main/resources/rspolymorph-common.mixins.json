@@ -17,7 +17,8 @@
   "client": [
     "MixinAbstractBaseScreen",
     "MixinAbstractGridScreenRender",
-    "MixinAbstractContainerScreenOffset"
+    "MixinAbstractContainerScreenOffset",
+    "MixinScreenTooltipSuppress"
   ],
   "injectors": {
     "defaultRequire": 1

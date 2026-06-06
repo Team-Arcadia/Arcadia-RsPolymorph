@@ -29,9 +29,21 @@ public final class RecipeSelectorPopup {
     private static final int SLOT = 18;          // icon cell size
     private static final int COLS = 5;           // icons per row
     private static final int PADDING = 4;
-    private static final int BG = 0xF0100010;    // vanilla tooltip-like background
-    private static final int BORDER = 0xFF202040;
-    private static final int HOVER = 0x80FFFFFF;
+    private static final int HEADER = 13;         // title-bar height inside the box
+
+    // Vanilla-tooltip palette so the popup reads as a native MC element.
+    private static final int BG = 0xF0100010;          // tooltip background
+    private static final int BORDER_TOP = 0xFF5000A0;  // bevel border (top/left, brighter)
+    private static final int BORDER_BOT = 0xFF28004F;  // bevel border (bottom/right, darker)
+    private static final int TITLE = 0xFFFFE08A;       // soft gold title text
+    private static final int SEP = 0x60FFFFFF;         // header separator line
+    // Inset slot bevel.
+    private static final int SLOT_BG = 0xFF22222F;
+    private static final int SLOT_DARK = 0xFF101019;
+    private static final int SLOT_LITE = 0xFF44445F;
+    private static final int HOVER = 0x80FFFFFF;        // vanilla slot-hover overlay
+    private static final int SELECTED = 0xFFFFD24A;     // active-recipe frame (gold)
+    private static final int LABEL_TXT = 0xFFFFFFFF;
 
     private final List<Entry> entries = new ArrayList<>();
     private final Consumer<Identifier> onSelect;
@@ -48,16 +60,34 @@ public final class RecipeSelectorPopup {
         return open;
     }
 
+    private int rows() {
+        return Math.max(1, (entries.size() + COLS - 1) / COLS);
+    }
+
+    private int boxW() {
+        return COLS * SLOT + PADDING * 2;
+    }
+
+    private int boxH() {
+        return PADDING + HEADER + rows() * SLOT + PADDING;
+    }
+
     /** Opens the popup anchored with its bottom-right near (anchorX, anchorY) — e.g. the result slot. */
     public void open(List<Entry> newEntries, int anchorX, int anchorY) {
         entries.clear();
         entries.addAll(newEntries);
-        int rows = Math.max(1, (entries.size() + COLS - 1) / COLS);
-        int w = COLS * SLOT + PADDING * 2;
-        int h = rows * SLOT + PADDING * 2;
+        int w = boxW();
+        int h = boxH();
         // Place the popup to the left of and above the anchor so it doesn't cover the result.
-        this.x = anchorX - w - 4;
-        this.y = anchorY - h + SLOT;
+        int px = anchorX - w - 4;
+        int py = anchorY - h + SLOT;
+        // Clamp fully on-screen so the box is never clipped by a window edge.
+        int screenW = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        int screenH = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+        px = Math.max(2, Math.min(px, screenW - w - 2));
+        py = Math.max(2, Math.min(py, screenH - h - 2));
+        this.x = px;
+        this.y = py;
         this.open = true;
         this.hovered = -1;
     }
@@ -69,50 +99,85 @@ public final class RecipeSelectorPopup {
     }
 
     /** Renders the popup. Call from the screen's render RETURN so it draws on top. */
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, ItemStack current) {
         if (!open || entries.isEmpty()) return;
 
-        int rows = Math.max(1, (entries.size() + COLS - 1) / COLS);
-        int w = COLS * SLOT + PADDING * 2;
-        int h = rows * SLOT + PADDING * 2;
+        Font font = Minecraft.getInstance().font;
+        int w = boxW();
+        int h = boxH();
 
         // We draw at the RETURN of the grid screen's extractContents (before slots/items in the
         // 26.x pipeline), so advance to a new stratum to composite the popup ABOVE the slots.
         graphics.nextStratum();
 
-        // Background + border.
-        graphics.fill(x - 1, y - 1, x + w + 1, y + h + 1, BORDER);
+        // ── Chrome: vanilla-tooltip background + beveled border ───────────────
         graphics.fill(x, y, x + w, y + h, BG);
+        graphics.fill(x, y, x + w, y + 1, BORDER_TOP);                 // top
+        graphics.fill(x, y, x + 1, y + h, BORDER_TOP);                 // left
+        graphics.fill(x, y + h - 1, x + w, y + h, BORDER_BOT);         // bottom
+        graphics.fill(x + w - 1, y, x + w, y + h, BORDER_BOT);         // right
+
+        // ── Header: centred title + separator ─────────────────────────────────
+        Component header = title();
+        graphics.text(font, header, x + (w - font.width(header)) / 2, y + PADDING - 1, TITLE);
+        int sepY = y + PADDING + HEADER - 4;
+        graphics.fill(x + PADDING, sepY, x + w - PADDING, sepY + 1, SEP);
+
+        int gridX = x + PADDING;
+        int gridY = y + PADDING + HEADER;
+        boolean hasCurrent = current != null && !current.isEmpty();
 
         hovered = -1;
         for (int i = 0; i < entries.size(); i++) {
             int col = i % COLS;
             int row = i / COLS;
-            int cx = x + PADDING + col * SLOT;
-            int cy = y + PADDING + row * SLOT;
+            int cx = gridX + col * SLOT;
+            int cy = gridY + row * SLOT;
+
+            // Inset slot bevel (top/left dark, bottom/right light) so icons sit on a real frame.
+            graphics.fill(cx, cy, cx + SLOT, cy + SLOT, SLOT_BG);
+            graphics.fill(cx, cy, cx + SLOT, cy + 1, SLOT_DARK);
+            graphics.fill(cx, cy, cx + 1, cy + SLOT, SLOT_DARK);
+            graphics.fill(cx, cy + SLOT - 1, cx + SLOT, cy + SLOT, SLOT_LITE);
+            graphics.fill(cx + SLOT - 1, cy, cx + SLOT, cy + SLOT, SLOT_LITE);
+
+            ItemStack out = entries.get(i).output();
+            // Gold frame on the recipe whose output matches the grid's current result.
+            if (hasCurrent && ItemStack.isSameItemSameComponents(out, current)) {
+                graphics.fill(cx, cy, cx + SLOT, cy + 1, SELECTED);
+                graphics.fill(cx, cy + SLOT - 1, cx + SLOT, cy + SLOT, SELECTED);
+                graphics.fill(cx, cy, cx + 1, cy + SLOT, SELECTED);
+                graphics.fill(cx + SLOT - 1, cy, cx + SLOT, cy + SLOT, SELECTED);
+            }
 
             boolean over = mouseX >= cx && mouseX < cx + SLOT && mouseY >= cy && mouseY < cy + SLOT;
             if (over) {
                 hovered = i;
-                graphics.fill(cx, cy, cx + SLOT, cy + SLOT, HOVER);
+                graphics.fill(cx + 1, cy + 1, cx + SLOT - 1, cy + SLOT - 1, HOVER);
             }
-            graphics.item(entries.get(i).output(), cx + 1, cy + 1);
+            graphics.item(out, cx + 1, cy + 1);
         }
 
-        // Name of the hovered entry, drawn as a FIXED label above the popup (not a cursor-following
-        // tooltip): the grid screen still renders its own slot tooltip at the cursor, so a tooltip
-        // here would overlap it into unreadable text. A fixed label disambiguates the recipes
-        // cleanly without colliding.
+        // Name of the hovered entry, drawn as a FIXED label above the popup. The 26.x render is a
+        // two-phase extract/submit pipeline with no tooltip API in the extract phase, so we cannot
+        // emit a true vanilla tooltip here; a fixed label above the box reads cleanly and never
+        // collides with the screen's own cursor slot-tooltip.
         if (hovered >= 0) {
-            Font font = Minecraft.getInstance().font;
             Component name = entries.get(hovered).output().getHoverName();
             int lw = font.width(name);
             int lx = x;
             int ly = y - font.lineHeight - 4;
-            graphics.fill(lx - 2, ly - 2, lx + lw + 2, ly + font.lineHeight + 1, BG);
-            graphics.fill(lx - 3, ly - 2, lx - 2, ly + font.lineHeight + 1, BORDER);
-            graphics.text(font, name, lx, ly, 0xFFFFFFFF);
+            graphics.fill(lx - 3, ly - 3, lx + lw + 3, ly + font.lineHeight + 2, BG);
+            graphics.fill(lx - 3, ly - 3, lx + lw + 3, ly - 2, BORDER_TOP);
+            graphics.fill(lx - 3, ly + font.lineHeight + 1, lx + lw + 3, ly + font.lineHeight + 2, BORDER_BOT);
+            graphics.text(font, name, lx, ly, LABEL_TXT);
         }
+    }
+
+    /** True if the cursor is within the popup box — used to suppress the screen's slot tooltip. */
+    public boolean isMouseOver(double mouseX, double mouseY) {
+        if (!open || entries.isEmpty()) return false;
+        return mouseX >= x && mouseX < x + boxW() && mouseY >= y && mouseY < y + boxH();
     }
 
     /**
@@ -122,22 +187,19 @@ public final class RecipeSelectorPopup {
     public boolean mouseClicked(double mouseX, double mouseY) {
         if (!open || entries.isEmpty()) return false;
 
-        int rows = Math.max(1, (entries.size() + COLS - 1) / COLS);
-        int w = COLS * SLOT + PADDING * 2;
-        int h = rows * SLOT + PADDING * 2;
-
-        boolean inside = mouseX >= x && mouseX < x + w && mouseY >= y && mouseY < y + h;
-        if (!inside) {
+        if (!isMouseOver(mouseX, mouseY)) {
             // Click outside closes the popup but is not consumed (let the screen handle it).
             close();
             return false;
         }
 
+        int gridX = x + PADDING;
+        int gridY = y + PADDING + HEADER;
         for (int i = 0; i < entries.size(); i++) {
             int col = i % COLS;
             int row = i / COLS;
-            int cx = x + PADDING + col * SLOT;
-            int cy = y + PADDING + row * SLOT;
+            int cx = gridX + col * SLOT;
+            int cy = gridY + row * SLOT;
             if (mouseX >= cx && mouseX < cx + SLOT && mouseY >= cy && mouseY < cy + SLOT) {
                 Identifier id = entries.get(i).id();
                 close();
