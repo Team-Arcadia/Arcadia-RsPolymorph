@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Standalone recipe-selection driver for an RS2 grid screen — the Polymorph-free replacement for
@@ -143,13 +142,12 @@ public class RsGridRecipeWidget {
     private List<RecipeMatrixContainer> getContainers() {
         if (cachedContainers != null) return cachedContainers;
 
-        List<RecipeMatrixContainer> fromSlots = new ArrayList<>();
-        Set<Integer> seen = new HashSet<>();
+        // A grid has only 1-2 distinct matrix containers, so a reference-identity linear check is
+        // cheaper and correct (no autoboxing, no HashSet allocation, no hash-collision risk).
+        List<RecipeMatrixContainer> fromSlots = new ArrayList<>(2);
         for (Slot slot : screen.getMenu().slots) {
-            if (slot.container instanceof RecipeMatrixContainer rmc) {
-                if (seen.add(System.identityHashCode(rmc))) {
-                    fromSlots.add(rmc);
-                }
+            if (slot.container instanceof RecipeMatrixContainer rmc && !containsRef(fromSlots, rmc)) {
+                fromSlots.add(rmc);
             }
         }
         if (!fromSlots.isEmpty()) {
@@ -173,6 +171,14 @@ public class RsGridRecipeWidget {
 
         cachedContainers = Collections.emptyList();
         return cachedContainers;
+    }
+
+    /** Reference-identity membership test (containers are compared by identity, not equals). */
+    private static boolean containsRef(List<RecipeMatrixContainer> list, RecipeMatrixContainer c) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == c) return true;
+        }
+        return false;
     }
 
     @SuppressWarnings("unchecked")
@@ -248,6 +254,11 @@ public class RsGridRecipeWidget {
     // -------------------------------------------------------------------------
 
     public boolean hasMultipleRecipes() {
+        // The side button calls this every frame (in the screen's render, BEFORE renderPopup runs),
+        // so refresh the per-frame cache here too. Otherwise the container/hash cache is rebuilt on
+        // this call AND again in renderPopup, re-discovering containers + recomputing the hash twice
+        // per frame. Gating both render paths on the same frame check rebuilds at most once/frame.
+        refreshFrameCache();
         int hash = computeInputHash();
         if (hash != lastHashForMultipleCheck) {
             lastHashForMultipleCheck = hash;

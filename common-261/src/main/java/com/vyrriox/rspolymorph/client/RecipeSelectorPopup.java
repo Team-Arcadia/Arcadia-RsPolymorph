@@ -96,10 +96,21 @@ public final class RecipeSelectorPopup {
                 hovered = i;
                 graphics.fill(cx, cy, cx + SLOT, cy + SLOT, HOVER);
             }
-            // Item icon only. The 26.x GuiGraphicsExtractor has no simple item-count overlay worth
-            // pulling in here, and a hovered tooltip is intentionally skipped to stay simple — the
-            // hover highlight above already conveys the focused entry.
             graphics.item(entries.get(i).output(), cx + 1, cy + 1);
+        }
+
+        // Name label for the hovered entry, so two recipes that share an output item can still be
+        // told apart (26.x parity with the 1.21.1 tooltip). A simple dark-backed text line near the
+        // cursor — the full GuiGraphicsExtractor.tooltip(...) machinery is overkill for one line.
+        if (hovered >= 0) {
+            Font font = Minecraft.getInstance().font;
+            Component name = entries.get(hovered).output().getHoverName();
+            int tw = font.width(name);
+            int lx = mouseX + 10;
+            int ly = mouseY - 12;
+            graphics.fill(lx - 2, ly - 2, lx + tw + 2, ly + font.lineHeight + 1, 0xF0100010);
+            graphics.fill(lx - 3, ly - 2, lx - 2, ly + font.lineHeight + 1, BORDER);
+            graphics.text(font, name, lx, ly, 0xFFFFFFFF);
         }
     }
 
