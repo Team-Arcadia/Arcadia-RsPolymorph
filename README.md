@@ -6,9 +6,10 @@ RS Polymorph is a standalone Minecraft add-on for **NeoForge and Fabric** that a
 
 ## Features
 
-- **Crafting Grid** — Adds the Polymorph recipe selection button to the Refined Storage 2 Crafting Grid
+- **Crafting Grid** — Adds a recipe selection button to the Refined Storage Crafting Grid, opening a polished popup (titled header, slot frames, a gold highlight on the active recipe)
 - **Wireless Crafting Grid** — Recipe selection also works in the [Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) Wireless Crafting Grid; the choice is driven through the grid's recipe matrix even though it has no block entity (optional compat, no hard dependency)
-- **Pattern Grid** — Adds the Polymorph recipe selection button to the Pattern Grid, with the selection persisted on the printed pattern via a custom data component
+- **Pattern Grid** — Adds a recipe selection button to the Pattern Grid, with the selection persisted on the printed pattern via a custom data component
+- **First-open tutorial** — A one-time card explains the feature the first time you open an RS grid; dismiss it with a click or Space/Enter (with narrator support)
 - **Autocrafting integration** — `MixinPatternResolver` prefers the pattern's stored recipe ID over the default first-match, so autocrafting always resolves the recipe you chose
 - **Server-safe** — All client classes are isolated behind `FMLEnvironment.dist.isClient()`; client mixins are split into the `"client"` block of the mixin config, so dedicated servers start cleanly with no missing-class errors
 - **Unified SP / MP path** — Recipe selection goes through a single `SelectRecipePacket`, which works via loopback in singleplayer and over the network in multiplayer
@@ -71,9 +72,10 @@ RS Polymorph est un add-on autonome pour Minecraft (**NeoForge et Fabric**) qui 
 
 ## Caractéristiques
 
-- **Crafting Grid** — Ajoute le bouton de sélection de recette Polymorph à la Crafting Grid de Refined Storage 2
+- **Crafting Grid** — Ajoute un bouton de sélection de recette à la Crafting Grid de Refined Storage, ouvrant un popup soigné (en-tête titré, slots en relief, surbrillance dorée sur la recette active)
 - **Wireless Crafting Grid** — La sélection de recette fonctionne aussi dans la Wireless Crafting Grid de [Quartz Arsenal](https://www.curseforge.com/minecraft/mc-mods/refined-storage-quartz-arsenal) ; le choix est appliqué via la matrice de recette de la grille bien qu'elle n'ait aucun block entity (compat optionnelle, sans dépendance forte)
-- **Pattern Grid** — Ajoute le bouton de sélection de recette Polymorph à la Pattern Grid, avec la sélection persistée sur le patron imprimé via un data component custom
+- **Pattern Grid** — Ajoute un bouton de sélection de recette à la Pattern Grid, avec la sélection persistée sur le patron imprimé via un data component custom
+- **Tutoriel au premier lancement** — Une carte unique explique la fonctionnalité à la première ouverture d'une grille RS ; fermez-la d'un clic ou avec Espace/Entrée (support narrateur)
 - **Intégration autocraft** — `MixinPatternResolver` privilégie l'ID de recette stocké sur le patron plutôt que le premier match par défaut, donc l'autocraft résout toujours la recette choisie
 - **Sûr côté serveur** — Toutes les classes client sont isolées derrière `FMLEnvironment.dist.isClient()` ; les mixins client sont dans le bloc `"client"` du fichier mixins, donc les serveurs dédiés démarrent proprement sans erreur de classe manquante
 - **Chemin SP / MP unifié** — La sélection de recette passe par un unique `SelectRecipePacket`, fonctionnant en boucle locale en solo et sur le réseau en multijoueur
