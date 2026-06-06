@@ -99,16 +99,17 @@ public final class RecipeSelectorPopup {
             graphics.item(entries.get(i).output(), cx + 1, cy + 1);
         }
 
-        // Name label for the hovered entry, so two recipes that share an output item can still be
-        // told apart (26.x parity with the 1.21.1 tooltip). A simple dark-backed text line near the
-        // cursor — the full GuiGraphicsExtractor.tooltip(...) machinery is overkill for one line.
+        // Name of the hovered entry, drawn as a FIXED label above the popup (not a cursor-following
+        // tooltip): the grid screen still renders its own slot tooltip at the cursor, so a tooltip
+        // here would overlap it into unreadable text. A fixed label disambiguates the recipes
+        // cleanly without colliding.
         if (hovered >= 0) {
             Font font = Minecraft.getInstance().font;
             Component name = entries.get(hovered).output().getHoverName();
-            int tw = font.width(name);
-            int lx = mouseX + 10;
-            int ly = mouseY - 12;
-            graphics.fill(lx - 2, ly - 2, lx + tw + 2, ly + font.lineHeight + 1, 0xF0100010);
+            int lw = font.width(name);
+            int lx = x;
+            int ly = y - font.lineHeight - 4;
+            graphics.fill(lx - 2, ly - 2, lx + lw + 2, ly + font.lineHeight + 1, BG);
             graphics.fill(lx - 3, ly - 2, lx - 2, ly + font.lineHeight + 1, BORDER);
             graphics.text(font, name, lx, ly, 0xFFFFFFFF);
         }

@@ -7,6 +7,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.attachment.AttachmentType;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -43,13 +44,17 @@ public final class NeoForgeGridRecipeStore implements GridRecipeStore {
         Identifier typeId = GridSelectionData.typeId(type);
         if (typeId == null) return;
 
-        Map<Identifier, Identifier> map = be.getData(attachment.get());
+        // Codec.unboundedMap decodes to an ImmutableMap, so the value from getData (after a
+        // serialization round-trip) cannot be mutated in place — map.put/remove would throw
+        // UnsupportedOperationException. Copy-on-write into a fresh mutable map, then setData it back.
+        Map<Identifier, Identifier> current = be.getData(attachment.get());
+        Map<Identifier, Identifier> next = new HashMap<>(current);
         if (recipeId == null) {
-            map.remove(typeId);
+            next.remove(typeId);
         } else {
-            map.put(typeId, recipeId);
+            next.put(typeId, recipeId);
         }
-        // getData returns the live attached map; mark the BE dirty so the change is saved.
+        be.setData(attachment.get(), next);
         be.setChanged();
     }
 }

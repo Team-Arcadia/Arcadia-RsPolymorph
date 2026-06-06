@@ -96,10 +96,19 @@ public final class RecipeSelectorPopup {
             graphics.renderItemDecorations(Minecraft.getInstance().font, entries.get(i).output(), cx + 1, cy + 1);
         }
 
-        // Tooltip for the hovered entry.
+        // Name of the hovered entry, drawn as a fixed label ABOVE the popup (not a cursor-following
+        // tooltip): the grid screen still renders its own slot tooltip at the cursor, so a tooltip
+        // here would overlap it into unreadable text. A fixed label disambiguates the recipes
+        // cleanly without colliding.
         if (hovered >= 0) {
-            ItemStack out = entries.get(hovered).output();
-            graphics.renderTooltip(Minecraft.getInstance().font, out, mouseX, mouseY);
+            Font font = Minecraft.getInstance().font;
+            Component label = entries.get(hovered).output().getHoverName();
+            int lw = font.width(label);
+            int lx = x;
+            int ly = y - font.lineHeight - 4;
+            graphics.fill(lx - 2, ly - 2, lx + lw + 2, ly + font.lineHeight + 1, BG);
+            graphics.fill(lx - 3, ly - 2, lx - 2, ly + font.lineHeight + 1, BORDER);
+            graphics.drawString(font, label, lx, ly, 0xFFFFFFFF);
         }
     }
 
