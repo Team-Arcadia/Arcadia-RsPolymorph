@@ -82,6 +82,19 @@ def remapCommonSources = tasks.register('remapCommonSources', Copy) {
     duplicatesStrategy = DuplicatesStrategy.FAIL  // a fork colliding with a remapped file is a bug
 }
 
+// Merge the shared common resources with the 26.x-specific overrides. The crafting recipe JSON
+// differs between MC versions (1.21.1 ingredients are objects {"item": "..."}, 26.x are bare
+// item-id strings), so the recipe files are excluded from common and replaced by common-261's own.
+def mergedResources = layout.buildDirectory.dir('merged-resources')
+def mergeResources = tasks.register('mergeResources', Copy) {
+    from('../common/src/main/resources') {
+        exclude 'data/rspolymorph/recipe/**'
+    }
+    from('src/main/resources')   // 26.x recipe overrides (string-form ingredients)
+    into mergedResources
+    duplicatesStrategy = DuplicatesStrategy.FAIL  // a stray duplicate would be a real conflict
+}
+
 sourceSets {
     main {
         java {
@@ -89,13 +102,16 @@ sourceSets {
             srcDirs = [remappedCommonSrc]
         }
         resources {
-            srcDir '../common/src/main/resources'
+            srcDirs = [mergedResources]
         }
     }
 }
 
 tasks.named('compileJava') {
     dependsOn remapCommonSources
+}
+tasks.named('processResources') {
+    dependsOn mergeResources
 }
 
 configurations {
@@ -105,5 +121,5 @@ configurations {
 
 artifacts {
     common261Java(remappedCommonSrc) { builtBy remapCommonSources }
-    common261Resources(file('../common/src/main/resources'))
+    common261Resources(mergedResources) { builtBy mergeResources }
 }
