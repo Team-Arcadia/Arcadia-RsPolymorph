@@ -12,7 +12,7 @@
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><img src="https://img.shields.io/badge/Stable_Release-v1.2.0-00cc00?style=for-the-badge" alt="Stable v1.2.0"></p>
+<p style="text-align: center;"><img src="https://img.shields.io/badge/Stable_Release-v1.2.1-00cc00?style=for-the-badge" alt="Stable v1.2.1"></p>
 
 <table style="margin-left: auto; margin-right: auto; max-width: 850px; border: 2px solid #FFC107; background-color: rgba(255, 193, 7, 0.15);">
 <tbody>

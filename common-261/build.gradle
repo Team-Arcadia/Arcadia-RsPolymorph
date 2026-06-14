@@ -63,6 +63,10 @@ def forkedFor261 = [
         // GUI render pipeline changed in 26.x (extractRenderState/extractWidgetRenderState):
         'com/vyrriox/rspolymorph/client/RecipeSelectionSideButton.java',
         'com/vyrriox/rspolymorph/mixin/MixinAbstractGridScreenRender.java',
+        // 26.x z-order fix: popup render moved onto vanilla extractRenderState (post all extract
+        // phases). Uses GuiGraphicsExtractor/extractRenderState which only exist on 26.x, so it is a
+        // 26.x-only mixin — there is no counterpart in the 1.21.1 source tree.
+        'com/vyrriox/rspolymorph/mixin/MixinScreenPopupRender.java',
         'com/vyrriox/rspolymorph/mixin/MixinAbstractContainerScreenOffset.java',
         // Targets RS grid-screen classes on 1.21.1; 26.x has a different tooltip pipeline, so the
         // 26.x fork is a fail-soft no-op (see common-261's MixinScreenTooltipSuppress).
@@ -94,8 +98,11 @@ def mergedResources = layout.buildDirectory.dir('merged-resources')
 def mergeResources = tasks.register('mergeResources', Copy) {
     from('../common/src/main/resources') {
         exclude 'data/rspolymorph/recipe/**'
+        // The mixin config is forked for 26.x: it adds MixinScreenPopupRender (the extractRenderState
+        // z-order fix), which does not exist in the 1.21.1 source tree.
+        exclude 'rspolymorph-common.mixins.json'
     }
-    from('src/main/resources')   // 26.x recipe overrides (string-form ingredients)
+    from('src/main/resources')   // 26.x recipe overrides (string-form ingredients) + forked mixin config
     into mergedResources
     duplicatesStrategy = DuplicatesStrategy.FAIL  // a stray duplicate would be a real conflict
 }

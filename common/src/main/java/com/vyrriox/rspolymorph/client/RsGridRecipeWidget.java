@@ -329,6 +329,16 @@ public class RsGridRecipeWidget {
         if (popup.isOpen() && computeInputHash() != popupOpenedAtHash) {
             popup.close();
         }
+
+        // Z-elevate the whole overlay above the grid's item layer. GuiGraphics#fill (our popup/card
+        // chrome) draws at Z=0, but vanilla GuiGraphics#renderItem translates every GUI item to
+        // Z=232 (see AbstractContainerScreen#renderFloatingItem) — so without this the crafting-grid
+        // item icons paint ON TOP of the popup's background and the popup is unreadable/unclickable,
+        // even though we render at the screen's render() RETURN. Push to Z=400 (the vanilla tooltip
+        // layer, above 232) so the entire popup — chrome AND its own item icons — sits on top.
+        graphics.pose().pushPose();
+        graphics.pose().translate(0.0f, 0.0f, 400.0f);
+
         // Pass the current output item so the popup can highlight the recipe that is active now.
         popup.render(graphics, mouseX, mouseY, outputSlot.getItem());
 
@@ -347,6 +357,8 @@ public class RsGridRecipeWidget {
             }
             TutorialOverlay.render(graphics);
         }
+
+        graphics.pose().popPose();
     }
 
     /** Reads the tutorial text aloud once for screen-reader users. Fail-soft. */

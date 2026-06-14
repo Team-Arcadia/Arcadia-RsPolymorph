@@ -106,8 +106,10 @@ public final class RecipeSelectorPopup {
         int w = boxW();
         int h = boxH();
 
-        // We draw at the RETURN of the grid screen's extractContents (before slots/items in the
-        // 26.x pipeline), so advance to a new stratum to composite the popup ABOVE the slots.
+        // We draw at the RETURN of vanilla AbstractContainerScreen.extractRenderState (after all four
+        // extract phases: contents -> carriedItem -> snapbackItem -> tooltip). Each of those phases
+        // advanced the stratum; one more nextStratum() here puts the popup on a fresh top stratum,
+        // above the carried-item layer, so it composites over everything. (See MixinScreenPopupRender.)
         graphics.nextStratum();
 
         // ── Chrome: vanilla-tooltip background + beveled border ───────────────

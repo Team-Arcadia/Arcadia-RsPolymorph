@@ -4,6 +4,20 @@ All notable changes to RS Polymorph are documented here.
 
 ---
 
+## [1.2.1] - 2026-06-14
+
+### Fixed
+
+- **Recipe-selection popup drawn under the grid items (z-order)** — The recipe-selection popup rendered *behind* the crafting-grid item icons, so the grid items showed through it and the recipe icons could not be read or clicked. Cause: Minecraft renders all GUI item icons on a fixed high depth layer (`renderItem` translates to Z=232 on 1.21.1; the carried-item / tooltip phases composite on later strata on 26.x), so even though the popup was drawn at the screen's render tail its flat background sat below the items. On **1.21.1** the whole popup (and the first-open tutorial card) is now drawn inside a pose pushed to Z=400, above the item layer. On **26.1.2** the popup render was moved off RS's `extractContents` (the first of four extract phases) onto vanilla `AbstractContainerScreen.extractRenderState` at RETURN — the only point that runs after `extractContents` → `extractCarriedItem` → `extractSnapbackItem` → `extractTooltip` — via a new `MixinScreenPopupRender`, so the popup composites on the topmost stratum. The recipe popup is now fully on top and selectable on all three jars.
+
+### Ajouts / Correctifs / Modifications / Performance (French mirror)
+
+### Correctifs
+
+- **Popup de sélection de recette affichée sous les items de la grille (ordre de profondeur)** — La popup de sélection s'affichait *derrière* les icônes d'items de la grille de craft : les items transparaissaient par-dessus et les icônes de recette étaient illisibles et incliquables. Cause : Minecraft rend toutes les icônes d'items de GUI sur une couche de profondeur élevée fixe (`renderItem` translate en Z=232 sur 1.21.1 ; les phases item-porté / infobulle se composent sur des strates ultérieures en 26.x), donc même dessinée en fin de rendu, le fond plat de la popup restait sous les items. Sur **1.21.1**, toute la popup (et la carte de tutoriel de première ouverture) est désormais dessinée dans une pose poussée à Z=400, au-dessus de la couche des items. Sur **26.1.2**, le rendu de la popup a été déplacé de `extractContents` de RS (la première des quatre phases d'extraction) vers `AbstractContainerScreen.extractRenderState` vanilla en RETURN — le seul point exécuté après `extractContents` → `extractCarriedItem` → `extractSnapbackItem` → `extractTooltip` — via un nouveau `MixinScreenPopupRender`, pour que la popup se compose sur la strate la plus haute. La popup de recette est maintenant entièrement au premier plan et sélectionnable sur les trois jars.
+
+---
+
 ## [1.2.0] - 2026-06-05
 
 ### Added

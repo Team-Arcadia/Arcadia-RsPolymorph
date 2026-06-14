@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.vyrriox.rspolymorph.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "rspolymorph.refmap.json",
+  "mixins": [
+    "MixinRecipeMatrix",
+    "AccessorAbstractGridContainerMenu",
+    "AccessorAbstractCraftingGridContainerMenu",
+    "AccessorRecipeMatrix",
+    "MixinAbstractGridContainerMenu",
+    "MixinCraftingGrid",
+    "MixinPatternGrid",
+    "MixinPatternResolver"
+  ],
+  "client": [
+    "MixinAbstractBaseScreen",
+    "MixinAbstractGridScreenRender",
+    "MixinScreenPopupRender",
+    "MixinAbstractContainerScreenOffset",
+    "MixinScreenTooltipSuppress",
+    "MixinScreenKeyDismiss"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
