@@ -4,6 +4,26 @@ All notable changes to RS Polymorph are documented here.
 
 ---
 
+## [1.2.2] - 2026-06-29
+
+### Added
+
+- **Non-unique craft warning on the recipe button (issue #3)** — When the open grid currently matches more than one recipe, the recipe-selection side button now flags it so the choice is never missed and the wrong item is not crafted by accident. It uses Refined Storage's native warning idiom — a red warning icon drawn on the button plus a red explanatory line appended to its tooltip — and additionally pulses a soft gold halo around the button to draw the eye to it (players reported not noticing the button at all). The pulse stops once the popup is open. The indicator clears automatically when the craft becomes unique. Implemented on all three jars (1.21.1 Fabric/NeoForge, 26.1.2 NeoForge).
+
+### Removed
+
+- **Debug "Test Stick" items** — The two development-only items (`test_stick_1` / `test_stick_2`), which existed only to demonstrate the multi-recipe case, were removed from the released mod: their registration (both loaders, both MC lines), creative-tab entries, recipes, models, textures, and lang strings are gone. Real packs already provide genuine non-unique crafts, so the debug items served no purpose in a release build.
+
+### Ajouts
+
+- **Avertissement de craft non unique sur le bouton de recette (issue #3)** — Quand la grille ouverte correspond à plusieurs recettes, le bouton latéral de sélection le signale désormais pour que le choix ne soit jamais manqué et qu'un mauvais objet ne soit pas crafté par accident. Il reprend l'idiome d'avertissement natif de Refined Storage — une icône d'avertissement rouge dessinée sur le bouton plus une ligne rouge explicative ajoutée à son infobulle — et fait en plus pulser un léger halo doré autour du bouton pour attirer l'œil (des joueurs signalaient ne pas remarquer le bouton du tout). La pulsation s'arrête dès que le popup est ouvert. L'indicateur disparaît automatiquement quand le craft redevient unique. Implémenté sur les trois jars (1.21.1 Fabric/NeoForge, 26.1.2 NeoForge).
+
+### Suppressions
+
+- **Objets de débogage « Bâton de test »** — Les deux objets réservés au développement (`test_stick_1` / `test_stick_2`), qui n'existaient que pour illustrer le cas multi-recettes, ont été retirés du mod publié : leur enregistrement (deux loaders, deux lignes MC), leurs entrées dans l'onglet créatif, leurs recettes, modèles, textures et chaînes de traduction ont disparu. Les packs réels fournissent déjà de vrais crafts non uniques, ces objets de débogage n'avaient donc aucune utilité dans un build de publication.
+
+---
+
 ## [1.2.1] - 2026-06-14
 
 ### Fixed

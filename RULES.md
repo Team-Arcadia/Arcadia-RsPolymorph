@@ -11,7 +11,7 @@
 | Author | vyrriox |
 | Organization | Team Arcadia |
 | License | LGPL-3.0-or-later (with attribution requirement to "vyrriox / Team Arcadia") |
-| Version | 1.2.1 |
+| Version | 1.2.2 |
 | Dependencies | **Standalone — NO Polymorph.** Refined Storage 2.x (MC 1.21.1, tested 2.0.8) or 3.x (MC 26.1.2, tested 3.2.0) |
 | Targets | 1.21.1 NeoForge ✓ · 1.21.1 Fabric ✓ · 26.1.2 NeoForge ✓ · 26.1.2 Fabric (coded, pending Loom 26.x) |
 | Optional compat | Refined Storage - Quartz Arsenal >= 1.0.7 (wireless crafting grid) |
