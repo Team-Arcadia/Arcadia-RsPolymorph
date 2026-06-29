@@ -1,6 +1,6 @@
-<h1 style="text-align: center;"><span style="color: #ffa500;">🔧 RS POLYMORPH — RECIPE CHOICE FOR REFINED STORAGE 🔧</span></h1>
+<h1 style="text-align: center;"><span style="color: #ffa500;">🔧 RS POLYMORPH - RECIPE CHOICE FOR REFINED STORAGE 🔧</span></h1>
 <p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>⚡ Pick the recipe you actually want ⚡</strong></span></p>
-<p style="text-align: center;"><span style="font-size: large;"><em>A standalone recipe selector for Refined Storage — no Polymorph required.</em></span></p>
+<p style="text-align: center;"><span style="font-size: large;"><em>A standalone recipe selector for Refined Storage - no Polymorph required.</em></span></p>
 
 <p>&nbsp;</p>
 
@@ -12,7 +12,7 @@
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><img src="https://img.shields.io/badge/Stable_Release-v1.2.1-00cc00?style=for-the-badge" alt="Stable v1.2.1"></p>
+<p style="text-align: center;"><img src="https://img.shields.io/badge/Stable_Release-v1.2.2-00cc00?style=for-the-badge" alt="Stable v1.2.2"></p>
 
 <table style="margin-left: auto; margin-right: auto; max-width: 850px; border: 2px solid #FFC107; background-color: rgba(255, 193, 7, 0.15);">
 <tbody>
@@ -36,13 +36,13 @@
 <tr>
 <td style="padding: 14px 18px; vertical-align: top; width: 50%; border-right: 2px solid #2196F3; text-align: center;">
 <p><span style="color: #2196F3; font-size: large;"><strong>🔌 PLUG-AND-PLAY ADDON</strong></span></p>
-<p>Drop it in your <code>mods/</code> folder next to Refined Storage — <strong>no Polymorph, no configuration, no commands</strong>, no extra blocks or items to learn. A recipe-selection button just <strong>appears</strong> on RS grid screens whenever multiple recipes share your ingredients.</p>
-<p>✅ <strong>Fabric &amp; NeoForge.</strong> ✅ <strong>Minecraft 1.21.1 &amp; 26.1.2.</strong> ✅ <strong>Singleplayer &amp; dedicated servers</strong> — server-safe by design, no client-only class leaks into common code.</p>
+<p>Drop it in your <code>mods/</code> folder next to Refined Storage - <strong>no Polymorph, no configuration, no commands</strong>, no extra blocks or items to learn. A recipe-selection button just <strong>appears</strong> on RS grid screens whenever multiple recipes share your ingredients.</p>
+<p>✅ <strong>Fabric &amp; NeoForge.</strong> ✅ <strong>Minecraft 1.21.1 &amp; 26.1.2.</strong> ✅ <strong>Singleplayer &amp; dedicated servers</strong> - server-safe by design, no client-only class leaks into common code.</p>
 </td>
 <td style="padding: 14px 18px; vertical-align: top; width: 50%; text-align: center;">
 <p><span style="color: #2196F3; font-size: large;"><strong>🔌 ADDON PRÊT À L'EMPLOI</strong></span></p>
-<p>Posez le jar dans votre dossier <code>mods/</code> à côté de Refined Storage — <strong>sans Polymorph, sans config, sans commande</strong>, aucun bloc ou item à apprendre. Un bouton de sélection de recette <strong>apparaît</strong> sur les écrans de grille RS dès que plusieurs recettes partagent vos ingrédients.</p>
-<p>✅ <strong>Fabric &amp; NeoForge.</strong> ✅ <strong>Minecraft 1.21.1 &amp; 26.1.2.</strong> ✅ <strong>Solo &amp; serveur dédié</strong> — sûr côté serveur par design, aucune classe client ne fuit dans le code commun.</p>
+<p>Posez le jar dans votre dossier <code>mods/</code> à côté de Refined Storage - <strong>sans Polymorph, sans config, sans commande</strong>, aucun bloc ou item à apprendre. Un bouton de sélection de recette <strong>apparaît</strong> sur les écrans de grille RS dès que plusieurs recettes partagent vos ingrédients.</p>
+<p>✅ <strong>Fabric &amp; NeoForge.</strong> ✅ <strong>Minecraft 1.21.1 &amp; 26.1.2.</strong> ✅ <strong>Solo &amp; serveur dédié</strong> - sûr côté serveur par design, aucune classe client ne fuit dans le code commun.</p>
 </td>
 </tr>
 </tbody>
@@ -83,15 +83,15 @@
 <p><span style="color: #ffa500;"><strong>🎨 Redesigned Selector</strong></span><br>A clean, native-looking popup: titled header, inset slot frames, a <strong>gold highlight on the recipe currently produced</strong>, on-screen clamping, and a single readable recipe name on hover.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🎓 First-Time Tutorial</strong></span><br>The very first time you open an RS grid, a one-time card explains the feature in your language. Dismiss it with a click — it never nags you again.</p>
+<p><span style="color: #ffa500;"><strong>🎓 First-Time Tutorial</strong></span><br>The very first time you open an RS grid, a one-time card explains the feature in your language. Dismiss it with a click - it never nags you again.</p>
 </td>
 </tr>
 <tr>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🎯 Live Preview</strong></span><br>The grid's output preview updates <strong>immediately</strong> when you pick a different recipe. No need to print, craft or refresh — what you see is what you get.</p>
+<p><span style="color: #ffa500;"><strong>🎯 Live Preview</strong></span><br>The grid's output preview updates <strong>immediately</strong> when you pick a different recipe. No need to print, craft or refresh - what you see is what you get.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🔄 Smart Visibility</strong></span><br>The button only appears when a recipe conflict actually exists. Empty matrix or single-recipe input → button stays hidden. Zero visual clutter.</p>
+<p><span style="color: #ffa500;"><strong>⚠️ Non-Unique Craft Warning</strong></span><br>When more than one recipe matches your grid, the button flags it: a red warning icon, an explanatory tooltip line, and a pulsing gold halo so you never miss the choice or craft the wrong item by accident. Stays quiet when the craft is unique.</p>
 </td>
 </tr>
 <tr>
@@ -125,7 +125,7 @@
 <p><span style="color: #ffa500;"><strong>3️⃣</strong></span> Click the <strong>recipe-selection button</strong> next to the grid.</p>
 </td>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
-<p><span style="color: #ffa500;"><strong>4️⃣</strong></span> Pick your preferred output from the popup. Done — it's remembered per grid.</p>
+<p><span style="color: #ffa500;"><strong>4️⃣</strong></span> Pick your preferred output from the popup. Done - it's remembered per grid.</p>
 </td>
 </tr>
 </tbody>
@@ -195,7 +195,7 @@
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><a href="https://wabbanode.com/partner/vyrriox" target="_blank" rel="nofollow noopener"><img style="border: 2px solid #FFA500;" src="https://arcadia-echoes-of-power.fr/storage/curseforge/bannerwab.png" alt="WabbaNode — Official Hosting Partner" width="800"></a></p>
+<p style="text-align: center;"><a href="https://wabbanode.com/partner/vyrriox" target="_blank" rel="nofollow noopener"><img style="border: 2px solid #FFA500;" src="https://arcadia-echoes-of-power.fr/storage/curseforge/bannerwab.png" alt="WabbaNode - Official Hosting Partner" width="800"></a></p>
 
 <p>&nbsp;</p>
 
@@ -238,15 +238,15 @@
 <p><span style="color: #ffa500;"><strong>🎨 Sélecteur Redesigné</strong></span><br>Un popup épuré, d'aspect natif : en-tête titré, slots en relief, <strong>surbrillance dorée sur la recette produite</strong>, calage à l'écran, et un seul nom de recette lisible au survol.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🎓 Tutoriel au Premier Lancement</strong></span><br>La toute première fois que vous ouvrez une grille RS, une carte unique explique la fonctionnalité dans votre langue. Fermez-la d'un clic — elle ne réapparaît plus jamais.</p>
+<p><span style="color: #ffa500;"><strong>🎓 Tutoriel au Premier Lancement</strong></span><br>La toute première fois que vous ouvrez une grille RS, une carte unique explique la fonctionnalité dans votre langue. Fermez-la d'un clic - elle ne réapparaît plus jamais.</p>
 </td>
 </tr>
 <tr>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🎯 Aperçu en Direct</strong></span><br>L'aperçu de sortie de la grille se met à jour <strong>immédiatement</strong> quand vous choisissez une autre recette. Pas besoin d'imprimer, de crafter ou de rafraîchir — ce que vous voyez est ce que vous obtenez.</p>
+<p><span style="color: #ffa500;"><strong>🎯 Aperçu en Direct</strong></span><br>L'aperçu de sortie de la grille se met à jour <strong>immédiatement</strong> quand vous choisissez une autre recette. Pas besoin d'imprimer, de crafter ou de rafraîchir - ce que vous voyez est ce que vous obtenez.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🔄 Visibilité Intelligente</strong></span><br>Le bouton n'apparaît que lorsqu'un conflit de recettes existe réellement. Matrice vide ou input à une seule recette → bouton caché. Zéro encombrement visuel.</p>
+<p><span style="color: #ffa500;"><strong>⚠️ Avertissement de Craft Non Unique</strong></span><br>Quand plusieurs recettes correspondent à votre grille, le bouton le signale : icône d'avertissement rouge, ligne d'infobulle explicative, et halo doré pulsant pour ne jamais manquer le choix ni crafter le mauvais objet par accident. Reste discret quand le craft est unique.</p>
 </td>
 </tr>
 <tr>
@@ -280,7 +280,7 @@
 <p><span style="color: #ffa500;"><strong>3️⃣</strong></span> Cliquez sur le <strong>bouton de sélection de recette</strong> à côté de la grille.</p>
 </td>
 <td style="padding: 10px 14px; vertical-align: top; width: 50%; border: 1px solid #FFA500;">
-<p><span style="color: #ffa500;"><strong>4️⃣</strong></span> Choisissez votre recette préférée dans le popup. Terminé — c'est mémorisé par grille.</p>
+<p><span style="color: #ffa500;"><strong>4️⃣</strong></span> Choisissez votre recette préférée dans le popup. Terminé - c'est mémorisé par grille.</p>
 </td>
 </tr>
 </tbody>
@@ -350,7 +350,7 @@
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><a href="https://lordhosting.fr/gaming/serveur-minecraft?ref=arcadia" target="_blank" rel="nofollow noopener"><img style="border: 2px solid #FFA500;" src="https://arcadia-echoes-of-power.fr/storage/curseforge/bannerlord.png" alt="LordHosting — Hébergeur Officiel Partenaire" width="800"></a></p>
+<p style="text-align: center;"><a href="https://lordhosting.fr/gaming/serveur-minecraft?ref=arcadia" target="_blank" rel="nofollow noopener"><img style="border: 2px solid #FFA500;" src="https://arcadia-echoes-of-power.fr/storage/curseforge/bannerlord.png" alt="LordHosting - Hébergeur Officiel Partenaire" width="800"></a></p>
 
 <p>&nbsp;</p>
 
@@ -360,13 +360,13 @@
 
 <hr style="border: 1px solid #FFA500;">
 
-<h1 style="text-align: center;"><span style="color: #ffa500;">🌟 PLAY ARCADIA V2 — ECHOES OF POWER 🌟</span></h1>
+<h1 style="text-align: center;"><span style="color: #ffa500;">🌟 PLAY ARCADIA V2 - ECHOES OF POWER 🌟</span></h1>
 <p align="center" style="text-align: center; margin-top: 1.2em; margin-bottom: 0.6em;"><span style="font-size: xx-large; color: #ffa500;"><strong>⚡ Where Magic Meets Machinery ⚡</strong></span></p>
-<p style="text-align: center;"><span style="font-size: large;"><em>The flagship modpack RS Polymorph was built for — and ships in by default.</em></span></p>
+<p style="text-align: center;"><span style="font-size: large;"><em>The flagship modpack RS Polymorph was built for - and ships in by default.</em></span></p>
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><a href="https://www.curseforge.com/minecraft/modpacks/arcadia-echoes-of-power-v2" target="_blank" rel="nofollow noopener"><img style="border: 2px solid #FFA500; border-radius: 8px;" src="https://arcadia-echoes-of-power.fr/storage/curseforge/serveur.gif" alt="Arcadia V2 — Echoes of Power" width="700"></a></p>
+<p style="text-align: center;"><a href="https://www.curseforge.com/minecraft/modpacks/arcadia-echoes-of-power-v2" target="_blank" rel="nofollow noopener"><img style="border: 2px solid #FFA500; border-radius: 8px;" src="https://arcadia-echoes-of-power.fr/storage/curseforge/serveur.gif" alt="Arcadia V2 - Echoes of Power" width="700"></a></p>
 
 <p>&nbsp;</p>
 
@@ -381,12 +381,12 @@
 <p><span style="color: #ffa500;"><strong>🔗 True Cross-Mod Progression</strong></span><br>Tech and magic don't live in separate silos. Late-game crafts need <strong>both</strong> ecosystems. 4 custom bridge items (Arcane Circuit, Ethereal Alloy, Industrial Heart, Rune Matrix) tie everything together.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🌐 100% Bilingual EN/FR</strong></span><br><strong>25,000+ translation entries</strong> across the entire pack. Quests, items, custom UIs — fully translated. Zero franglais.</p>
+<p><span style="color: #ffa500;"><strong>🌐 100% Bilingual EN/FR</strong></span><br><strong>25,000+ translation entries</strong> across the entire pack. Quests, items, custom UIs - fully translated. Zero franglais.</p>
 </td>
 </tr>
 <tr>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
-<p><span style="color: #ffa500;"><strong>🎮 Curated Server Experience</strong></span><br>In-house mods built for Arcadia: <strong>Arcadia Pets</strong> (collectibles + PvP duels + ELO ladder), Arcadia Guard moderation, Prestige progression, Heart of Arcadia. Not mods bolted together — a tailored ecosystem.</p>
+<p><span style="color: #ffa500;"><strong>🎮 Curated Server Experience</strong></span><br>In-house mods built for Arcadia: <strong>Arcadia Pets</strong> (collectibles + PvP duels + ELO ladder), Arcadia Guard moderation, Prestige progression, Heart of Arcadia. Not mods bolted together - a tailored ecosystem.</p>
 </td>
 <td style="padding: 12px 16px; vertical-align: top; width: 50%; border: 1px solid #FFA500; text-align: center;">
 <p><span style="color: #ffa500;"><strong>📜 3,000+ Quest-Guided Journey</strong></span><br>31 chapters of FTB Quests covering every mod's progression path. Whether you're fresh or a 1000-hour veteran, you always know what to do next.</p>
@@ -397,13 +397,13 @@
 
 <p>&nbsp;</p>
 
-<p style="text-align: center;"><span style="font-size: x-large;"><strong>🎮 JOIN THE ADVENTURE — 490 MODS, ONE EPIC JOURNEY 🎮</strong></span></p>
+<p style="text-align: center;"><span style="font-size: x-large;"><strong>🎮 JOIN THE ADVENTURE - 490 MODS, ONE EPIC JOURNEY 🎮</strong></span></p>
 
 <p style="text-align: center;"><a href="https://www.curseforge.com/minecraft/modpacks/arcadia-echoes-of-power-v2" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Play_Now-Arcadia_V2-2ea44f?style=for-the-badge&amp;logo=curseforge&amp;logoColor=white" alt="Play Arcadia V2"></a>&nbsp; &nbsp;<a href="https://arcadia-echoes-of-power.fr/discord" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/discord/1346965857288589472?label=Join%20Discord&amp;logo=discord&amp;style=for-the-badge&amp;color=5865F2&amp;labelColor=0f172a" alt="Join Discord"></a>&nbsp; &nbsp;<a href="https://www.arcadia-echoes-of-power.fr/" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Official-Website-FFA500?style=for-the-badge&amp;logo=google-chrome&amp;logoColor=white" alt="Website"></a>&nbsp; &nbsp;<a href="https://www.arcadia-echoes-of-power.fr/wiki" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Wiki-Guides-2196F3?style=for-the-badge&amp;logo=bookstack&amp;logoColor=white" alt="Wiki"></a></p>
 
 <p>&nbsp;</p>
 
-<p align="center" style="text-align: center;"><span style="font-size: large; color: #ffa500;"><strong>🇫🇷 Découvrez Arcadia V2 : Echoes of Power</strong></span><br><em>Le modpack phare pour lequel RS Polymorph a été conçu — et qui l'inclut par défaut. 490+ mods, 3 000+ quêtes, 5 serveurs actifs, 100 % bilingue EN/FR. <strong>Industrie + Magie + Exploration</strong>, comptez 150 à 300 heures pour atteindre l'endgame.</em></p>
+<p align="center" style="text-align: center;"><span style="font-size: large; color: #ffa500;"><strong>🇫🇷 Découvrez Arcadia V2 : Echoes of Power</strong></span><br><em>Le modpack phare pour lequel RS Polymorph a été conçu - et qui l'inclut par défaut. 490+ mods, 3 000+ quêtes, 5 serveurs actifs, 100 % bilingue EN/FR. <strong>Industrie + Magie + Exploration</strong>, comptez 150 à 300 heures pour atteindre l'endgame.</em></p>
 
 <p>&nbsp;</p>
 
